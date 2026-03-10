@@ -1,0 +1,167 @@
+\section{Описание}
+Поразрядная сортировка (radix sort) --- это алгоритм, который сортирует элементы по значениям их отдельных разрядов.
+Каждое число представляется как последовательность цифр в некоторой системе счисления. Алгоритм проходится от младшего
+к старшему разряду или наоборот. На каждом проходе числа сортируются только по текущему разряду. Числа с одинаковыми
+цифрами в текущем разряде сохраняют относительный порядок, установленный на предыдущих проходах.
+
+\pagebreak
+
+\section{Исходный код}
+Программа реализует алгоритм поразрядной сортировки для упорядочивания данных, где ключом выступает дата в формате DD.MM.YYYY,
+а значением --- строка переменной длины (до 64 символов).
+
+Структура \texttt{Date} содержит два строковых поля: \texttt{row\_date} для хранения исходного представления даты
+(нужно для последующего вывода в неизменном виде) и \texttt{sort\_key} --- нормализованное представление ключа,
+используемое исключительно для сортировки. Константы \texttt{CHAR\_FOR\_DAYS}, \texttt{CHAR\_FOR\_MONTH}, \texttt{CHAR\_FOR\_YEARS}
+и \texttt{DIGITS\_NUM} задают параметры формата даты (длину дня, месяца, года) и основание системы счисления (десятичные цифры).
+Вся совокупность записей хранится в векторе пар \texttt{std::pair<Date, std::string>}, где второй элемент --- строка значения.
+
+Ключевым моментом стала реализация корректного преобразования входной даты в ключ для сортировки. Перегруженный оператор
+\texttt{operator>>} считывает исходную строку даты и с помощью функции \texttt{sscanf} разбирает её на компоненты дня, месяца и
+года, используя форматную строку \texttt{"\%[^.].\%[^.].\%[^\\t]"}. Такой подход позволяет корректно выделять части даты
+независимо от наличия ведущих нулей. Затем каждый компонент дополняется слева нулями до необходимой длины: год --- до 4
+символов, месяц и день --- до 2 символов. Нормализованный ключ формируется в виде \texttt{year\_str + month\_str + day\_str},
+что даёт строку фиксированной длины 8 символов в формате \enquote{ГГГГММДД}, что удобно для поразрядной сортировки, а
+хронологический порядок достигается за счёт выбора направления обхода разрядов (от младших к старшим).
+
+Алгоритм поразрядной сортировки реализован классическим LSD-методом (Least Significant Digit) --- от младшего разряда к старшему.
+Функция \texttt{counting\_sort} выполняет устойчивую сортировку по одному разряду (символу ключа \texttt{sort\_key}),
+используя подсчёт частоты цифр с последующим построением префиксных сумм. Важной деталью является проход по исходному массиву в
+обратном порядке при расстановке элементов, что гарантирует сохранение устойчивости сортировки. Функция \texttt{radix\_sort}
+последовательно применяет \texttt{counting\_sort} ко всем восьми разрядам ключа.
+
+В функции \texttt{main} выполняется построчное чтение входных данных. Для каждой непустой строки считывается дата
+(через перегруженный оператор) и значение, после чего пара помещается в вектор \texttt{data}. После завершения ввода вызывается
+функция \texttt{radix\_sort}, которой передаётся указатель на вектор данных. Отсортированная последовательность выводится с
+сохранением исходного формата: дата в первоначальном виде (поле \texttt{row\_date}), символ табуляции и значение.
+
+Особого внимания заслуживает работа с памятью: при перестановках элементов в \texttt{counting\_sort} используется \texttt{std::move},
+что позволяет избежать избыточного копирования строк. Это особенно важно при обработке больших объёмов данных, так как
+копирование --- дорогостоящая операция.
+
+\begin{lstlisting}[language=C++]
+#include <cstdio>
+#include <iostream>
+#include <string>
+#include <utility>
+#include <vector>
+#include <array>
+
+#define CHAR_FOR_DAYS 2
+#define CHAR_FOR_MONTH 2
+#define CHAR_FOR_YEARS 4
+#define DIGITS_NUM 10
+
+struct Date {
+    std::string row_date;
+    std::string sort_key;
+    
+    friend std::istream& operator>>(std::istream& is, Date& date);
+    friend std::ostream& operator<<(std::ostream& os, const Date& date);
+};
+
+std::istream& operator>>(std::istream& is, Date& date) {
+    is >> date.row_date;
+
+    char day[CHAR_FOR_DAYS + 1];
+    char month[CHAR_FOR_MONTH + 1];
+    char year[CHAR_FOR_YEARS + 1];
+    sscanf(date.row_date.c_str(), "%[^.].%[^.].%[^ \t]", day, month, year);
+
+    std::string day_str {day};
+    std::string month_str {month};
+    std::string year_str {year};
+
+    for (int i = day_str.length(); i < CHAR_FOR_DAYS; ++i) {
+        day_str = '0' + day_str;
+    }
+
+    for (int i = month_str.length(); i < CHAR_FOR_MONTH; ++i) {
+        month_str = '0' + month_str;
+    }
+
+    for (int i = year_str.length(); i < CHAR_FOR_YEARS; ++i) {
+        year_str = '0' + year_str;
+    }
+
+    date.sort_key = year_str + month_str + day_str;
+
+    return is;
+}
+
+std::ostream& operator<<(std::ostream& os, const Date& date) {
+    os << date.row_date;
+    return os;
+}
+
+void counting_sort(std::vector<std::pair<Date, std::string>>& unsorted_data, int radix) {
+    std::array<int, DIGITS_NUM> pref_sums {0};
+
+    for (const auto& obj : unsorted_data) {
+        int i = obj.first.sort_key[radix] - '0';
+        ++pref_sums[i];
+    }
+
+    for (int i = 1; i < DIGITS_NUM; ++i) {
+        pref_sums[i] += pref_sums[i - 1];
+    }
+
+    std::vector<std::pair<Date, std::string>> sorted_data {unsorted_data.size()};
+
+    for (int j = unsorted_data.size() - 1; j >= 0; --j) {
+        int i = unsorted_data[j].first.sort_key[radix] - '0';
+        sorted_data[--pref_sums[i]] = std::move(unsorted_data[j]);
+    }
+
+    unsorted_data = std::move(sorted_data);
+}
+
+void radix_sort(std::vector<std::pair<Date, std::string>>* data) {
+    for (int radix = CHAR_FOR_DAYS + CHAR_FOR_MONTH + CHAR_FOR_YEARS - 1; radix >= 0; --radix) {
+        counting_sort(*data, radix);
+    }
+}
+
+int main(void) {
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+
+
+    std::vector<std::pair<Date, std::string>> data;
+    Date date;
+    std::string value;
+
+    while (std::cin >> date >> value) {
+        data.emplace_back(date, value);
+    }
+
+    radix_sort(&data);
+
+    for (const auto& obj : data) {
+        std::cout << obj.first << '\t' << obj.second << '\n';
+    }
+
+    return 0;
+}
+	
+\end{lstlisting}
+
+\pagebreak
+
+\section{Консоль}
+\begin{alltt}
+root@f41c90f544a9:/workspaces/discran/laba-1# g++ main.cpp -pedantic -Wall -Werror
+root@f41c90f544a9:/workspaces/discran/laba-1# cat test.txt
+1.1.1   n399tann9nnt3ttnaaan9nann93na9t3a3t9999na3aan9antt3tn93aat3naatt
+01.02.2008      n399tann9nnt3ttnaaan9nann93na9t3a3t9999na3aan9antt3tn93aat3naat
+1.1.1   n399tann9nnt3ttnaaan9nann93na9t3a3t9999na3aan9antt3tn93aat3naa
+01.02.2008      n399tann9nnt3ttnaaan9nann93na9t3a3t9999na3aan9antt3tn93aat3na
+root@f41c90f544a9:/workspaces/discran/laba-1# ./a.out < test.txt
+1.1.1   n399tann9nnt3ttnaaan9nann93na9t3a3t9999na3aan9antt3tn93aat3naatt
+1.1.1   n399tann9nnt3ttnaaan9nann93na9t3a3t9999na3aan9antt3tn93aat3naa
+01.02.2008      n399tann9nnt3ttnaaan9nann93na9t3a3t9999na3aan9antt3tn93aat3naat
+01.02.2008      n399tann9nnt3ttnaaan9nann93na9t3a3t9999na3aan9antt3tn93aat3na
+root@f41c90f544a9:/workspaces/discran/laba-1# 
+\end{alltt}
+\pagebreak
+
