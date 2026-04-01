@@ -1,22 +1,5 @@
 #include <string>
 
-struct Node {
-    enum Color {
-        black,
-        red
-    };
-
-    std::string key;
-    unsigned long long value;
-    Color color;
-    Node* left;
-    Node* right;
-    Node* parent;
-
-    Node(const std::string& key, unsigned long long value, Node* parent, Color color)
-        : key(key), value(value), color(color), left(nullptr), right(nullptr), parent(parent) {}
-};
-
 struct Data {
     enum Status {
         ok,
@@ -29,68 +12,121 @@ struct Data {
 };
 
 class RBTree {
+    struct Node {
+        enum Color {
+            black,
+            red
+        };
+
+        std::string key;
+        unsigned long long value;
+        Color color;
+        Node* left;
+        Node* right;
+        Node* parent;
+
+        Node(const std::string& key, unsigned long long value, Node* parent, Color color)
+            : key(key), value(value), color(color), left(nullptr), right(nullptr), parent(parent) {}
+
+        Node* _grandpa() {
+            if (parent == nullptr) {
+                return nullptr;
+            }
+            return parent->parent;
+        }
+
+        bool _isLeftSon() {
+            return this == parent->left;
+        }
+
+        Node* _uncle() {
+            Node* grandpa;
+            if ((grandpa = this->_grandpa()) == nullptr) {
+                return nullptr;
+            }
+            if (this->_isLeftSon()) {
+                return grandpa->right;
+            }
+            return grandpa->left;
+        }
+    };
+
     Node* root;
 
-private:
-    Data::Status add(Node*& node, const std::string& key, unsigned long long value) {
+    void destroy(Node* node) {
+        if (!node) return;
+        destroy(node->left);
+        destroy(node->right);
+        delete node;
+    }
+
+    Node* balance(Node*& node) {
+        return nullptr;
+    }
+
+    Data::Status _add(Node*& node, const std::string& key, unsigned long long value) {
         if (key < node->key) {
             if (node->left == nullptr) {
                 node->left = new Node(key, value, node, Node::red);
-                // balance();
+                balance(node->left);
                 return Data::ok;
             }
-            return add(node->left, key, value);
+            return _add(node->left, key, value);
         }
         else if (node->key < key) {
             if (node->right == nullptr) {
                 node->right = new Node(key, value, node, Node::red);
-                // balance();
+                balance(node->right);
                 return Data::ok;
             }
-            return add(node->right, key, value);
+            return _add(node->right, key, value);
         }
 
         return Data::exist;
     }
 
-    void del(Node* node) {
+    void _del(Node* node) {
         // delete node and balance()
     }
 
-    Node* find(Node* node, const std::string& key) {
+    Node* _find(Node* node, const std::string& key) {
         if (node == nullptr || key == node->key) {
             return node;
         }
         if (key < node->key) {
-            return find(node->left, key);
+            return _find(node->left, key);
         }
         else {
-            return find(node->right, key);
+            return _find(node->right, key);
         }
     }
 
 public:
     RBTree(void) : root(nullptr) {}
 
+    ~RBTree() {
+        destroy(root);
+    }
+
     Data::Status add(const std::string& key, unsigned long long value) {
-        if (root == nullptr) { // tree is empty
+        if (root == nullptr) {
             root = new Node(key, value, nullptr, Node::black);
             return Data::ok;
         }
-        return add(root, key, value);
+        return _add(root, key, value);
     }
 
     Data::Status del(const std::string& key) {
-        Node* node = find(root, key);
+        Node* node = _find(root, key);
         if (node == nullptr) {
             return Data::noSuchWord;
         }
-        del(node);
+        _del(node);
         return Data::ok;
     }
 
     Data find(const std::string& key) {
-        Node* node = find(root, key);
+        Node* node = _find(root, key);
         if (node == nullptr) {
             return Data{.status = Data::noSuchWord};
         }
