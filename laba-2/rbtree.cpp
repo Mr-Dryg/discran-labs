@@ -1,4 +1,12 @@
+#include <functional>
 #include <string>
+#include <utility>
+
+enum ProblemEdge {
+    no,
+    left,
+    right
+};
 
 struct Data {
     enum Status {
@@ -14,8 +22,8 @@ struct Data {
 class RBTree {
     struct Node {
         enum Color {
-            black,
-            red
+            red,
+            black
         };
 
         std::string key;
@@ -142,7 +150,7 @@ class RBTree {
             }
             node = grandpa;
         }
-        root->color = Node::black;
+        if (root) root->color = Node::black;
     }
 
     Data::Status _insert(Node* node, const std::string& key, unsigned long long value) {
@@ -163,28 +171,145 @@ class RBTree {
         return Data::ok;
     }
 
+    Node* rotation(Node* base_node, std::function<Node*(Node*)> rotation, bool replace_colors, Node* other) {
+        if (replace_colors && other) {
+            Node::Color base_node_color = base_node->color;
+            base_node->color = other->color;
+            other->color = base_node_color;
+        }
+        return rotation(base_node);
+    }
+
+    void removeBalance(Node* node, ProblemEdge problem_edge) {
+        if (!node) return;
+        if (node->color == Node::red) {
+            node->color = Node::black;
+            return;
+        }
+
+        std::function<Node*(Node*)> get_bro = [&problem_edge](Node* node) {
+            if (problem_edge == ProblemEdge::no) return node->bro();
+            return problem_edge == ProblemEdge::left ? node->right : node->left;
+        };
+
+        Node* bro = nullptr;
+        if (node->parent) bro = get_bro(node);
+
+        if (bro && bro->color == Node::red) {
+            rotation(
+                node->parent,
+                [this](Node* node) {
+                    return node->isLeftSon() ? leftRotation(node) : rightRotation(node);
+                },
+                true,
+                bro
+            );
+            bro = get_bro(node);
+        }
+
+        if (bro && bro->color == Node::black) {
+            if (
+                (!bro->left || bro->left->color == Node::black) &&
+                (!bro->right || bro->right->color == Node::black)
+            ) {
+                bro->color = Node::red;
+                removeBalance(node->parent, problem_edge);
+                return;
+            }
+
+            bool left_son_case = node->isLeftSon() &&
+                                (bro->left && bro->left->color == Node::red) &&
+                                (!bro->right || bro->right->color == Node::black);
+
+            bool right_son_case = !node->isLeftSon() &&
+                                (bro->right && bro->right->color == Node::red) &&
+                                (!bro->left || bro->left->color == Node::black);
+
+            if (left_son_case || right_son_case) {
+                rotation(
+                    bro, 
+                    [this](Node* node) {
+                        return node->isLeftSon() ? rightRotation(node) : leftRotation(node);
+                    },
+                    true,
+                    node->isLeftSon() ? bro->left : bro->right
+                );
+                bro = node->bro();
+            }
+
+            left_son_case = node->isLeftSon() &&
+                            (bro->right && bro->right->color == Node::red);
+
+            right_son_case = !node->isLeftSon() &&
+                             (bro->left && bro->left->color == Node::red);
+            
+            if (left_son_case || right_son_case) {
+                (node->isLeftSon() ? bro->right : bro->left)->color = Node::black;
+                rotation(
+                    node->parent,
+                    [this](Node* node) {
+                        return node->isLeftSon() ? leftRotation(node) : rightRotation(node);
+                    },
+                    true,
+                    bro
+                );
+            }
+        }
+
+        if (root) root->color = Node::black;
+    }
+
     Node* minNode(Node* node) {
-        return node->left ? minNode(node->left) : node;
+        for (; node && node->left; node = node->left) {}
+        return node;
     }
 
     void _remove(Node* node) {
-        Node* node_to_delete = node;
-
         if (node->left && node->right) {
-            node_to_delete = minNode(node->right);
+            Node* node_to_rm = minNode(node->right);
+            node->key = std::move(node_to_rm->key);
+            node->value = std::move(node_to_rm->value);
+            _remove(node_to_rm);
+            return;
+        }
+
+        Node* parent = nullptr;
+        Node* child = nullptr;
+        Node::Color rm_color;
+        bool node_is_left_son = node->isLeftSon();
+
+        if (!node->left && !node->right) {
+            parent = node->parent;
+            rm_color = node->color;
+        }
+        else if (!node->left + !node->right == 1) {
+            parent = node->parent;
+            child = node->left ? node->left : node->right;
+            rm_color = child->color;
+        }
+
+        if (!parent) {
+            root = child;
         }
         else {
-            node_to_delete = node->left ? node->left : node->right;
+            node->parentLink() = child;
         }
-
-        if (node_to_delete && node_to_delete != node) {
-            node->update(node_to_delete->key, node_to_delete->value);
+        if (child) {
+            child->parent = parent;
+            child->color = node->color;
         }
-
-        if (node_to_delete == root) {
-            root = nullptr;
+        delete node;
+        if (rm_color == Node::black) {
+            if (child) {
+                removeBalance(child, ProblemEdge::no);
+            }
+            else {
+                removeBalance(
+                    parent, 
+                    node_is_left_son ? ProblemEdge::left : ProblemEdge::right
+                );
+            }
         }
-        destroy(node_to_delete);
     }
 
     Node* _find(Node* node, const std::string& key) {
