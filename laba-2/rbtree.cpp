@@ -27,6 +27,11 @@ class RBTree {
 
         Node(const std::string& key, unsigned long long value, Node* parent, Color color)
             : key(key), value(value), color(color), parent(parent) {}
+        
+        void update(const std::string& key, unsigned long long value) {
+            this->key = key;
+            this->value = value;
+        }
 
         bool isLeftSon() {
             return parent && this == parent->left;
@@ -48,6 +53,10 @@ class RBTree {
         Node* uncle() {
             return parent->bro();
         }
+
+        Node*& parentLink() {
+            return isLeftSon() ? parent->left : parent->right;
+        }
     };
 
     Node* root;
@@ -66,7 +75,7 @@ class RBTree {
         Node* mv_node = subroot->left;
 
         if (node->parent) {
-            (node->isLeftSon() ? node->parent->left : node->parent->right) = subroot;
+            node->parentLink() = subroot;
         }
         else {
             root = subroot;
@@ -87,7 +96,7 @@ class RBTree {
         Node* mv_node = subroot->right;
 
         if (node->parent) {
-            (node->isLeftSon() ? node->parent->left : node->parent->right) = subroot;
+            node->parentLink() = subroot;
         }
         else {
             root = subroot;
@@ -136,26 +145,46 @@ class RBTree {
         root->color = Node::black;
     }
 
-Data::Status _insert(Node* node, const std::string& key, unsigned long long value) {
-    if (key == node->key) {
-        return Data::exist;
+    Data::Status _insert(Node* node, const std::string& key, unsigned long long value) {
+        if (key == node->key) {
+            return Data::exist;
+        }
+        
+        Node*& next_node = (key < node->key) ? node->left : node->right;
+        
+        if (next_node) {
+            return _insert(next_node, key, value);
+        }
+        
+        next_node = new Node(key, value, node, Node::red);
+        if (node->color == Node::red) {
+            insertBalance(next_node);
+        }
+        return Data::ok;
     }
-    
-    Node*& next_node = (key < node->key) ? node->left : node->right;
-    
-    if (next_node) {
-        return _insert(next_node, key, value);
+
+    Node* minNode(Node* node) {
+        return node->left ? minNode(node->left) : node;
     }
-    
-    next_node = new Node(key, value, node, Node::red);
-    if (node->color == Node::red) {
-        insertBalance(next_node);
-    }
-    return Data::ok;
-}
 
     void _remove(Node* node) {
-        // remove node and removeBalance()
+        Node* node_to_delete = node;
+
+        if (node->left && node->right) {
+            node_to_delete = minNode(node->right);
+        }
+        else {
+            node_to_delete = node->left ? node->left : node->right;
+        }
+
+        if (node_to_delete && node_to_delete != node) {
+            node->update(node_to_delete->key, node_to_delete->value);
+        }
+
+        if (node_to_delete == root) {
+            root = nullptr;
+        }
+        destroy(node_to_delete);
     }
 
     Node* _find(Node* node, const std::string& key) {
