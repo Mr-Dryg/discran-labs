@@ -1,5 +1,4 @@
 #include <stdexcept>
-#include <functional>
 #include <string>
 #include <utility>
 
