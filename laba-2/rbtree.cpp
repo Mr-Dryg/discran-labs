@@ -1,6 +1,6 @@
+#include <fstream>
 #include <stdexcept>
 #include <string>
-#include <utility>
 
 enum Side {
     left,
@@ -34,6 +34,30 @@ class RBTree {
 
         Node(const std::string& key, unsigned long long value, Node* parent, Color color)
             : key(key), value(value), color(color), parent(parent) {}
+
+        Node(std::ifstream& file) {
+            unsigned char color_byte;
+            file.read(reinterpret_cast<char*>(&color_byte), sizeof(color_byte));
+            if (file.fail()) throw std::runtime_error("Failed to read color");
+            if (color_byte > 1) throw std::runtime_error("Invalid color value in file");
+            color = static_cast<Color>(color_byte);
+            
+            size_t len;
+            file.read(reinterpret_cast<char*>(&len), sizeof(len));
+            if (file.fail()) throw std::runtime_error("Failed to read key length");
+            
+            if (len > 0) {
+                key.resize(len);
+                file.read(&key[0], len);
+                if (file.fail()) throw std::runtime_error("Failed to read key");
+            }
+            else {
+                key = "";
+            }
+            
+            file.read(reinterpret_cast<char*>(&value), sizeof(value));
+            if (file.fail()) throw std::runtime_error("Failed to read value");
+        }
         
         void update(const std::string& key, unsigned long long value) {
             this->key = key;
@@ -51,7 +75,7 @@ class RBTree {
 
         Node* bro() {
             if (!parent) return  nullptr;
-            if (this->isLeftSon()) {
+            if (isLeftSon()) {
                 return parent->right;
             }
             return parent->left;
@@ -63,6 +87,22 @@ class RBTree {
 
         Node*& parentLink() {
             return isLeftSon() ? parent->left : parent->right;
+        }
+
+        void save(std::ofstream& file) const {
+            unsigned char color_byte = static_cast<unsigned char>(color);
+            file.write(reinterpret_cast<const char*>(&color_byte), sizeof(color_byte));
+            if (file.fail()) throw std::runtime_error("Failed to write color");
+            
+            size_t len = key.length();
+            file.write(reinterpret_cast<const char*>(&len), sizeof(len));
+            if (file.fail()) throw std::runtime_error("Failed to write key length");
+            
+            file.write(key.c_str(), len);
+            if (file.fail()) throw std::runtime_error("Failed to write key");
+            
+            file.write(reinterpret_cast<const char*>(&value), sizeof(value));
+            if (file.fail()) throw std::runtime_error("Failed to write value");
         }
     };
 
@@ -157,15 +197,15 @@ class RBTree {
             return Data::exist;
         }
         
-        Node*& next_node = (key < node->key) ? node->left : node->right;
+        Node*& new_node = (key < node->key) ? node->left : node->right;
         
-        if (next_node) {
-            return _insert(next_node, key, value);
+        if (new_node) {
+            return _insert(new_node, key, value);
         }
         
-        next_node = new Node(key, value, node, Node::red);
+        new_node = new Node(key, value, node, Node::red);
         if (node->color == Node::red) {
-            insertBalance(next_node);
+            insertBalance(new_node);
         }
         return Data::ok;
     }
@@ -303,15 +343,10 @@ class RBTree {
         }
         delete node;
         if (rm_color == Node::black) {
-            // if (child) {
-            //     removeBalance(child);
-            // }
-            // else {
             removeBalance(
                 parent, 
                 node_is_left_son ? Side::left : Side::right
             );
-            // }
         }
     }
 
@@ -327,6 +362,67 @@ class RBTree {
         }
     }
 
+    static void toUpper(std::string& str) {
+        for (char& c : str) {
+            if ('a' <= c && c <= 'z') {
+                c += 'A' - 'a';
+            }
+        }
+    }
+
+    void _save(Node* node, std::ofstream& file) {
+        if (!node) {
+            file.write("$", 1);
+            if (file.fail()) throw std::runtime_error("Failed to write null marker");
+            return;
+        }
+        
+        file.write("#", 1);
+        if (file.fail()) throw std::runtime_error("Failed to write node marker");
+        
+        node->save(file);
+        _save(node->left, file);
+        _save(node->right, file);
+    }
+
+    Node* _load(std::ifstream& file) {
+        char marker;
+        file.read(&marker, 1);
+
+        if (file.fail()) {
+            throw std::runtime_error("Failed to read node marker");
+        }
+        
+        if (marker == '$') {
+            return nullptr;
+        }
+        
+        if (marker != '#') {
+            throw std::runtime_error("Invalid node marker in file");
+        }
+        
+        Node* node = new Node(file);
+        
+        try {
+            node->left = _load(file);
+            node->right = _load(file);
+        }
+        catch (const std::exception& e) {
+            destroy(node);
+            throw;
+        }
+
+        if (node->left) {
+            node->left->parent = node;
+        }
+
+        if (node->right) {
+            node->right->parent = node;
+        }
+        
+        return node;
+    }
+
 public:
     RBTree(void) : root(nullptr) {}
 
@@ -334,7 +430,8 @@ public:
         destroy(root);
     }
 
-    Data::Status insert(const std::string& key, unsigned long long value) {
+    Data::Status insert(std::string key, unsigned long long value) {
+        toUpper(key);
         if (!root) {
             root = new Node(key, value, nullptr, Node::black);
             return Data::ok;
@@ -342,7 +439,8 @@ public:
         return _insert(root, key, value);
     }
 
-    Data::Status remove(const std::string& key) {
+    Data::Status remove(std::string key) {
+        toUpper(key);
         Node* node = _find(root, key);
         if (!node) {
             return Data::noSuchWord;
@@ -351,11 +449,37 @@ public:
         return Data::ok;
     }
 
-    Data find(const std::string& key) {
+    Data find(std::string key) {
+        toUpper(key);
         Node* node = _find(root, key);
         if (!node) {
             return Data{.status = Data::noSuchWord};
         }
         return Data{.status = Data::ok, .value = node->value};
+    }
+
+    void save(const std::string& filename) {
+        std::ofstream file(filename, std::ios::binary);
+        if (!root) return;
+
+        _save(root, file);
+    }
+
+    void load(const std::string& filename) {
+        std::ifstream file(filename, std::ios::binary);
+
+        Node* new_root = nullptr;
+
+        if (file.peek() != std::ifstream::traits_type::eof()) {
+            new_root = _load(file);
+
+            if (file.peek() != std::ifstream::traits_type::eof()) {
+                destroy(new_root);
+                throw std::runtime_error("Extra data at end of file");
+            }
+        }
+
+        destroy(root);
+        root = new_root;
     }
 };
