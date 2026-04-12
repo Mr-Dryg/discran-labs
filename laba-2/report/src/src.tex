@@ -1,0 +1,177 @@
+\section{Описание}
+Требуется реализовать программную библиотеку на основе красно-чёрного дерева и использовать её для создания программы-словаря. В словаре каждому ключу, представляющему собой регистронезависимую последовательность букв английского алфавита длиной не более $256$ символов, ставится в соответствие число типа \texttt{unsigned long long}.
+
+Поддерживаются операции добавления, удаления, поиска, сохранения и загрузки словаря из бинарного файла. При этом программа должна обрабатывать входной поток до конца файла, а при возникновении системных ошибок выводить сообщение, начинающееся с \enquote{ERROR:}.
+
+В качестве структуры данных было выбрано красно-чёрное дерево, так как оно обеспечивает логарифмическое время выполнения основных операций: поиска, вставки и удаления. Для обеспечения регистронезависимости все ключи перед обработкой приводятся к верхнему регистру.
+
+Особое внимание было уделено корректной сериализации и десериализации дерева. Сохранение выполняется в компактном бинарном формате с использованием маркеров для пустых и непустых узлов, а загрузка выполняется с проверкой корректности формата файла. Если при загрузке возникает ошибка, рабочее дерево остаётся без изменений.
+
+\pagebreak
+
+\section{Исходный код}
+Программа состоит из трёх основных частей: вспомогательных структур для результата выполнения команд, класса красно-чёрного дерева и разбора команд из входного потока.
+
+Для хранения результата операций добавления, удаления и поиска была введена структура \texttt{ReturnData}. Она хранит статус операции и, при необходимости, значение, связанное с найденным ключом.
+
+Класс \texttt{RBTree} содержит вложенную структуру \texttt{Node}, в которой хранятся ключ, значение, цвет узла и ссылки на потомков и родителя. Для удобства реализованы вспомогательные методы, позволяющие определять положение узла относительно родителя, находить деда, брата и дядю, а также выполнять доступ к ссылке родителя на текущий узел.
+
+Основные повороты дерева реализованы отдельными методами \texttt{leftRotation} и \texttt{rightRotation}. На их основе выполняется балансировка после вставки и удаления. При вставке используется стандартный алгоритм восстановления свойств красно-чёрного дерева через перекраску и повороты. При удалении учитываются все возможные случаи: удаление листа, узла с одним потомком и узла с двумя потомками, когда удаляемый элемент заменяется минимальным элементом правого поддерева.
+
+Для сохранения дерева используется обход в прямом порядке: для каждого узла в файл записываются маркер узла, цвет, длина ключа, сам ключ и значение. Пустые поддеревья кодируются специальным маркером. При загрузке дерево восстанавливается рекурсивно по тем же маркерам. Если файл содержит некорректные данные или в нём присутствуют лишние байты, загрузка завершается ошибкой.
+
+Ниже приведены основные объявления структур и класса.
+
+\begin{lstlisting}[language=C++]
+#include <fstream>
+#include <iostream>
+#include <string>
+
+enum Side {
+    left,
+    right
+};
+
+struct ReturnData {
+    enum Status {
+        ok,
+        exist,
+        noSuchWord
+    } status;
+
+    unsigned long long value;
+};
+
+class RBTree {
+    struct Node {
+        enum Color {
+            red,
+            black
+        };
+
+        std::string key;
+        unsigned long long value;
+        Color color;
+        Node* left = nullptr;
+        Node* right = nullptr;
+        Node* parent = nullptr;
+
+        Node(const std::string& key, unsigned long long value,
+             Node* parent, Color color);
+        Node(std::ifstream& file);
+
+        void update(const std::string& key, unsigned long long value);
+        bool isLeftSon();
+        Node* grandpa();
+        Node* bro();
+        Node* uncle();
+        Node*& parentLink();
+        void save(std::ofstream& file) const;
+    };
+
+    Node* root = nullptr;
+
+    void destroy(Node* node);
+    Node* leftRotation(Node* node);
+    Node* rightRotation(Node* node);
+    void insertBalance(Node* node);
+    ReturnData::Status _insert(Node* node,
+                               const std::string& key,
+                               unsigned long long value);
+    void removeBalance(Node* parent, Side side);
+    Node* minNode(Node* node);
+    void _remove(Node* node);
+    Node* _find(Node* node, const std::string& key);
+    static void toUpper(std::string& str);
+    void _save(Node* node, std::ofstream& file);
+    Node* _load(std::ifstream& file);
+
+public:
+    RBTree();
+    ~RBTree();
+
+    ReturnData::Status insert(std::string key, unsigned long long value);
+    ReturnData::Status remove(std::string key);
+    ReturnData find(std::string key);
+    ReturnData::Status save(const std::string& filename);
+    ReturnData::Status load(const std::string& filename);
+};
+
+struct Command {
+    enum Function {
+        insert,
+        remove,
+        find,
+        save,
+        load
+    };
+
+    Function func;
+    std::string key;
+    unsigned long long value;
+};
+\end{lstlisting}
+
+Для разбора входных команд используется структура \texttt{Command}. Она определяет тип операции по первому токену строки и, в зависимости от него, считывает ключ и значение. Поддерживаются команды добавления, удаления, поиска, сохранения и загрузки.
+
+Главная функция программы организует цикл чтения команд до конца входного потока. Для каждой операции вызывается соответствующий метод класса \texttt{RBTree}. Все исключения перехватываются, после чего выводится строка с текстом ошибки.
+
+\begin{longtable}{|p{6.8cm}|p{8.2cm}|}
+\hline
+\rowcolor{lightgray}
+\multicolumn{2}{|c|}{main.cpp}\\
+\hline
+\texttt{struct ReturnData}&Структура для хранения результата выполнения операций.\\
+\hline
+\texttt{class RBTree}&Реализация красно-чёрного дерева, поддерживающего вставку, удаление, поиск, сохранение и загрузку.\\
+\hline
+\texttt{struct Command}&Разбор строки входного файла и определение типа команды.\\
+\hline
+\texttt{void toUpper(std::string\& str)}&Преобразование ключа к верхнему регистру для обеспечения регистронезависимости.\\
+\hline
+\texttt{Node* leftRotation(Node* node)}&Левый поворот поддерева.\\
+\hline
+\texttt{Node* rightRotation(Node* node)}&Правый поворот поддерева.\\
+\hline
+\texttt{void insertBalance(Node* node)}&Восстановление свойств красно-чёрного дерева после вставки.\\
+\hline
+\texttt{void removeBalance(Node* parent, Side side)}&Восстановление свойств красно-чёрного дерева после удаления.\\
+\hline
+\texttt{ReturnData::Status insert(...)}&Добавление нового слова в словарь.\\
+\hline
+\texttt{ReturnData::Status remove(...)}&Удаление слова из словаря.\\
+\hline
+\texttt{ReturnData find(...)}&Поиск слова и вывод его значения.\\
+\hline
+\texttt{ReturnData::Status save(...)}&Сохранение дерева в бинарный файл.\\
+\hline
+\texttt{ReturnData::Status load(...)}&Загрузка дерева из бинарного файла с заменой текущего словаря при успехе.\\
+\hline
+\end{longtable}
+
+\pagebreak
+
+\section{Консоль}
+\begin{alltt}
+root@66a8fcab42ba:/workspaces/discran-labs/laba-2# cat test.txt
++ a 1
++ A 2
++ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 18446744073709551615
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+A
+- A
+a
+root@66a8fcab42ba:/workspaces/discran-labs/laba-2# g++ main.cpp -Wall
+root@66a8fcab42ba:/workspaces/discran-labs/laba-2# ./a.out < test.txt
+OK
+Exist
+OK
+OK: 18446744073709551615
+OK: 1
+OK
+NoSuchWord
+root@66a8fcab42ba:/workspaces/discran-labs/laba-2# 
+\end{alltt}
+
+В данном примере выполняются операции добавления, поиска, повторного добавления уже существующего слова. Программа корректно обрабатывает команды до конца входного файла и выводит результат каждой операции в соответствии с условием лабораторной работы.
+\pagebreak
