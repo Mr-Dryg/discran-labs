@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iostream>
 #include <stdexcept>
 #include <string>
 
@@ -7,15 +8,29 @@ enum Side {
     right
 };
 
-struct Data {
+struct ReturnData {
     enum Status {
         ok,
         exist,
         noSuchWord
-    };
+    } status;
 
-    Status status;
     unsigned long long value;
+
+    friend std::ostream& operator<<(std::ostream& os, Status& status) {
+        switch (status) {
+            case ok:
+                std::cout << "OK";
+                break;
+            case exist:
+                std::cout << "Exist";
+                break;
+            case noSuchWord:
+                std::cout << "NoSuchWord";
+                break;
+        }
+        return os;
+    }
 };
 
 class RBTree {
@@ -106,7 +121,7 @@ class RBTree {
         }
     };
 
-    Node* root;
+    Node* root = nullptr;
 
     void destroy(Node* node) {
         if (!node) return;
@@ -192,9 +207,9 @@ class RBTree {
         if (root) root->color = Node::black;
     }
 
-    Data::Status _insert(Node* node, const std::string& key, unsigned long long value) {
+    ReturnData::Status _insert(Node* node, const std::string& key, unsigned long long value) {
         if (key == node->key) {
-            return Data::exist;
+            return ReturnData::exist;
         }
         
         Node*& new_node = (key < node->key) ? node->left : node->right;
@@ -207,7 +222,7 @@ class RBTree {
         if (node->color == Node::red) {
             insertBalance(new_node);
         }
-        return Data::ok;
+        return ReturnData::ok;
     }
 
     Node* rotation(Node* base_node, Side side, bool replace_colors, Node* other) {
@@ -430,42 +445,44 @@ public:
         destroy(root);
     }
 
-    Data::Status insert(std::string key, unsigned long long value) {
+    ReturnData::Status insert(std::string key, unsigned long long value) {
         toUpper(key);
         if (!root) {
             root = new Node(key, value, nullptr, Node::black);
-            return Data::ok;
+            return ReturnData::ok;
         }
         return _insert(root, key, value);
     }
 
-    Data::Status remove(std::string key) {
+    ReturnData::Status remove(std::string key) {
         toUpper(key);
         Node* node = _find(root, key);
         if (!node) {
-            return Data::noSuchWord;
+            return ReturnData::noSuchWord;
         }
         _remove(node);
-        return Data::ok;
+        return ReturnData::ok;
     }
 
-    Data find(std::string key) {
+    ReturnData find(std::string key) {
         toUpper(key);
         Node* node = _find(root, key);
         if (!node) {
-            return Data{.status = Data::noSuchWord};
+            return ReturnData{.status = ReturnData::noSuchWord};
         }
-        return Data{.status = Data::ok, .value = node->value};
+        return ReturnData{.status = ReturnData::ok, .value = node->value};
     }
 
-    void save(const std::string& filename) {
+    ReturnData::Status save(const std::string& filename) {
         std::ofstream file(filename, std::ios::binary);
-        if (!root) return;
-
-        _save(root, file);
+        if (root) {
+            _save(root, file);
+        }
+        
+        return ReturnData::ok;
     }
 
-    void load(const std::string& filename) {
+    ReturnData::Status load(const std::string& filename) {
         std::ifstream file(filename, std::ios::binary);
 
         Node* new_root = nullptr;
@@ -481,5 +498,6 @@ public:
 
         destroy(root);
         root = new_root;
+        return ReturnData::ok;
     }
 };
