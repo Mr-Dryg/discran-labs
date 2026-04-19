@@ -1,0 +1,1024 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 17.65      0.03     0.03 14507024     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::size() const
+ 11.77      0.05     0.02 20737166     0.00     0.00  unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&)
+ 11.77      0.07     0.02   100000     0.00     0.00  RBTree::insert(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned long long)
+ 11.77      0.09     0.02    58236     0.00     0.00  RBTree::removeBalance(RBTree::Node*, Side)
+  5.88      0.10     0.01 14507024     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::max_size() const
+  5.88      0.11     0.01   797829     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_local_data() const
+  5.88      0.12     0.01   400000     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+  5.88      0.13     0.01   200000     0.00     0.00  RBTree::_find(RBTree::Node*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+  5.88      0.14     0.01   197828     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_get_allocator()
+  5.88      0.15     0.01   100000     0.00     0.00  RBTree::_remove(RBTree::Node*)
+  5.88      0.16     0.01    48914     0.00     0.00  RBTree::minNode(RBTree::Node*)
+  5.88      0.17     0.01     1603     0.01     0.01  std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::_M_gen_rand()
+  0.00      0.17     0.00 16153770     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data() const
+  0.00      0.17     0.00 14907024     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_get_allocator() const
+  0.00      0.17     0.00  6230141     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::data() const
+  0.00      0.17     0.00  6230141     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::compare(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
+  0.00      0.17     0.00  6230141     0.00     0.00  std::char_traits<char>::compare(char const*, char const*, unsigned long)
+  0.00      0.17     0.00  2000000     0.00     0.00  std::uniform_int_distribution<int>::param_type::a() const
+  0.00      0.17     0.00  1100002     0.00     0.00  std::__new_allocator<char>::~__new_allocator()
+  0.00      0.17     0.00  1000000     0.00     0.00  std::uniform_int_distribution<int>::param_type::b() const
+  0.00      0.17     0.00  1000000     0.00     0.00  std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::operator()()
+  0.00      0.17     0.00  1000000     0.00     0.00  unsigned int std::uniform_int_distribution<int>::_S_nd<unsigned long, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, unsigned int>(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, unsigned int)
+  0.00      0.17     0.00  1000000     0.00     0.00  int std::uniform_int_distribution<int>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&)
+  0.00      0.17     0.00  1000000     0.00     0.00  int std::uniform_int_distribution<int>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::uniform_int_distribution<int>::param_type const&)
+  0.00      0.17     0.00  1000000     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator[](unsigned long)
+  0.00      0.17     0.00   797829     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_is_local() const
+  0.00      0.17     0.00   797829     0.00     0.00  std::__ptr_traits_ptr_to<char const*, char const, false>::pointer_to(char const&)
+  0.00      0.17     0.00   797829     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_length(unsigned long)
+  0.00      0.17     0.00   700001     0.00     0.00  std::__ptr_traits_ptr_to<char*, char, false>::pointer_to(char&)
+  0.00      0.17     0.00   700001     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_local_data()
+  0.00      0.17     0.00   669034     0.00     0.00  RBTree::Node::isLeftSon()
+  0.00      0.17     0.00   600001     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_dispose()
+  0.00      0.17     0.00   600001     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider::~_Alloc_hider()
+  0.00      0.17     0.00   600001     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string()
+  0.00      0.17     0.00   600000     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::length() const
+  0.00      0.17     0.00   548915     0.00     0.00  std::char_traits<char>::copy(char*, char const*, unsigned long)
+  0.00      0.17     0.00   500000     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider::_Alloc_hider(char*, std::allocator<char>&&)
+  0.00      0.17     0.00   448915     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_copy(char*, char const*, unsigned long)
+  0.00      0.17     0.00   400000     0.00     0.00  void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<true>(char const*, unsigned long)
+  0.00      0.17     0.00   300001     0.00     0.00  std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::size() const
+  0.00      0.17     0.00   300000     0.00     0.00  RBTree::toUpper(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)
+  0.00      0.17     0.00   300000     0.00     0.00  std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::operator[](unsigned long)
+  0.00      0.17     0.00   300000     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::end()
+  0.00      0.17     0.00   300000     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::begin()
+  0.00      0.17     0.00   297829     0.00     0.00  std::char_traits<char>::assign(char&, char const&)
+  0.00      0.17     0.00   297829     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_set_length(unsigned long)
+  0.00      0.17     0.00   223597     0.00     0.00  RBTree::Node::parentLink()
+  0.00      0.17     0.00   200000     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_compare(unsigned long, unsigned long)
+  0.00      0.17     0.00   108339     0.00     0.00  RBTree::Node::bro()
+  0.00      0.17     0.00   108339     0.00     0.00  RBTree::Node::uncle()
+  0.00      0.17     0.00   108339     0.00     0.00  RBTree::Node::grandpa()
+  0.00      0.17     0.00   100001     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider::_Alloc_hider(char*, std::allocator<char> const&)
+  0.00      0.17     0.00   100000     0.00     0.00  random_string[abi:cxx11](unsigned long, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&)
+  0.00      0.17     0.00   100000     0.00     0.00  RBTree::Node::Node(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned long long, RBTree::Node*, RBTree::Node::Color)
+  0.00      0.17     0.00   100000     0.00     0.00  RBTree::Node::~Node()
+  0.00      0.17     0.00   100000     0.00     0.00  RBTree::find(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+  0.00      0.17     0.00   100000     0.00     0.00  RBTree::remove(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+  0.00      0.17     0.00   100000     0.00     0.00  std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::end() const
+  0.00      0.17     0.00   100000     0.00     0.00  std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::begin() const
+  0.00      0.17     0.00   100000     0.00     0.00  std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::empty() const
+  0.00      0.17     0.00   100000     0.00     0.00  std::char_traits<char>::assign(char*, unsigned long, char)
+  0.00      0.17     0.00   100000     0.00     0.00  std::uniform_int_distribution<int>::param_type::param_type(int, int)
+  0.00      0.17     0.00   100000     0.00     0.00  std::uniform_int_distribution<int>::uniform_int_distribution(int, int)
+  0.00      0.17     0.00   100000     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >& std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::emplace_back<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&)
+  0.00      0.17     0.00   100000     0.00     0.00  std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::end()
+  0.00      0.17     0.00   100000     0.00     0.00  std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::back()
+  0.00      0.17     0.00   100000     0.00     0.00  std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::push_back(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&)
+  0.00      0.17     0.00   100000     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct(unsigned long, char)
+  0.00      0.17     0.00   100000     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data(char*)
+  0.00      0.17     0.00   100000     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_assign(char*, unsigned long, char)
+  0.00      0.17     0.00   100000     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&)
+  0.00      0.17     0.00   100000     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(unsigned long, char, std::allocator<char> const&)
+  0.00      0.17     0.00   100000     0.00     0.00  void std::_Destroy<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*)
+  0.00      0.17     0.00   100000     0.00     0.00  operator new(unsigned long, void*)
+  0.00      0.17     0.00    64087     0.00     0.00  RBTree::insertBalance(RBTree::Node*)
+  0.00      0.17     0.00    62821     0.00     0.00  RBTree::leftRotation(RBTree::Node*)
+  0.00      0.17     0.00    60798     0.00     0.00  RBTree::rightRotation(RBTree::Node*)
+  0.00      0.17     0.00    48914     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::clear()
+  0.00      0.17     0.00    48914     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator=(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&)
+  0.00      0.17     0.00    44386     0.00     0.00  RBTree::rotation(RBTree::Node*, Side, bool, RBTree::Node*)
+  0.00      0.17     0.00      624     0.00     0.00  std::__detail::_Mod<unsigned long, 4294967296ul, 1ul, 0ul, true, true>::__calc(unsigned long)
+  0.00      0.17     0.00      624     0.00     0.00  unsigned long std::__detail::__mod<unsigned long, 4294967296ul, 1ul, 0ul>(unsigned long)
+  0.00      0.17     0.00      623     0.00     0.00  std::__detail::_Mod<unsigned long, 624ul, 1ul, 0ul, true, true>::__calc(unsigned long)
+  0.00      0.17     0.00      623     0.00     0.00  unsigned long std::__detail::__mod<unsigned long, 624ul, 1ul, 0ul>(unsigned long)
+  0.00      0.17     0.00        9     0.00     0.00  std::chrono::duration<long, std::ratio<1l, 1000000000l> >::count() const
+  0.00      0.17     0.00        6     0.00     0.00  std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::time_since_epoch() const
+  0.00      0.17     0.00        6     0.00     0.00  std::chrono::duration<double, std::ratio<1l, 1000l> >::count() const
+  0.00      0.17     0.00        6     0.00     0.00  std::operator&(std::_Ios_Fmtflags, std::_Ios_Fmtflags)
+  0.00      0.17     0.00        3     0.00     0.00  std::enable_if<std::chrono::__is_duration<std::chrono::duration<double, std::ratio<1l, 1000l> > >::value, std::chrono::duration<double, std::ratio<1l, 1000l> > >::type std::chrono::duration_cast<std::chrono::duration<double, std::ratio<1l, 1000l> >, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)
+  0.00      0.17     0.00        3     0.00     0.00  std::chrono::duration<double, std::ratio<1l, 1000l> > std::chrono::__duration_cast_impl<std::chrono::duration<double, std::ratio<1l, 1000l> >, std::ratio<1l, 1000000l>, double, true, false>::__cast<long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)
+  0.00      0.17     0.00        3     0.00     0.00  std::chrono::duration<double, std::ratio<1l, 1000l> >::duration<double, void>(double const&)
+  0.00      0.17     0.00        3     0.00     0.00  std::chrono::duration<double, std::ratio<1l, 1000l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)
+  0.00      0.17     0.00        3     0.00     0.00  std::chrono::duration<long, std::ratio<1l, 1000000000l> >::duration<long, void>(long const&)
+  0.00      0.17     0.00        3     0.00     0.00  std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&, std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&)
+  0.00      0.17     0.00        3     0.00     0.00  std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<long, std::ratio<1l, 1000000000l>, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)
+  0.00      0.17     0.00        3     0.00     0.00  std::ios_base::setf(std::_Ios_Fmtflags, std::_Ios_Fmtflags)
+  0.00      0.17     0.00        3     0.00     0.00  std::setprecision(int)
+  0.00      0.17     0.00        3     0.00     0.00  std::operator&=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags)
+  0.00      0.17     0.00        3     0.00     0.00  std::operator~(std::_Ios_Fmtflags)
+  0.00      0.17     0.00        3     0.00     0.00  std::operator|=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags)
+  0.00      0.17     0.00        3     0.00     0.00  std::operator|(std::_Ios_Fmtflags, std::_Ios_Fmtflags)
+  0.00      0.17     0.00        2     0.00     0.00  std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_deallocate(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, unsigned long)
+  0.00      0.17     0.00        2     0.00     0.00  std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_get_Tp_allocator()
+  0.00      0.17     0.00        1     0.00   170.03  test_my_rbt(unsigned long)
+  0.00      0.17     0.00        1     0.00   170.03  run_comparison(unsigned long)
+  0.00      0.17     0.00        1     0.00     0.00  RBTree::destroy(RBTree::Node*)
+  0.00      0.17     0.00        1     0.00     0.00  RBTree::RBTree()
+  0.00      0.17     0.00        1     0.00     0.00  RBTree::~RBTree()
+  0.00      0.17     0.00        1     0.00     0.00  unsigned long long __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int)
+  0.00      0.17     0.00        1     0.00     0.00  std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_get_Tp_allocator() const
+  0.00      0.17     0.00        1     0.00     0.00  std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::capacity() const
+  0.00      0.17     0.00        1     0.00     0.00  std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::max_size() const
+  0.00      0.17     0.00        1     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::c_str() const
+  0.00      0.17     0.00        1     0.00     0.00  std::char_traits<char>::length(char const*)
+  0.00      0.17     0.00        1     0.00     0.00  std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_allocate(unsigned long)
+  0.00      0.17     0.00        1     0.00     0.00  std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_impl::_Vector_impl()
+  0.00      0.17     0.00        1     0.00     0.00  std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_impl::~_Vector_impl()
+  0.00      0.17     0.00        1     0.00     0.00  std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_impl_data::_Vector_impl_data()
+  0.00      0.17     0.00        1     0.00     0.00  std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_base()
+  0.00      0.17     0.00        1     0.00     0.00  std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~_Vector_base()
+  0.00      0.17     0.00        1     0.00     0.00  std::__new_allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::deallocate(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, unsigned long)
+  0.00      0.17     0.00        1     0.00     0.00  std::__new_allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::allocate(unsigned long, void const*)
+  0.00      0.17     0.00        1     0.00     0.00  std::__new_allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::~__new_allocator()
+  0.00      0.17     0.00        1     0.00     0.00  std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::seed(unsigned long)
+  0.00      0.17     0.00        1     0.00     0.00  std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::mersenne_twister_engine(unsigned long)
+  0.00      0.17     0.00        1     0.00     0.00  std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_S_max_size(std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > const&)
+  0.00      0.17     0.00        1     0.00     0.00  std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_S_relocate(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >&)
+  0.00      0.17     0.00        1     0.00     0.00  std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::reserve(unsigned long)
+  0.00      0.17     0.00        1     0.00     0.00  std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::vector()
+  0.00      0.17     0.00        1     0.00     1.25  std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~vector()
+  0.00      0.17     0.00        1     0.00     0.00  void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag)
+  0.00      0.17     0.00        1     0.00     0.00  void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_copy_chars<char const*>(char*, char const*, char const*)
+  0.00      0.17     0.00        1     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(char const*, std::allocator<char> const&)
+  0.00      0.17     0.00        1     0.00     0.00  std::__cxx11::stoull(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned long*, int)
+  0.00      0.17     0.00        1     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >* std::__relocate_a<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >&)
+  0.00      0.17     0.00        1     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >* std::__relocate_a_1<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >&)
+  0.00      0.17     0.00        1     0.00     1.25  void std::_Destroy<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*)
+  0.00      0.17     0.00        1     0.00     0.00  __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int)::_Range_chk::_S_chk(unsigned long long, std::integral_constant<bool, false>)
+  0.00      0.17     0.00        1     0.00     0.00  __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int)::_Save_errno::_Save_errno()
+  0.00      0.17     0.00        1     0.00     0.00  __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int)::_Save_errno::~_Save_errno()
+  0.00      0.17     0.00        1     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag)::_Guard::_Guard(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*)
+  0.00      0.17     0.00        1     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag)::_Guard::~_Guard()
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2025 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) for 5.88% of 0.17 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]    100.0    0.00    0.17                 main [1]
+                0.00    0.17       1/1           run_comparison(unsigned long) [3]
+                0.00    0.00       1/600001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string() [26]
+                0.00    0.00       1/1           std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(char const*, std::allocator<char> const&) [141]
+                0.00    0.00       1/1           std::__cxx11::stoull(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned long*, int) [142]
+                0.00    0.00       1/1100002     std::__new_allocator<char>::~__new_allocator() [54]
+-----------------------------------------------
+                0.00    0.17       1/1           run_comparison(unsigned long) [3]
+[2]    100.0    0.00    0.17       1         test_my_rbt(unsigned long) [2]
+                0.00    0.07  100000/100000      RBTree::remove(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [4]
+                0.02    0.02  100000/100000      RBTree::insert(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned long long) [9]
+                0.00    0.02  100000/100000      RBTree::find(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [11]
+                0.00    0.01  100000/100000      random_string[abi:cxx11](unsigned long, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [14]
+                0.01    0.00  300000/400000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [15]
+                0.00    0.01  100000/100000      std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::push_back(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [28]
+                0.00    0.01  400000/600001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string() [26]
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~vector() [36]
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::reserve(unsigned long) [42]
+                0.00    0.00  300000/300000      std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::operator[](unsigned long) [67]
+                0.00    0.00       3/3           std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&, std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&) [108]
+                0.00    0.00       3/3           std::chrono::duration<double, std::ratio<1l, 1000l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [106]
+                0.00    0.00       3/3           std::setprecision(int) [111]
+                0.00    0.00       3/6           std::chrono::duration<double, std::ratio<1l, 1000l> >::count() const [101]
+                0.00    0.00       1/1           RBTree::RBTree() [119]
+                0.00    0.00       1/1           std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::mersenne_twister_engine(unsigned long) [136]
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::vector() [138]
+                0.00    0.00       1/1           RBTree::~RBTree() [120]
+-----------------------------------------------
+                0.00    0.17       1/1           main [1]
+[3]    100.0    0.00    0.17       1         run_comparison(unsigned long) [3]
+                0.00    0.17       1/1           test_my_rbt(unsigned long) [2]
+-----------------------------------------------
+                0.00    0.07  100000/100000      test_my_rbt(unsigned long) [2]
+[4]     41.8    0.00    0.07  100000         RBTree::remove(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [4]
+                0.01    0.04  100000/100000      RBTree::_remove(RBTree::Node*) [7]
+                0.01    0.02  100000/200000      RBTree::_find(RBTree::Node*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [8]
+                0.00    0.00  100000/300000      RBTree::toUpper(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [38]
+-----------------------------------------------
+                0.00    0.00  146742/14507024     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator=(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [30]
+                0.00    0.00  300000/14507024     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::end() [39]
+                0.00    0.00  600000/14507024     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::length() const [33]
+                0.00    0.00 1000000/14507024     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator[](unsigned long) [31]
+                0.03    0.02 12460282/14507024     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::compare(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const [6]
+[5]     31.8    0.03    0.02 14507024         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::size() const [5]
+                0.01    0.01 14507024/14507024     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::max_size() const [10]
+-----------------------------------------------
+                0.00    0.02 2022389/6230141     RBTree::insert(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned long long) [9]
+                0.00    0.04 4207752/6230141     RBTree::_find(RBTree::Node*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [8]
+[6]     30.8    0.00    0.05 6230141         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::compare(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const [6]
+                0.03    0.02 12460282/14507024     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::size() const [5]
+                0.01    0.00 6230141/20737166     unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&) [12]
+                0.00    0.00 6230141/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data() const [49]
+                0.00    0.00 6230141/6230141     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::data() const [51]
+                0.00    0.00 6230141/6230141     std::char_traits<char>::compare(char const*, char const*, unsigned long) [52]
+                0.00    0.00  200000/200000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_compare(unsigned long, unsigned long) [72]
+-----------------------------------------------
+                               48914             RBTree::_remove(RBTree::Node*) [7]
+                0.01    0.04  100000/100000      RBTree::remove(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [4]
+[7]     28.2    0.01    0.04  100000+48914   RBTree::_remove(RBTree::Node*) [7]
+                0.02    0.00   58236/58236       RBTree::removeBalance(RBTree::Node*, Side) [13]
+                0.01    0.00   48914/48914       RBTree::minNode(RBTree::Node*) [21]
+                0.00    0.01   48914/48914       std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator=(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [30]
+                0.00    0.00  100000/100000      RBTree::Node::~Node() [34]
+                0.00    0.00  100000/669034      RBTree::Node::isLeftSon() [60]
+                0.00    0.00   99997/223597      RBTree::Node::parentLink() [71]
+                               48914             RBTree::_remove(RBTree::Node*) [7]
+-----------------------------------------------
+                0.01    0.02  100000/200000      RBTree::remove(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [4]
+                0.01    0.02  100000/200000      RBTree::find(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [11]
+[8]     26.7    0.01    0.04  200000         RBTree::_find(RBTree::Node*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [8]
+                0.00    0.04 4207752/6230141     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::compare(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const [6]
+-----------------------------------------------
+                0.02    0.02  100000/100000      test_my_rbt(unsigned long) [2]
+[9]     23.7    0.02    0.02  100000         RBTree::insert(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned long long) [9]
+                0.00    0.02 2022389/6230141     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::compare(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const [6]
+                0.00    0.00  100000/100000      RBTree::Node::Node(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned long long, RBTree::Node*, RBTree::Node::Color) [32]
+                0.00    0.00  100000/300000      RBTree::toUpper(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [38]
+                0.00    0.00   64087/64087       RBTree::insertBalance(RBTree::Node*) [90]
+-----------------------------------------------
+                0.01    0.01 14507024/14507024     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::size() const [5]
+[10]    14.1    0.01    0.01 14507024         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::max_size() const [10]
+                0.01    0.00 14507024/20737166     unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&) [12]
+                0.00    0.00 14507024/14907024     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_get_allocator() const [50]
+-----------------------------------------------
+                0.00    0.02  100000/100000      test_my_rbt(unsigned long) [2]
+[11]    13.6    0.00    0.02  100000         RBTree::find(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [11]
+                0.01    0.02  100000/200000      RBTree::_find(RBTree::Node*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [8]
+                0.00    0.00  100000/300000      RBTree::toUpper(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [38]
+-----------------------------------------------
+                0.00    0.00       1/20737166     std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_S_max_size(std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > const&) [41]
+                0.01    0.00 6230141/20737166     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::compare(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const [6]
+                0.01    0.00 14507024/20737166     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::max_size() const [10]
+[12]    11.8    0.02    0.00 20737166         unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&) [12]
+-----------------------------------------------
+                               37212             RBTree::removeBalance(RBTree::Node*, Side) [13]
+                0.02    0.00   58236/58236       RBTree::_remove(RBTree::Node*) [7]
+[13]    11.8    0.02    0.00   58236+37212   RBTree::removeBalance(RBTree::Node*, Side) [13]
+                0.00    0.00   44386/44386       RBTree::rotation(RBTree::Node*, Side, bool, RBTree::Node*) [94]
+                0.00    0.00   37212/669034      RBTree::Node::isLeftSon() [60]
+                               37212             RBTree::removeBalance(RBTree::Node*, Side) [13]
+-----------------------------------------------
+                0.00    0.01  100000/100000      test_my_rbt(unsigned long) [2]
+[14]     8.1    0.00    0.01  100000         random_string[abi:cxx11](unsigned long, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [14]
+                0.00    0.01 1000000/1000000     int std::uniform_int_distribution<int>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [18]
+                0.00    0.00 1000000/1000000     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator[](unsigned long) [31]
+                0.00    0.00  100000/100000      std::uniform_int_distribution<int>::uniform_int_distribution(int, int) [82]
+                0.00    0.00  100000/100000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(unsigned long, char, std::allocator<char> const&) [88]
+                0.00    0.00  100000/1100002     std::__new_allocator<char>::~__new_allocator() [54]
+-----------------------------------------------
+                0.00    0.00  100000/400000      RBTree::Node::Node(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned long long, RBTree::Node*, RBTree::Node::Color) [32]
+                0.01    0.00  300000/400000      test_my_rbt(unsigned long) [2]
+[15]     6.8    0.01    0.00  400000         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [15]
+                0.00    0.00  400000/600000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::length() const [33]
+                0.00    0.00  400000/14907024     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_get_allocator() const [50]
+                0.00    0.00  400000/700001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_local_data() [59]
+                0.00    0.00  400000/500000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider::_Alloc_hider(char*, std::allocator<char>&&) [63]
+                0.00    0.00  400000/1100002     std::__new_allocator<char>::~__new_allocator() [54]
+                0.00    0.00  400000/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data() const [49]
+                0.00    0.00  400000/400000      void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<true>(char const*, unsigned long) [65]
+-----------------------------------------------
+                0.00    0.01 1000000/1000000     unsigned int std::uniform_int_distribution<int>::_S_nd<unsigned long, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, unsigned int>(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, unsigned int) [17]
+[16]     5.9    0.00    0.01 1000000         std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::operator()() [16]
+                0.01    0.00    1603/1603        std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::_M_gen_rand() [22]
+-----------------------------------------------
+                0.00    0.01 1000000/1000000     int std::uniform_int_distribution<int>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::uniform_int_distribution<int>::param_type const&) [19]
+[17]     5.9    0.00    0.01 1000000         unsigned int std::uniform_int_distribution<int>::_S_nd<unsigned long, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, unsigned int>(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, unsigned int) [17]
+                0.00    0.01 1000000/1000000     std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::operator()() [16]
+-----------------------------------------------
+                0.00    0.01 1000000/1000000     random_string[abi:cxx11](unsigned long, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [14]
+[18]     5.9    0.00    0.01 1000000         int std::uniform_int_distribution<int>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [18]
+                0.00    0.01 1000000/1000000     int std::uniform_int_distribution<int>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::uniform_int_distribution<int>::param_type const&) [19]
+-----------------------------------------------
+                0.00    0.01 1000000/1000000     int std::uniform_int_distribution<int>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [18]
+[19]     5.9    0.00    0.01 1000000         int std::uniform_int_distribution<int>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::uniform_int_distribution<int>::param_type const&) [19]
+                0.00    0.01 1000000/1000000     unsigned int std::uniform_int_distribution<int>::_S_nd<unsigned long, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, unsigned int>(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, unsigned int) [17]
+                0.00    0.00 2000000/2000000     std::uniform_int_distribution<int>::param_type::a() const [53]
+                0.00    0.00 1000000/1000000     std::uniform_int_distribution<int>::param_type::b() const [55]
+-----------------------------------------------
+                0.00    0.00   97828/197828      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator=(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [30]
+                0.01    0.00  100000/197828      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [29]
+[20]     5.9    0.01    0.00  197828         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_get_allocator() [20]
+-----------------------------------------------
+                0.01    0.00   48914/48914       RBTree::_remove(RBTree::Node*) [7]
+[21]     5.9    0.01    0.00   48914         RBTree::minNode(RBTree::Node*) [21]
+-----------------------------------------------
+                0.01    0.00    1603/1603        std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::operator()() [16]
+[22]     5.9    0.01    0.00    1603         std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::_M_gen_rand() [22]
+-----------------------------------------------
+                0.00    0.00   97828/797829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator=(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [30]
+                0.00    0.00  100000/797829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [29]
+                0.00    0.01  600001/797829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_dispose() [25]
+[23]     5.9    0.00    0.01  797829         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_is_local() const [23]
+                0.01    0.00  797829/797829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_local_data() const [24]
+                0.00    0.00  797829/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data() const [49]
+-----------------------------------------------
+                0.01    0.00  797829/797829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_is_local() const [23]
+[24]     5.9    0.01    0.00  797829         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_local_data() const [24]
+                0.00    0.00  797829/797829      std::__ptr_traits_ptr_to<char const*, char const, false>::pointer_to(char const&) [56]
+-----------------------------------------------
+                0.00    0.01  600001/600001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string() [26]
+[25]     4.4    0.00    0.01  600001         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_dispose() [25]
+                0.00    0.01  600001/797829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_is_local() const [23]
+-----------------------------------------------
+                0.00    0.00       1/600001      main [1]
+                0.00    0.00  100000/600001      RBTree::Node::~Node() [34]
+                0.00    0.00  100000/600001      void std::_Destroy<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*) [35]
+                0.00    0.01  400000/600001      test_my_rbt(unsigned long) [2]
+[26]     4.4    0.00    0.01  600001         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string() [26]
+                0.00    0.01  600001/600001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_dispose() [25]
+                0.00    0.00  600001/600001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider::~_Alloc_hider() [61]
+-----------------------------------------------
+                0.00    0.01  100000/100000      std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::push_back(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [28]
+[27]     4.1    0.00    0.01  100000         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >& std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::emplace_back<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [27]
+                0.00    0.01  100000/100000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [29]
+                0.00    0.00  100000/100000      operator new(unsigned long, void*) [89]
+                0.00    0.00  100000/100000      std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::back() [84]
+-----------------------------------------------
+                0.00    0.01  100000/100000      test_my_rbt(unsigned long) [2]
+[28]     4.1    0.00    0.01  100000         std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::push_back(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [28]
+                0.00    0.01  100000/100000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >& std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::emplace_back<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [27]
+-----------------------------------------------
+                0.00    0.01  100000/100000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >& std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::emplace_back<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [27]
+[29]     4.1    0.00    0.01  100000         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [29]
+                0.01    0.00  100000/197828      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_get_allocator() [20]
+                0.00    0.00  100000/797829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_is_local() const [23]
+                0.00    0.00  200000/600000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::length() const [33]
+                0.00    0.00  200000/700001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_local_data() [59]
+                0.00    0.00  100000/500000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider::_Alloc_hider(char*, std::allocator<char>&&) [63]
+                0.00    0.00  100000/548915      std::char_traits<char>::copy(char*, char const*, unsigned long) [62]
+                0.00    0.00  100000/797829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_length(unsigned long) [57]
+                0.00    0.00  100000/100000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data(char*) [86]
+                0.00    0.00  100000/297829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_set_length(unsigned long) [70]
+-----------------------------------------------
+                0.00    0.01   48914/48914       RBTree::_remove(RBTree::Node*) [7]
+[30]     4.0    0.00    0.01   48914         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator=(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [30]
+                0.00    0.00   97828/197828      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_get_allocator() [20]
+                0.00    0.00   97828/797829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_is_local() const [23]
+                0.00    0.00  146742/14507024     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::size() const [5]
+                0.00    0.00   97828/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data() const [49]
+                0.00    0.00   48914/448915      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_copy(char*, char const*, unsigned long) [64]
+                0.00    0.00   48914/297829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_set_length(unsigned long) [70]
+                0.00    0.00   48914/48914       std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::clear() [93]
+-----------------------------------------------
+                0.00    0.00 1000000/1000000     random_string[abi:cxx11](unsigned long, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [14]
+[31]     2.2    0.00    0.00 1000000         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator[](unsigned long) [31]
+                0.00    0.00 1000000/14507024     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::size() const [5]
+                0.00    0.00 1000000/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data() const [49]
+-----------------------------------------------
+                0.00    0.00  100000/100000      RBTree::insert(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned long long) [9]
+[32]     1.7    0.00    0.00  100000         RBTree::Node::Node(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned long long, RBTree::Node*, RBTree::Node::Color) [32]
+                0.00    0.00  100000/400000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [15]
+-----------------------------------------------
+                0.00    0.00  200000/600000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [29]
+                0.00    0.00  400000/600000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [15]
+[33]     1.3    0.00    0.00  600000         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::length() const [33]
+                0.00    0.00  600000/14507024     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::size() const [5]
+-----------------------------------------------
+                0.00    0.00  100000/100000      RBTree::_remove(RBTree::Node*) [7]
+[34]     0.7    0.00    0.00  100000         RBTree::Node::~Node() [34]
+                0.00    0.00  100000/600001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string() [26]
+-----------------------------------------------
+                0.00    0.00  100000/100000      void std::_Destroy<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*) [37]
+[35]     0.7    0.00    0.00  100000         void std::_Destroy<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*) [35]
+                0.00    0.00  100000/600001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string() [26]
+-----------------------------------------------
+                0.00    0.00       1/1           test_my_rbt(unsigned long) [2]
+[36]     0.7    0.00    0.00       1         std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~vector() [36]
+                0.00    0.00       1/1           void std::_Destroy<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*) [37]
+                0.00    0.00       1/2           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_get_Tp_allocator() [117]
+                0.00    0.00       1/1           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~_Vector_base() [131]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~vector() [36]
+[37]     0.7    0.00    0.00       1         void std::_Destroy<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*) [37]
+                0.00    0.00  100000/100000      void std::_Destroy<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*) [35]
+-----------------------------------------------
+                0.00    0.00  100000/300000      RBTree::insert(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned long long) [9]
+                0.00    0.00  100000/300000      RBTree::remove(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [4]
+                0.00    0.00  100000/300000      RBTree::find(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [11]
+[38]     0.7    0.00    0.00  300000         RBTree::toUpper(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [38]
+                0.00    0.00  300000/300000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::end() [39]
+                0.00    0.00  300000/300000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::begin() [68]
+-----------------------------------------------
+                0.00    0.00  300000/300000      RBTree::toUpper(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [38]
+[39]     0.7    0.00    0.00  300000         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::end() [39]
+                0.00    0.00  300000/14507024     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::size() const [5]
+                0.00    0.00  300000/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data() const [49]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::reserve(unsigned long) [42]
+[40]     0.0    0.00    0.00       1         std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::max_size() const [40]
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_S_max_size(std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > const&) [41]
+                0.00    0.00       1/1           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_get_Tp_allocator() const [122]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::max_size() const [40]
+[41]     0.0    0.00    0.00       1         std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_S_max_size(std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > const&) [41]
+                0.00    0.00       1/20737166     unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&) [12]
+-----------------------------------------------
+                0.00    0.00       1/1           test_my_rbt(unsigned long) [2]
+[42]     0.0    0.00    0.00       1         std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::reserve(unsigned long) [42]
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::max_size() const [40]
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::capacity() const [123]
+                0.00    0.00       1/300001      std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::size() const [66]
+                0.00    0.00       1/1           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_allocate(unsigned long) [126]
+                0.00    0.00       1/2           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_get_Tp_allocator() [117]
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_S_relocate(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >&) [137]
+                0.00    0.00       1/2           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_deallocate(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, unsigned long) [116]
+-----------------------------------------------
+                0.00    0.00       1/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::c_str() const [124]
+                0.00    0.00       1/16153770     void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag) [139]
+                0.00    0.00   97828/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator=(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [30]
+                0.00    0.00  100000/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct(unsigned long, char) [85]
+                0.00    0.00  297829/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_set_length(unsigned long) [70]
+                0.00    0.00  300000/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::begin() [68]
+                0.00    0.00  300000/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::end() [39]
+                0.00    0.00  400000/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [15]
+                0.00    0.00  400000/16153770     void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<true>(char const*, unsigned long) [65]
+                0.00    0.00  797829/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_is_local() const [23]
+                0.00    0.00 1000000/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator[](unsigned long) [31]
+                0.00    0.00 6230141/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::compare(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const [6]
+                0.00    0.00 6230141/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::data() const [51]
+[49]     0.0    0.00    0.00 16153770         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data() const [49]
+-----------------------------------------------
+                0.00    0.00  400000/14907024     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [15]
+                0.00    0.00 14507024/14907024     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::max_size() const [10]
+[50]     0.0    0.00    0.00 14907024         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_get_allocator() const [50]
+-----------------------------------------------
+                0.00    0.00 6230141/6230141     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::compare(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const [6]
+[51]     0.0    0.00    0.00 6230141         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::data() const [51]
+                0.00    0.00 6230141/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data() const [49]
+-----------------------------------------------
+                0.00    0.00 6230141/6230141     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::compare(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const [6]
+[52]     0.0    0.00    0.00 6230141         std::char_traits<char>::compare(char const*, char const*, unsigned long) [52]
+-----------------------------------------------
+                0.00    0.00 2000000/2000000     int std::uniform_int_distribution<int>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::uniform_int_distribution<int>::param_type const&) [19]
+[53]     0.0    0.00    0.00 2000000         std::uniform_int_distribution<int>::param_type::a() const [53]
+-----------------------------------------------
+                0.00    0.00       1/1100002     main [1]
+                0.00    0.00  100000/1100002     random_string[abi:cxx11](unsigned long, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [14]
+                0.00    0.00  400000/1100002     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [15]
+                0.00    0.00  600001/1100002     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider::~_Alloc_hider() [61]
+[54]     0.0    0.00    0.00 1100002         std::__new_allocator<char>::~__new_allocator() [54]
+-----------------------------------------------
+                0.00    0.00 1000000/1000000     int std::uniform_int_distribution<int>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::uniform_int_distribution<int>::param_type const&) [19]
+[55]     0.0    0.00    0.00 1000000         std::uniform_int_distribution<int>::param_type::b() const [55]
+-----------------------------------------------
+                0.00    0.00  797829/797829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_local_data() const [24]
+[56]     0.0    0.00    0.00  797829         std::__ptr_traits_ptr_to<char const*, char const, false>::pointer_to(char const&) [56]
+-----------------------------------------------
+                0.00    0.00  100000/797829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [29]
+                0.00    0.00  297829/797829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_set_length(unsigned long) [70]
+                0.00    0.00  400000/797829      void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<true>(char const*, unsigned long) [65]
+[57]     0.0    0.00    0.00  797829         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_length(unsigned long) [57]
+-----------------------------------------------
+                0.00    0.00  700001/700001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_local_data() [59]
+[58]     0.0    0.00    0.00  700001         std::__ptr_traits_ptr_to<char*, char, false>::pointer_to(char&) [58]
+-----------------------------------------------
+                0.00    0.00       1/700001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(char const*, std::allocator<char> const&) [141]
+                0.00    0.00  100000/700001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(unsigned long, char, std::allocator<char> const&) [88]
+                0.00    0.00  200000/700001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [29]
+                0.00    0.00  400000/700001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [15]
+[59]     0.0    0.00    0.00  700001         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_local_data() [59]
+                0.00    0.00  700001/700001      std::__ptr_traits_ptr_to<char*, char, false>::pointer_to(char&) [58]
+-----------------------------------------------
+                0.00    0.00   37212/669034      RBTree::removeBalance(RBTree::Node*, Side) [13]
+                0.00    0.00  100000/669034      RBTree::_remove(RBTree::Node*) [7]
+                0.00    0.00  108339/669034      RBTree::Node::bro() [73]
+                0.00    0.00  199886/669034      RBTree::insertBalance(RBTree::Node*) [90]
+                0.00    0.00  223597/669034      RBTree::Node::parentLink() [71]
+[60]     0.0    0.00    0.00  669034         RBTree::Node::isLeftSon() [60]
+-----------------------------------------------
+                0.00    0.00  600001/600001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string() [26]
+[61]     0.0    0.00    0.00  600001         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider::~_Alloc_hider() [61]
+                0.00    0.00  600001/1100002     std::__new_allocator<char>::~__new_allocator() [54]
+-----------------------------------------------
+                0.00    0.00  100000/548915      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [29]
+                0.00    0.00  448915/548915      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_copy(char*, char const*, unsigned long) [64]
+[62]     0.0    0.00    0.00  548915         std::char_traits<char>::copy(char*, char const*, unsigned long) [62]
+-----------------------------------------------
+                0.00    0.00  100000/500000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [29]
+                0.00    0.00  400000/500000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [15]
+[63]     0.0    0.00    0.00  500000         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider::_Alloc_hider(char*, std::allocator<char>&&) [63]
+-----------------------------------------------
+                0.00    0.00       1/448915      void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_copy_chars<char const*>(char*, char const*, char const*) [140]
+                0.00    0.00   48914/448915      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator=(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [30]
+                0.00    0.00  400000/448915      void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<true>(char const*, unsigned long) [65]
+[64]     0.0    0.00    0.00  448915         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_copy(char*, char const*, unsigned long) [64]
+                0.00    0.00  448915/548915      std::char_traits<char>::copy(char*, char const*, unsigned long) [62]
+-----------------------------------------------
+                0.00    0.00  400000/400000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [15]
+[65]     0.0    0.00    0.00  400000         void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<true>(char const*, unsigned long) [65]
+                0.00    0.00  400000/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data() const [49]
+                0.00    0.00  400000/448915      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_copy(char*, char const*, unsigned long) [64]
+                0.00    0.00  400000/797829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_length(unsigned long) [57]
+-----------------------------------------------
+                0.00    0.00       1/300001      std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::reserve(unsigned long) [42]
+                0.00    0.00  300000/300001      std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::operator[](unsigned long) [67]
+[66]     0.0    0.00    0.00  300001         std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::size() const [66]
+-----------------------------------------------
+                0.00    0.00  300000/300000      test_my_rbt(unsigned long) [2]
+[67]     0.0    0.00    0.00  300000         std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::operator[](unsigned long) [67]
+                0.00    0.00  300000/300001      std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::size() const [66]
+-----------------------------------------------
+                0.00    0.00  300000/300000      RBTree::toUpper(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [38]
+[68]     0.0    0.00    0.00  300000         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::begin() [68]
+                0.00    0.00  300000/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data() const [49]
+-----------------------------------------------
+                0.00    0.00  297829/297829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_set_length(unsigned long) [70]
+[69]     0.0    0.00    0.00  297829         std::char_traits<char>::assign(char&, char const&) [69]
+-----------------------------------------------
+                0.00    0.00       1/297829      void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag) [139]
+                0.00    0.00   48914/297829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator=(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [30]
+                0.00    0.00   48914/297829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::clear() [93]
+                0.00    0.00  100000/297829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [29]
+                0.00    0.00  100000/297829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct(unsigned long, char) [85]
+[70]     0.0    0.00    0.00  297829         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_set_length(unsigned long) [70]
+                0.00    0.00  297829/797829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_length(unsigned long) [57]
+                0.00    0.00  297829/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data() const [49]
+                0.00    0.00  297829/297829      std::char_traits<char>::assign(char&, char const&) [69]
+-----------------------------------------------
+                0.00    0.00   60785/223597      RBTree::rightRotation(RBTree::Node*) [92]
+                0.00    0.00   62815/223597      RBTree::leftRotation(RBTree::Node*) [91]
+                0.00    0.00   99997/223597      RBTree::_remove(RBTree::Node*) [7]
+[71]     0.0    0.00    0.00  223597         RBTree::Node::parentLink() [71]
+                0.00    0.00  223597/669034      RBTree::Node::isLeftSon() [60]
+-----------------------------------------------
+                0.00    0.00  200000/200000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::compare(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const [6]
+[72]     0.0    0.00    0.00  200000         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_compare(unsigned long, unsigned long) [72]
+-----------------------------------------------
+                0.00    0.00  108339/108339      RBTree::Node::uncle() [74]
+[73]     0.0    0.00    0.00  108339         RBTree::Node::bro() [73]
+                0.00    0.00  108339/669034      RBTree::Node::isLeftSon() [60]
+-----------------------------------------------
+                0.00    0.00  108339/108339      RBTree::insertBalance(RBTree::Node*) [90]
+[74]     0.0    0.00    0.00  108339         RBTree::Node::uncle() [74]
+                0.00    0.00  108339/108339      RBTree::Node::bro() [73]
+-----------------------------------------------
+                0.00    0.00  108339/108339      RBTree::insertBalance(RBTree::Node*) [90]
+[75]     0.0    0.00    0.00  108339         RBTree::Node::grandpa() [75]
+-----------------------------------------------
+                0.00    0.00       1/100001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(char const*, std::allocator<char> const&) [141]
+                0.00    0.00  100000/100001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(unsigned long, char, std::allocator<char> const&) [88]
+[76]     0.0    0.00    0.00  100001         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider::_Alloc_hider(char*, std::allocator<char> const&) [76]
+-----------------------------------------------
+                0.00    0.00  100000/100000      std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::empty() const [79]
+[77]     0.0    0.00    0.00  100000         std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::end() const [77]
+-----------------------------------------------
+                0.00    0.00  100000/100000      std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::empty() const [79]
+[78]     0.0    0.00    0.00  100000         std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::begin() const [78]
+-----------------------------------------------
+                0.00    0.00  100000/100000      std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::back() [84]
+[79]     0.0    0.00    0.00  100000         std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::empty() const [79]
+                0.00    0.00  100000/100000      std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::end() const [77]
+                0.00    0.00  100000/100000      std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::begin() const [78]
+-----------------------------------------------
+                0.00    0.00  100000/100000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_assign(char*, unsigned long, char) [87]
+[80]     0.0    0.00    0.00  100000         std::char_traits<char>::assign(char*, unsigned long, char) [80]
+-----------------------------------------------
+                0.00    0.00  100000/100000      std::uniform_int_distribution<int>::uniform_int_distribution(int, int) [82]
+[81]     0.0    0.00    0.00  100000         std::uniform_int_distribution<int>::param_type::param_type(int, int) [81]
+-----------------------------------------------
+                0.00    0.00  100000/100000      random_string[abi:cxx11](unsigned long, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [14]
+[82]     0.0    0.00    0.00  100000         std::uniform_int_distribution<int>::uniform_int_distribution(int, int) [82]
+                0.00    0.00  100000/100000      std::uniform_int_distribution<int>::param_type::param_type(int, int) [81]
+-----------------------------------------------
+                0.00    0.00  100000/100000      std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::back() [84]
+[83]     0.0    0.00    0.00  100000         std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::end() [83]
+-----------------------------------------------
+                0.00    0.00  100000/100000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >& std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::emplace_back<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [27]
+[84]     0.0    0.00    0.00  100000         std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::back() [84]
+                0.00    0.00  100000/100000      std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::empty() const [79]
+                0.00    0.00  100000/100000      std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::end() [83]
+-----------------------------------------------
+                0.00    0.00  100000/100000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(unsigned long, char, std::allocator<char> const&) [88]
+[85]     0.0    0.00    0.00  100000         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct(unsigned long, char) [85]
+                0.00    0.00  100000/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data() const [49]
+                0.00    0.00  100000/100000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_assign(char*, unsigned long, char) [87]
+                0.00    0.00  100000/297829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_set_length(unsigned long) [70]
+-----------------------------------------------
+                0.00    0.00  100000/100000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [29]
+[86]     0.0    0.00    0.00  100000         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data(char*) [86]
+-----------------------------------------------
+                0.00    0.00  100000/100000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct(unsigned long, char) [85]
+[87]     0.0    0.00    0.00  100000         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_assign(char*, unsigned long, char) [87]
+                0.00    0.00  100000/100000      std::char_traits<char>::assign(char*, unsigned long, char) [80]
+-----------------------------------------------
+                0.00    0.00  100000/100000      random_string[abi:cxx11](unsigned long, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [14]
+[88]     0.0    0.00    0.00  100000         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(unsigned long, char, std::allocator<char> const&) [88]
+                0.00    0.00  100000/700001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_local_data() [59]
+                0.00    0.00  100000/100001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider::_Alloc_hider(char*, std::allocator<char> const&) [76]
+                0.00    0.00  100000/100000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct(unsigned long, char) [85]
+-----------------------------------------------
+                0.00    0.00  100000/100000      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >& std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::emplace_back<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [27]
+[89]     0.0    0.00    0.00  100000         operator new(unsigned long, void*) [89]
+-----------------------------------------------
+                0.00    0.00   64087/64087       RBTree::insert(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned long long) [9]
+[90]     0.0    0.00    0.00   64087         RBTree::insertBalance(RBTree::Node*) [90]
+                0.00    0.00  199886/669034      RBTree::Node::isLeftSon() [60]
+                0.00    0.00  108339/108339      RBTree::Node::uncle() [74]
+                0.00    0.00  108339/108339      RBTree::Node::grandpa() [75]
+                0.00    0.00   39628/60798       RBTree::rightRotation(RBTree::Node*) [92]
+                0.00    0.00   39605/62821       RBTree::leftRotation(RBTree::Node*) [91]
+-----------------------------------------------
+                0.00    0.00   23216/62821       RBTree::rotation(RBTree::Node*, Side, bool, RBTree::Node*) [94]
+                0.00    0.00   39605/62821       RBTree::insertBalance(RBTree::Node*) [90]
+[91]     0.0    0.00    0.00   62821         RBTree::leftRotation(RBTree::Node*) [91]
+                0.00    0.00   62815/223597      RBTree::Node::parentLink() [71]
+-----------------------------------------------
+                0.00    0.00   21170/60798       RBTree::rotation(RBTree::Node*, Side, bool, RBTree::Node*) [94]
+                0.00    0.00   39628/60798       RBTree::insertBalance(RBTree::Node*) [90]
+[92]     0.0    0.00    0.00   60798         RBTree::rightRotation(RBTree::Node*) [92]
+                0.00    0.00   60785/223597      RBTree::Node::parentLink() [71]
+-----------------------------------------------
+                0.00    0.00   48914/48914       std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator=(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [30]
+[93]     0.0    0.00    0.00   48914         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::clear() [93]
+                0.00    0.00   48914/297829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_set_length(unsigned long) [70]
+-----------------------------------------------
+                0.00    0.00   44386/44386       RBTree::removeBalance(RBTree::Node*, Side) [13]
+[94]     0.0    0.00    0.00   44386         RBTree::rotation(RBTree::Node*, Side, bool, RBTree::Node*) [94]
+                0.00    0.00   23216/62821       RBTree::leftRotation(RBTree::Node*) [91]
+                0.00    0.00   21170/60798       RBTree::rightRotation(RBTree::Node*) [92]
+-----------------------------------------------
+                0.00    0.00     624/624         unsigned long std::__detail::__mod<unsigned long, 4294967296ul, 1ul, 0ul>(unsigned long) [96]
+[95]     0.0    0.00    0.00     624         std::__detail::_Mod<unsigned long, 4294967296ul, 1ul, 0ul, true, true>::__calc(unsigned long) [95]
+-----------------------------------------------
+                0.00    0.00     624/624         std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::seed(unsigned long) [135]
+[96]     0.0    0.00    0.00     624         unsigned long std::__detail::__mod<unsigned long, 4294967296ul, 1ul, 0ul>(unsigned long) [96]
+                0.00    0.00     624/624         std::__detail::_Mod<unsigned long, 4294967296ul, 1ul, 0ul, true, true>::__calc(unsigned long) [95]
+-----------------------------------------------
+                0.00    0.00     623/623         unsigned long std::__detail::__mod<unsigned long, 624ul, 1ul, 0ul>(unsigned long) [98]
+[97]     0.0    0.00    0.00     623         std::__detail::_Mod<unsigned long, 624ul, 1ul, 0ul, true, true>::__calc(unsigned long) [97]
+-----------------------------------------------
+                0.00    0.00     623/623         std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::seed(unsigned long) [135]
+[98]     0.0    0.00    0.00     623         unsigned long std::__detail::__mod<unsigned long, 624ul, 1ul, 0ul>(unsigned long) [98]
+                0.00    0.00     623/623         std::__detail::_Mod<unsigned long, 624ul, 1ul, 0ul, true, true>::__calc(unsigned long) [97]
+-----------------------------------------------
+                0.00    0.00       3/9           std::chrono::duration<double, std::ratio<1l, 1000l> > std::chrono::__duration_cast_impl<std::chrono::duration<double, std::ratio<1l, 1000l> >, std::ratio<1l, 1000000l>, double, true, false>::__cast<long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [104]
+                0.00    0.00       6/9           std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<long, std::ratio<1l, 1000000000l>, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [109]
+[99]     0.0    0.00    0.00       9         std::chrono::duration<long, std::ratio<1l, 1000000000l> >::count() const [99]
+-----------------------------------------------
+                0.00    0.00       6/6           std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&, std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&) [108]
+[100]    0.0    0.00    0.00       6         std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::time_since_epoch() const [100]
+-----------------------------------------------
+                0.00    0.00       3/6           test_my_rbt(unsigned long) [2]
+                0.00    0.00       3/6           std::chrono::duration<double, std::ratio<1l, 1000l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [106]
+[101]    0.0    0.00    0.00       6         std::chrono::duration<double, std::ratio<1l, 1000l> >::count() const [101]
+-----------------------------------------------
+                0.00    0.00       3/6           std::operator&=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags) [112]
+                0.00    0.00       3/6           std::ios_base::setf(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [110]
+[102]    0.0    0.00    0.00       6         std::operator&(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [102]
+-----------------------------------------------
+                0.00    0.00       3/3           std::chrono::duration<double, std::ratio<1l, 1000l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [106]
+[103]    0.0    0.00    0.00       3         std::enable_if<std::chrono::__is_duration<std::chrono::duration<double, std::ratio<1l, 1000l> > >::value, std::chrono::duration<double, std::ratio<1l, 1000l> > >::type std::chrono::duration_cast<std::chrono::duration<double, std::ratio<1l, 1000l> >, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [103]
+                0.00    0.00       3/3           std::chrono::duration<double, std::ratio<1l, 1000l> > std::chrono::__duration_cast_impl<std::chrono::duration<double, std::ratio<1l, 1000l> >, std::ratio<1l, 1000000l>, double, true, false>::__cast<long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [104]
+-----------------------------------------------
+                0.00    0.00       3/3           std::enable_if<std::chrono::__is_duration<std::chrono::duration<double, std::ratio<1l, 1000l> > >::value, std::chrono::duration<double, std::ratio<1l, 1000l> > >::type std::chrono::duration_cast<std::chrono::duration<double, std::ratio<1l, 1000l> >, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [103]
+[104]    0.0    0.00    0.00       3         std::chrono::duration<double, std::ratio<1l, 1000l> > std::chrono::__duration_cast_impl<std::chrono::duration<double, std::ratio<1l, 1000l> >, std::ratio<1l, 1000000l>, double, true, false>::__cast<long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [104]
+                0.00    0.00       3/9           std::chrono::duration<long, std::ratio<1l, 1000000000l> >::count() const [99]
+                0.00    0.00       3/3           std::chrono::duration<double, std::ratio<1l, 1000l> >::duration<double, void>(double const&) [105]
+-----------------------------------------------
+                0.00    0.00       3/3           std::chrono::duration<double, std::ratio<1l, 1000l> > std::chrono::__duration_cast_impl<std::chrono::duration<double, std::ratio<1l, 1000l> >, std::ratio<1l, 1000000l>, double, true, false>::__cast<long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [104]
+[105]    0.0    0.00    0.00       3         std::chrono::duration<double, std::ratio<1l, 1000l> >::duration<double, void>(double const&) [105]
+-----------------------------------------------
+                0.00    0.00       3/3           test_my_rbt(unsigned long) [2]
+[106]    0.0    0.00    0.00       3         std::chrono::duration<double, std::ratio<1l, 1000l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [106]
+                0.00    0.00       3/3           std::enable_if<std::chrono::__is_duration<std::chrono::duration<double, std::ratio<1l, 1000l> > >::value, std::chrono::duration<double, std::ratio<1l, 1000l> > >::type std::chrono::duration_cast<std::chrono::duration<double, std::ratio<1l, 1000l> >, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [103]
+                0.00    0.00       3/6           std::chrono::duration<double, std::ratio<1l, 1000l> >::count() const [101]
+-----------------------------------------------
+                0.00    0.00       3/3           std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<long, std::ratio<1l, 1000000000l>, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [109]
+[107]    0.0    0.00    0.00       3         std::chrono::duration<long, std::ratio<1l, 1000000000l> >::duration<long, void>(long const&) [107]
+-----------------------------------------------
+                0.00    0.00       3/3           test_my_rbt(unsigned long) [2]
+[108]    0.0    0.00    0.00       3         std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&, std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&) [108]
+                0.00    0.00       6/6           std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::time_since_epoch() const [100]
+                0.00    0.00       3/3           std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<long, std::ratio<1l, 1000000000l>, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [109]
+-----------------------------------------------
+                0.00    0.00       3/3           std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&, std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&) [108]
+[109]    0.0    0.00    0.00       3         std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<long, std::ratio<1l, 1000000000l>, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [109]
+                0.00    0.00       6/9           std::chrono::duration<long, std::ratio<1l, 1000000000l> >::count() const [99]
+                0.00    0.00       3/3           std::chrono::duration<long, std::ratio<1l, 1000000000l> >::duration<long, void>(long const&) [107]
+-----------------------------------------------
+                0.00    0.00       3/3           std::fixed(std::ios_base&) [262]
+[110]    0.0    0.00    0.00       3         std::ios_base::setf(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [110]
+                0.00    0.00       3/3           std::operator~(std::_Ios_Fmtflags) [113]
+                0.00    0.00       3/3           std::operator&=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags) [112]
+                0.00    0.00       3/6           std::operator&(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [102]
+                0.00    0.00       3/3           std::operator|=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags) [114]
+-----------------------------------------------
+                0.00    0.00       3/3           test_my_rbt(unsigned long) [2]
+[111]    0.0    0.00    0.00       3         std::setprecision(int) [111]
+-----------------------------------------------
+                0.00    0.00       3/3           std::ios_base::setf(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [110]
+[112]    0.0    0.00    0.00       3         std::operator&=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags) [112]
+                0.00    0.00       3/6           std::operator&(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [102]
+-----------------------------------------------
+                0.00    0.00       3/3           std::ios_base::setf(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [110]
+[113]    0.0    0.00    0.00       3         std::operator~(std::_Ios_Fmtflags) [113]
+-----------------------------------------------
+                0.00    0.00       3/3           std::ios_base::setf(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [110]
+[114]    0.0    0.00    0.00       3         std::operator|=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags) [114]
+                0.00    0.00       3/3           std::operator|(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [115]
+-----------------------------------------------
+                0.00    0.00       3/3           std::operator|=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags) [114]
+[115]    0.0    0.00    0.00       3         std::operator|(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [115]
+-----------------------------------------------
+                0.00    0.00       1/2           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~_Vector_base() [131]
+                0.00    0.00       1/2           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::reserve(unsigned long) [42]
+[116]    0.0    0.00    0.00       2         std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_deallocate(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, unsigned long) [116]
+                0.00    0.00       1/1           std::__new_allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::deallocate(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, unsigned long) [132]
+-----------------------------------------------
+                0.00    0.00       1/2           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~vector() [36]
+                0.00    0.00       1/2           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::reserve(unsigned long) [42]
+[117]    0.0    0.00    0.00       2         std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_get_Tp_allocator() [117]
+-----------------------------------------------
+                0.00    0.00       1/1           RBTree::~RBTree() [120]
+[118]    0.0    0.00    0.00       1         RBTree::destroy(RBTree::Node*) [118]
+-----------------------------------------------
+                0.00    0.00       1/1           test_my_rbt(unsigned long) [2]
+[119]    0.0    0.00    0.00       1         RBTree::RBTree() [119]
+-----------------------------------------------
+                0.00    0.00       1/1           test_my_rbt(unsigned long) [2]
+[120]    0.0    0.00    0.00       1         RBTree::~RBTree() [120]
+                0.00    0.00       1/1           RBTree::destroy(RBTree::Node*) [118]
+-----------------------------------------------
+                0.00    0.00       1/1           std::__cxx11::stoull(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned long*, int) [142]
+[121]    0.0    0.00    0.00       1         unsigned long long __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int) [121]
+                0.00    0.00       1/1           __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int)::_Save_errno::_Save_errno() [146]
+                0.00    0.00       1/1           __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int)::_Range_chk::_S_chk(unsigned long long, std::integral_constant<bool, false>) [145]
+                0.00    0.00       1/1           __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int)::_Save_errno::~_Save_errno() [147]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::max_size() const [40]
+[122]    0.0    0.00    0.00       1         std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_get_Tp_allocator() const [122]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::reserve(unsigned long) [42]
+[123]    0.0    0.00    0.00       1         std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::capacity() const [123]
+-----------------------------------------------
+                0.00    0.00       1/1           std::__cxx11::stoull(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned long*, int) [142]
+[124]    0.0    0.00    0.00       1         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::c_str() const [124]
+                0.00    0.00       1/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data() const [49]
+-----------------------------------------------
+                0.00    0.00       1/1           std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(char const*, std::allocator<char> const&) [141]
+[125]    0.0    0.00    0.00       1         std::char_traits<char>::length(char const*) [125]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::reserve(unsigned long) [42]
+[126]    0.0    0.00    0.00       1         std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_allocate(unsigned long) [126]
+                0.00    0.00       1/1           std::__new_allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::allocate(unsigned long, void const*) [133]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_base() [130]
+[127]    0.0    0.00    0.00       1         std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_impl::_Vector_impl() [127]
+                0.00    0.00       1/1           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_impl_data::_Vector_impl_data() [129]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~_Vector_base() [131]
+[128]    0.0    0.00    0.00       1         std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_impl::~_Vector_impl() [128]
+                0.00    0.00       1/1           std::__new_allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::~__new_allocator() [134]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_impl::_Vector_impl() [127]
+[129]    0.0    0.00    0.00       1         std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_impl_data::_Vector_impl_data() [129]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::vector() [138]
+[130]    0.0    0.00    0.00       1         std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_base() [130]
+                0.00    0.00       1/1           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_impl::_Vector_impl() [127]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~vector() [36]
+[131]    0.0    0.00    0.00       1         std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~_Vector_base() [131]
+                0.00    0.00       1/2           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_deallocate(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, unsigned long) [116]
+                0.00    0.00       1/1           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_impl::~_Vector_impl() [128]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_deallocate(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, unsigned long) [116]
+[132]    0.0    0.00    0.00       1         std::__new_allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::deallocate(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, unsigned long) [132]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_allocate(unsigned long) [126]
+[133]    0.0    0.00    0.00       1         std::__new_allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::allocate(unsigned long, void const*) [133]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_impl::~_Vector_impl() [128]
+[134]    0.0    0.00    0.00       1         std::__new_allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::~__new_allocator() [134]
+-----------------------------------------------
+                0.00    0.00       1/1           std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::mersenne_twister_engine(unsigned long) [136]
+[135]    0.0    0.00    0.00       1         std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::seed(unsigned long) [135]
+                0.00    0.00     624/624         unsigned long std::__detail::__mod<unsigned long, 4294967296ul, 1ul, 0ul>(unsigned long) [96]
+                0.00    0.00     623/623         unsigned long std::__detail::__mod<unsigned long, 624ul, 1ul, 0ul>(unsigned long) [98]
+-----------------------------------------------
+                0.00    0.00       1/1           test_my_rbt(unsigned long) [2]
+[136]    0.0    0.00    0.00       1         std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::mersenne_twister_engine(unsigned long) [136]
+                0.00    0.00       1/1           std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::seed(unsigned long) [135]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::reserve(unsigned long) [42]
+[137]    0.0    0.00    0.00       1         std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_S_relocate(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >&) [137]
+                0.00    0.00       1/1           std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >* std::__relocate_a<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >&) [143]
+-----------------------------------------------
+                0.00    0.00       1/1           test_my_rbt(unsigned long) [2]
+[138]    0.0    0.00    0.00       1         std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::vector() [138]
+                0.00    0.00       1/1           std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_base() [130]
+-----------------------------------------------
+                0.00    0.00       1/1           std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(char const*, std::allocator<char> const&) [141]
+[139]    0.0    0.00    0.00       1         void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag) [139]
+                0.00    0.00       1/1           std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag)::_Guard::_Guard(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*) [148]
+                0.00    0.00       1/16153770     std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data() const [49]
+                0.00    0.00       1/1           void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_copy_chars<char const*>(char*, char const*, char const*) [140]
+                0.00    0.00       1/1           std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag)::_Guard::~_Guard() [149]
+                0.00    0.00       1/297829      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_set_length(unsigned long) [70]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag) [139]
+[140]    0.0    0.00    0.00       1         void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_copy_chars<char const*>(char*, char const*, char const*) [140]
+                0.00    0.00       1/448915      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_copy(char*, char const*, unsigned long) [64]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[141]    0.0    0.00    0.00       1         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(char const*, std::allocator<char> const&) [141]
+                0.00    0.00       1/700001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_local_data() [59]
+                0.00    0.00       1/100001      std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider::_Alloc_hider(char*, std::allocator<char> const&) [76]
+                0.00    0.00       1/1           std::char_traits<char>::length(char const*) [125]
+                0.00    0.00       1/1           void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag) [139]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[142]    0.0    0.00    0.00       1         std::__cxx11::stoull(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned long*, int) [142]
+                0.00    0.00       1/1           std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::c_str() const [124]
+                0.00    0.00       1/1           unsigned long long __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int) [121]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_S_relocate(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >&) [137]
+[143]    0.0    0.00    0.00       1         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >* std::__relocate_a<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >&) [143]
+                0.00    0.00       1/1           std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >* std::__relocate_a_1<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >&) [144]
+-----------------------------------------------
+                0.00    0.00       1/1           std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >* std::__relocate_a<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >&) [143]
+[144]    0.0    0.00    0.00       1         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >* std::__relocate_a_1<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >&) [144]
+-----------------------------------------------
+                0.00    0.00       1/1           unsigned long long __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int) [121]
+[145]    0.0    0.00    0.00       1         __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int)::_Range_chk::_S_chk(unsigned long long, std::integral_constant<bool, false>) [145]
+-----------------------------------------------
+                0.00    0.00       1/1           unsigned long long __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int) [121]
+[146]    0.0    0.00    0.00       1         __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int)::_Save_errno::_Save_errno() [146]
+-----------------------------------------------
+                0.00    0.00       1/1           unsigned long long __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int) [121]
+[147]    0.0    0.00    0.00       1         __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int)::_Save_errno::~_Save_errno() [147]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag) [139]
+[148]    0.0    0.00    0.00       1         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag)::_Guard::_Guard(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*) [148]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag) [139]
+[149]    0.0    0.00    0.00       1         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag)::_Guard::~_Guard() [149]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2025 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+   [2] test_my_rbt(unsigned long) [62] std::char_traits<char>::copy(char*, char const*, unsigned long) [76] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider::_Alloc_hider(char*, std::allocator<char> const&)
+  [14] random_string[abi:cxx11](unsigned long, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [80] std::char_traits<char>::assign(char*, unsigned long, char) [61] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider::~_Alloc_hider()
+   [3] run_comparison(unsigned long) [69] std::char_traits<char>::assign(char&, char const&) [85] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct(unsigned long, char)
+  [91] RBTree::leftRotation(RBTree::Node*) [125] std::char_traits<char>::length(char const*) [65] void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<true>(char const*, unsigned long)
+  [90] RBTree::insertBalance(RBTree::Node*) [52] std::char_traits<char>::compare(char const*, char const*, unsigned long) [139] void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag)
+  [13] RBTree::removeBalance(RBTree::Node*, Side) [126] std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_allocate(unsigned long) [59] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_local_data()
+  [92] RBTree::rightRotation(RBTree::Node*) [127] std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_impl::_Vector_impl() [70] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_set_length(unsigned long)
+  [71] RBTree::Node::parentLink() [128] std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_impl::~_Vector_impl() [140] void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_copy_chars<char const*>(char*, char const*, char const*)
+  [73] RBTree::Node::bro()   [116] std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_deallocate(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, unsigned long) [20] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_get_allocator()
+  [74] RBTree::Node::uncle() [129] std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_impl_data::_Vector_impl_data() [39] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::end()
+  [75] RBTree::Node::grandpa() [117] std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_get_Tp_allocator() [68] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::begin()
+  [60] RBTree::Node::isLeftSon() [130] std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_Vector_base() [93] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::clear()
+  [32] RBTree::Node::Node(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned long long, RBTree::Node*, RBTree::Node::Color) [131] std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~_Vector_base() [86] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data(char*)
+  [34] RBTree::Node::~Node() [132] std::__new_allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::deallocate(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, unsigned long) [64] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_copy(char*, char const*, unsigned long)
+  [11] RBTree::find(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [133] std::__new_allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::allocate(unsigned long, void const*) [57] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_length(unsigned long)
+   [8] RBTree::_find(RBTree::Node*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [134] std::__new_allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::~__new_allocator() [87] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_assign(char*, unsigned long, char)
+   [9] RBTree::insert(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned long long) [54] std::__new_allocator<char>::~__new_allocator() [29] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&)
+   [4] RBTree::remove(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [56] std::__ptr_traits_ptr_to<char const*, char const, false>::pointer_to(char const&) [15] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+   [7] RBTree::_remove(RBTree::Node*) [58] std::__ptr_traits_ptr_to<char*, char, false>::pointer_to(char&) [141] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(char const*, std::allocator<char> const&)
+ [118] RBTree::destroy(RBTree::Node*) [22] std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::_M_gen_rand() [88] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(unsigned long, char, std::allocator<char> const&)
+  [21] RBTree::minNode(RBTree::Node*) [135] std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::seed(unsigned long) [26] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string()
+  [38] RBTree::toUpper(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [136] std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::mersenne_twister_engine(unsigned long) [30] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator=(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&)
+  [94] RBTree::rotation(RBTree::Node*, Side, bool, RBTree::Node*) [16] std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::operator()() [31] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator[](unsigned long)
+ [119] RBTree::RBTree()       [81] std::uniform_int_distribution<int>::param_type::param_type(int, int) [142] std::__cxx11::stoull(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned long*, int)
+ [120] RBTree::~RBTree()      [17] unsigned int std::uniform_int_distribution<int>::_S_nd<unsigned long, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, unsigned int>(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, unsigned int) [95] std::__detail::_Mod<unsigned long, 4294967296ul, 1ul, 0ul, true, true>::__calc(unsigned long)
+ [121] unsigned long long __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int) [82] std::uniform_int_distribution<int>::uniform_int_distribution(int, int) [97] std::__detail::_Mod<unsigned long, 624ul, 1ul, 0ul, true, true>::__calc(unsigned long)
+ [122] std::_Vector_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_get_Tp_allocator() const [18] int std::uniform_int_distribution<int>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [96] unsigned long std::__detail::__mod<unsigned long, 4294967296ul, 1ul, 0ul>(unsigned long)
+  [53] std::uniform_int_distribution<int>::param_type::a() const [19] int std::uniform_int_distribution<int>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::uniform_int_distribution<int>::param_type const&) [98] unsigned long std::__detail::__mod<unsigned long, 624ul, 1ul, 0ul>(unsigned long)
+  [55] std::uniform_int_distribution<int>::param_type::b() const [103] std::enable_if<std::chrono::__is_duration<std::chrono::duration<double, std::ratio<1l, 1000l> > >::value, std::chrono::duration<double, std::ratio<1l, 1000l> > >::type std::chrono::duration_cast<std::chrono::duration<double, std::ratio<1l, 1000l> >, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [110] std::ios_base::setf(std::_Ios_Fmtflags, std::_Ios_Fmtflags)
+ [100] std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::time_since_epoch() const [104] std::chrono::duration<double, std::ratio<1l, 1000l> > std::chrono::__duration_cast_impl<std::chrono::duration<double, std::ratio<1l, 1000l> >, std::ratio<1l, 1000000l>, double, true, false>::__cast<long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [143] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >* std::__relocate_a<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >&)
+ [101] std::chrono::duration<double, std::ratio<1l, 1000l> >::count() const [105] std::chrono::duration<double, std::ratio<1l, 1000l> >::duration<double, void>(double const&) [111] std::setprecision(int)
+  [99] std::chrono::duration<long, std::ratio<1l, 1000000000l> >::count() const [106] std::chrono::duration<double, std::ratio<1l, 1000l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [144] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >* std::__relocate_a_1<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >&)
+  [77] std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::end() const [107] std::chrono::duration<long, std::ratio<1l, 1000000000l> >::duration<long, void>(long const&) [12] unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&)
+  [66] std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::size() const [108] std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&, std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&) [35] void std::_Destroy<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*)
+  [78] std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::begin() const [109] std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<long, std::ratio<1l, 1000000000l>, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [37] void std::_Destroy<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*)
+  [79] std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::empty() const [41] std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_S_max_size(std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > const&) [112] std::operator&=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags)
+ [123] std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::capacity() const [137] std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_S_relocate(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >&) [102] std::operator&(std::_Ios_Fmtflags, std::_Ios_Fmtflags)
+  [40] std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::max_size() const [27] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >& std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::emplace_back<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [113] std::operator~(std::_Ios_Fmtflags)
+  [23] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_is_local() const [83] std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::end() [114] std::operator|=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags)
+  [24] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_local_data() const [84] std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::back() [115] std::operator|(std::_Ios_Fmtflags, std::_Ios_Fmtflags)
+  [50] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_get_allocator() const [42] std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::reserve(unsigned long) [145] __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int)::_Range_chk::_S_chk(unsigned long long, std::integral_constant<bool, false>)
+  [51] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::data() const [28] std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::push_back(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) [146] __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int)::_Save_errno::_Save_errno()
+   [5] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::size() const [138] std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::vector() [147] __gnu_cxx::__stoa<unsigned long long, unsigned long long, char, int>(unsigned long long (*)(char const*, char**, int), char const*, char const*, unsigned long*, int)::_Save_errno::~_Save_errno()
+ [124] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::c_str() const [36] std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~vector() [148] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag)::_Guard::_Guard(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*)
+  [33] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::length() const [67] std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::operator[](unsigned long) [149] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag)::_Guard::~_Guard()
+  [49] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_data() const [25] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_dispose() [89] operator new(unsigned long, void*)
+   [6] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::compare(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const [72] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_compare(unsigned long, unsigned long)
+  [10] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::max_size() const [63] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider::_Alloc_hider(char*, std::allocator<char>&&)

@@ -1,0 +1,54 @@
+basic:
+
+root@66a8fcab42ba:/workspaces/discran-labs/laba-3# g++ ../laba-2/banch.cpp -o banch
+root@66a8fcab42ba:/workspaces/discran-labs/laba-3# ./banch 100000
+
+=== Comparison for 100000 operations ===
+
+RBTree:
+  Insert: 586.437 ms
+  Find:   599.377 ms
+  Remove: 546.939 ms
+
+std::map:
+  Insert: 378.869 ms
+  Find:   307.703 ms
+  Remove: 430.837 ms
+
+
+=============================================================================
+less str comparisons (from == and < to str.compare(str)):
+
+root@66a8fcab42ba:/workspaces/discran-labs/laba-3# g++ banch.cpp -o banch
+root@66a8fcab42ba:/workspaces/discran-labs/laba-3# ./banch 100000
+
+=== Comparison for 100000 operations ===
+
+RBTree:
+  Insert: 307.848 ms
+  Find:   297.758 ms
+  Remove: 313.437 ms
+
+std::map:
+  Insert: 393.725 ms
+  Find:   317.255 ms
+  Remove: 431.335 ms
+
+
+==============================================================================
+from recursive to iterative:
+
+root@66a8fcab42ba:/workspaces/discran-labs/laba-3# g++ banch.cpp -o banch
+root@66a8fcab42ba:/workspaces/discran-labs/laba-3# ./banch 100000
+
+=== Comparison for 100000 operations ===
+
+RBTree:
+  Insert: 288.581 ms
+  Find:   281.095 ms
+  Remove: 288.604 ms
+
+std::map:
+  Insert: 387.469 ms
+  Find:   320.577 ms
+  Remove: 433.537 ms
