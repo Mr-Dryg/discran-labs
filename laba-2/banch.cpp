@@ -98,7 +98,7 @@ void test_std_map(size_t num_operations) {
 void run_comparison(size_t num_operations) {
     std::cout << "\n=== Comparison for " << num_operations << " operations ===" << std::endl;
     test_my_rbt(num_operations);
-    test_std_map(num_operations);
+    // test_std_map(num_operations);
 }
 
 int main(int argc, char* argv[]) {
