@@ -97,8 +97,7 @@ class Scanner {
     const Node* cur;
 
     struct Match {
-        size_t line;
-        size_t pos;
+        size_t abs_pos;
         size_t pattern_id;
     };
 
@@ -106,20 +105,9 @@ class Scanner {
     size_t absolute_pos;
     std::vector<size_t> line_starts;
 
-    std::pair<size_t, size_t> getLineAndColumn(size_t end_pos, size_t pattern_length) {
-        size_t start_pos = end_pos - pattern_length + 1;
-        auto it = std::upper_bound(line_starts.begin(), line_starts.end(), start_pos);
-        size_t line = std::distance(line_starts.begin(), it);
-        size_t line_start = *(--it);
-        return {line, start_pos - line_start + 1};
-    }
-
     void saveMatch(size_t absolute_end, size_t pattern_id) {
-        auto [line, pos] = getLineAndColumn(
-            absolute_end,
-            trie.getPatternLength(pattern_id)
-        );
-        mathes.emplace_back(line, pos, pattern_id);
+        size_t abs_pos = absolute_end - trie.getPatternLength(pattern_id) + 1;
+        mathes.emplace_back(abs_pos, pattern_id);
     }
 
 public:
@@ -144,7 +132,6 @@ public:
 
         if (cur->pattern_id != 0) {
             saveMatch(absolute_pos, cur->pattern_id);
-            
         }
 
         Node* out = cur->out;
@@ -157,6 +144,13 @@ public:
     void feedNewline() {
         line_starts.push_back(absolute_pos + 1);
         return;
+    }
+
+    std::pair<size_t, size_t> getLineAndColumn(size_t start_pos) {
+        auto it = std::upper_bound(line_starts.begin(), line_starts.end(), start_pos);
+        size_t line = std::distance(line_starts.begin(), it);
+        size_t line_start = *(--it);
+        return {line, start_pos - line_start + 1};
     }
 
     std::vector<Match> getResults(void) {
@@ -187,7 +181,9 @@ int main(void) {
     }
 
     for (auto match : scanner.getResults()) {
-        std::cout << match.line << ", " << match.pos;
+        // auto [line, pos] = scanner.getLineAndColumn(match.abs_pos);
+        // std::cout << line << ", " << pos;
+        std::cout << match.abs_pos;
         if (patterns.size() > 1) {
             std::cout << ", " << match.pattern_id;
         }
