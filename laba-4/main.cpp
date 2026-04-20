@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iostream>
 #include <queue>
 #include <unordered_map>
 #include <vector>
@@ -27,6 +28,7 @@ class Trie {
     Node* cur;
     std::vector<size_t> pattern_lengths;
     std::vector<Match> mathes;
+    size_t absolute_pos;
     std::vector<size_t> line_starts;
 
     void buildLinks(void) {
@@ -76,17 +78,19 @@ class Trie {
         return {line, start_pos - line_start + 1};
     }
 
-    void saveMatch(Node* node) {
+    void saveMatch(size_t absolute_end, size_t pattern_id) {
         auto [line, pos] = getLineAndColumn(
-            *(--line_starts.end()),
-            pattern_lengths[node->pattern_id - 1]
+            absolute_end,
+            pattern_lengths[pattern_id - 1]
         );
-        mathes.emplace_back(line, pos, node->pattern_id);
+        mathes.emplace_back(line, pos, pattern_id);
     }
 
 public:
     Trie(const std::vector<std::vector<unsigned int>>& patterns) {
         pattern_lengths.resize(patterns.size());
+        absolute_pos = 0;
+        line_starts.push_back(1);
 
         root = new Node;
         cur = root;
@@ -108,16 +112,13 @@ public:
         delete root;
     }
 
-    void feedSymbol(unsigned int c, size_t pos) {
-        if (pos == 1) {
-            line_starts.push_back(0);
-            if (line_starts.size() > 1) {
-                auto last = --line_starts.end();
-                *last += *(last - 1);
-            }
-        }
-        auto last = --line_starts.end();
-        *last += pos;
+    void feedNewline() {
+        line_starts.push_back(absolute_pos + 1);
+        return;
+    }
+
+    void feedSymbol(const unsigned int c) {
+        ++absolute_pos;
 
         while (!cur->next.contains(c) && cur != root) {
             cur = cur->fail;
@@ -130,12 +131,12 @@ public:
         }
 
         if (cur->pattern_id != 0) {
-            saveMatch(cur);
+            saveMatch(absolute_pos, cur->pattern_id);
         }
 
         Node* out = cur->out;
         while (out) {
-            saveMatch(out);
+            saveMatch(absolute_pos, out->pattern_id);
             out = out->out;
         }
     }
@@ -146,5 +147,31 @@ public:
 };
 
 int main(void) {
-    
+    std::vector<unsigned int> p1 = {1};
+    std::vector<unsigned int> p2 = {02};
+    std::vector<std::vector<unsigned int>> patterns = {p1, p2};
+
+    Trie trie(patterns);
+
+    std::vector<std::vector<unsigned int>> text = {
+        {0001},
+        {1},
+        {02},
+        {2}
+    };
+
+    for (const auto& line : text) {
+        for (const auto& word : line) {
+            trie.feedSymbol(word);
+        }
+        trie.feedNewline();
+    }
+
+    for (auto match : trie.getResults()) {
+        std::cout << match.line << ", " << match.pos;
+        if (patterns.size() > 1) {
+            std::cout << ", " << match.pattern_id;
+        }
+        std::cout << '\n';
+    }
 }
