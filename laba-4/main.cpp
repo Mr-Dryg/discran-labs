@@ -4,32 +4,22 @@
 #include <unordered_map>
 #include <vector>
 
-class Trie {
-    struct Node {
-        std::unordered_map<unsigned int, Node*> next;  // try map to dicrease time/memmory
-        size_t pattern_id = 0;
-        Node* fail = nullptr;
-        Node* out = nullptr;
+struct Node {
+    std::unordered_map<unsigned int, Node*> next;  // try map to dicrease time/memmory
+    size_t pattern_id = 0;
+    Node* fail = nullptr;
+    Node* out = nullptr;
 
-        ~Node() {
-            for (auto& [_, child] : next) {
-                delete child;
-            }
+    ~Node() {
+        for (auto& [_, child] : next) {
+            delete child;
         }
-    };
+    }
+};
 
-    struct Match {
-        size_t line;
-        size_t pos;
-        size_t pattern_id;
-    };
-
+class Trie {
     Node* root;
-    Node* cur;
     std::vector<size_t> pattern_lengths;
-    std::vector<Match> mathes;
-    size_t absolute_pos;
-    std::vector<size_t> line_starts;
 
     void buildLinks(void) {
         std::queue<Node*> nodes;
@@ -70,30 +60,11 @@ class Trie {
         }
     }
 
-    std::pair<size_t, size_t> getLineAndColumn(size_t end_pos, size_t pattern_length) {
-        size_t start_pos = end_pos - pattern_length + 1;
-        auto it = std::upper_bound(line_starts.begin(), line_starts.end(), start_pos);
-        size_t line = std::distance(line_starts.begin(), it);
-        size_t line_start = *(--it);
-        return {line, start_pos - line_start + 1};
-    }
-
-    void saveMatch(size_t absolute_end, size_t pattern_id) {
-        auto [line, pos] = getLineAndColumn(
-            absolute_end,
-            pattern_lengths[pattern_id - 1]
-        );
-        mathes.emplace_back(line, pos, pattern_id);
-    }
-
 public:
     Trie(const std::vector<std::vector<unsigned int>>& patterns) {
         pattern_lengths.resize(patterns.size());
-        absolute_pos = 0;
-        line_starts.push_back(1);
 
         root = new Node;
-        cur = root;
         for (size_t i = 0; i < patterns.size(); ++i) {
             Node* cur_node = root;
             for (const auto& symbol : patterns[i]) {
@@ -112,26 +83,68 @@ public:
         delete root;
     }
 
-    void feedNewline() {
-        line_starts.push_back(absolute_pos + 1);
-        return;
+    Node* getRoot() const {
+        return root;
     }
 
-    void feedSymbol(const unsigned int c) {
+    size_t getPatternLength(size_t id) const {
+        return pattern_lengths[id - 1];
+    }
+};
+
+class Scanner {
+    const Trie& trie;
+    const Node* cur;
+
+    struct Match {
+        size_t line;
+        size_t pos;
+        size_t pattern_id;
+    };
+
+    std::vector<Match> mathes;
+    size_t absolute_pos;
+    std::vector<size_t> line_starts;
+
+    std::pair<size_t, size_t> getLineAndColumn(size_t end_pos, size_t pattern_length) {
+        size_t start_pos = end_pos - pattern_length + 1;
+        auto it = std::upper_bound(line_starts.begin(), line_starts.end(), start_pos);
+        size_t line = std::distance(line_starts.begin(), it);
+        size_t line_start = *(--it);
+        return {line, start_pos - line_start + 1};
+    }
+
+    void saveMatch(size_t absolute_end, size_t pattern_id) {
+        auto [line, pos] = getLineAndColumn(
+            absolute_end,
+            trie.getPatternLength(pattern_id)
+        );
+        mathes.emplace_back(line, pos, pattern_id);
+    }
+
+public:
+    Scanner(const Trie& trie) : trie(trie) {
+        cur = trie.getRoot();
+        absolute_pos = 0;
+        line_starts.push_back(1);
+    }
+
+    void feedSymbol(const unsigned int symbol) {
         ++absolute_pos;
 
-        while (!cur->next.contains(c) && cur != root) {
+        while (!cur->next.contains(symbol) && cur != trie.getRoot()) {
             cur = cur->fail;
         }
-        if (cur->next.contains(c)) {
-            cur = cur->next[c];
+        if (cur->next.contains(symbol)) {
+            cur = cur->next.find(symbol)->second;
         }
         else {
-            cur = root;
+            cur = trie.getRoot();
         }
 
         if (cur->pattern_id != 0) {
             saveMatch(absolute_pos, cur->pattern_id);
+            
         }
 
         Node* out = cur->out;
@@ -139,6 +152,11 @@ public:
             saveMatch(absolute_pos, out->pattern_id);
             out = out->out;
         }
+    }
+
+    void feedNewline() {
+        line_starts.push_back(absolute_pos + 1);
+        return;
     }
 
     std::vector<Match> getResults(void) {
@@ -152,6 +170,7 @@ int main(void) {
     std::vector<std::vector<unsigned int>> patterns = {p1, p2};
 
     Trie trie(patterns);
+    Scanner scanner(trie);
 
     std::vector<std::vector<unsigned int>> text = {
         {0001},
@@ -162,12 +181,12 @@ int main(void) {
 
     for (const auto& line : text) {
         for (const auto& word : line) {
-            trie.feedSymbol(word);
+            scanner.feedSymbol(word);
         }
-        trie.feedNewline();
+        scanner.feedNewline();
     }
 
-    for (auto match : trie.getResults()) {
+    for (auto match : scanner.getResults()) {
         std::cout << match.line << ", " << match.pos;
         if (patterns.size() > 1) {
             std::cout << ", " << match.pattern_id;
