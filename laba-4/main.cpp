@@ -90,29 +90,29 @@ public:
     size_t getPatternLength(size_t id) const {
         return pattern_lengths[id - 1];
     }
+
+    size_t getPatternNumber() const {
+        return pattern_lengths.size();
+    }
 };
 
 class Scanner {
     const Trie& trie;
     const Node* cur;
 
-    struct Match {
-        size_t abs_pos;
-        size_t pattern_id;
-    };
-
-    std::vector<Match> mathes;
+    std::vector<std::vector<size_t>> mathes;
     size_t absolute_pos;
     std::vector<size_t> line_starts;
 
     void saveMatch(size_t absolute_end, size_t pattern_id) {
         size_t abs_pos = absolute_end - trie.getPatternLength(pattern_id) + 1;
-        mathes.emplace_back(abs_pos, pattern_id);
+        mathes[pattern_id - 1].push_back(abs_pos);
     }
 
 public:
     Scanner(const Trie& trie) : trie(trie) {
         cur = trie.getRoot();
+        mathes.resize(trie.getPatternNumber());
         absolute_pos = 0;
         line_starts.push_back(1);
     }
@@ -153,7 +153,7 @@ public:
         return {line, start_pos - line_start + 1};
     }
 
-    std::vector<Match> getResults(void) {
+    const std::vector<std::vector<size_t>>& getResults(void) {
         return mathes;
     }
 };
@@ -180,13 +180,16 @@ int main(void) {
         scanner.feedNewline();
     }
 
-    for (auto match : scanner.getResults()) {
-        // auto [line, pos] = scanner.getLineAndColumn(match.abs_pos);
-        // std::cout << line << ", " << pos;
-        std::cout << match.abs_pos;
-        if (patterns.size() > 1) {
-            std::cout << ", " << match.pattern_id;
+    const std::vector<std::vector<size_t>>& mathes = scanner.getResults();
+    for (int pattern_id = 1; pattern_id <= patterns.size(); ++pattern_id) {
+        for (auto& abs_pos : mathes[pattern_id - 1]) {
+            // auto [line, pos] = scanner.getLineAndColumn(abs_pos);
+            // std::cout << line << ", " << pos;
+            std::cout << abs_pos;
+            if (patterns.size() > 1) {
+                std::cout << ", " << pattern_id;
+            }
+            std::cout << '\n';
         }
-        std::cout << '\n';
     }
 }
