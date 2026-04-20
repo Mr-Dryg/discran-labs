@@ -1,6 +1,8 @@
 #include <algorithm>
 #include <iostream>
 #include <queue>
+#include <sstream>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -158,35 +160,123 @@ public:
     }
 };
 
-int main(void) {
-    std::vector<unsigned int> p1 = {1};
-    std::vector<unsigned int> p2 = {02};
-    std::vector<std::vector<unsigned int>> patterns = {p1, p2};
+class Pattern {
+    struct Symbol {
+        unsigned int value;
+        bool isJoker = false;
 
-    Trie trie(patterns);
-    Scanner scanner(trie);
-
-    std::vector<std::vector<unsigned int>> text = {
-        {0001},
-        {1},
-        {02},
-        {2}
+        Symbol(unsigned int value, bool isJoker) : value(value), isJoker(isJoker) {}
     };
 
-    for (const auto& line : text) {
-        for (const auto& word : line) {
-            scanner.feedSymbol(word);
+    std::vector<Symbol> pattern;
+
+public:
+    Pattern(std::istream& is) {
+        unsigned int num;
+        while (true) {
+            while (is >> num) {
+                pattern.emplace_back(num, false);
+            }
+            if (is.eof()) {
+                return;
+            }
+            // std::cin.clear();
+            // std::string joker;
+            // is >> joker;
+            // if (joker != "?") {  // check and fix
+            //     is.seekg(0);
+            //     throw std::runtime_error("Invalid symbol in pattern: expected a joker (\"?\")");
+            // }
+            // pattern.emplace_back(0, true);
+        }
+    }
+
+    std::vector<std::vector<unsigned int>> getPattern() const{
+        std::vector<std::vector<unsigned int>> res;
+        res.resize(1);
+        int i = 0;
+        for (const auto& symbol : pattern) {
+            if (!symbol.isJoker) {
+                res[i].push_back(symbol.value);
+            }
+            else {
+                res.resize(++i);
+            }
+        }
+        return res;
+    }
+};
+
+int main(void) {
+    std::vector<Pattern> patterns;
+
+    std::string line;
+    std::istringstream iss;
+
+    std::getline(std::cin, line);
+    iss.str(std::move(line));
+    patterns.emplace_back(iss);
+
+    std::vector<std::string> buffer;
+    while (std::getline(std::cin, line) && line != "") {
+        buffer.push_back(std::move(line));
+    }
+
+    if (!std::cin.eof() && line == "") {
+        for (auto& line : buffer) {
+            iss.str(std::move(line));
+            patterns.emplace_back(iss);
+        }
+        buffer.clear();
+    }
+
+    std::vector<std::vector<unsigned int>> patterns_without_jokers;
+    for (const auto& pattern : patterns) {
+        auto p = pattern.getPattern();
+        patterns_without_jokers.insert(
+            patterns_without_jokers.end(),
+            std::make_move_iterator(p.begin()),
+            std::make_move_iterator(p.end())
+        );
+    }
+
+    Trie trie(patterns_without_jokers);
+    Scanner scanner(trie);
+
+    // std::vector<std::vector<unsigned int>> text = {
+    //     {0001},
+    //     {1},
+    //     {02},
+    //     {2}
+    // };
+
+    unsigned int num;
+    if (!buffer.empty()) {
+        for (auto& line : buffer) {
+            iss.str(std::move(line));
+            while (iss >> num) {
+                scanner.feedSymbol(num);
+            }
+            scanner.feedNewline();
+        }
+        buffer.clear();
+    }
+
+    while (std::getline(std::cin, line)) {
+        iss.str(std::move(line));
+        while (iss >> num) {
+            scanner.feedSymbol(num);
         }
         scanner.feedNewline();
     }
 
     const std::vector<std::vector<size_t>>& mathes = scanner.getResults();
-    for (int pattern_id = 1; pattern_id <= patterns.size(); ++pattern_id) {
+    for (int pattern_id = 1; pattern_id <= patterns_without_jokers.size(); ++pattern_id) {
         for (auto& abs_pos : mathes[pattern_id - 1]) {
             // auto [line, pos] = scanner.getLineAndColumn(abs_pos);
             // std::cout << line << ", " << pos;
             std::cout << abs_pos;
-            if (patterns.size() > 1) {
+            if (patterns_without_jokers.size() > 1) {
                 std::cout << ", " << pattern_id;
             }
             std::cout << '\n';
