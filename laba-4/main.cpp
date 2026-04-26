@@ -120,6 +120,7 @@ public:
     }
 
     void feedSymbol(const unsigned int symbol) {
+        // std::cout << "FEED: " << symbol << '\n';
         ++absolute_pos;
 
         while (!cur->next.contains(symbol) && cur != trie.getRoot()) {
@@ -168,26 +169,24 @@ class Pattern {
         Symbol(unsigned int value, bool isJoker) : value(value), isJoker(isJoker) {}
     };
 
-    std::vector<Symbol> pattern;
+    std::vector<Symbol> symbols;
 
 public:
     Pattern(std::istream& is) {
         unsigned int num;
-        while (true) {
-            while (is >> num) {
-                pattern.emplace_back(num, false);
+        std::string token;
+        
+        while (is >> token) {
+            if (token == "?") {
+                symbols.emplace_back(0, true);
+            } else {
+                try {
+                    num = std::stoul(token);
+                    symbols.emplace_back(num, false);
+                } catch (...) {
+                    throw std::runtime_error("Invalid token: \"" + token + "\"");
+                }
             }
-            if (is.eof()) {
-                return;
-            }
-            // std::cin.clear();
-            // std::string joker;
-            // is >> joker;
-            // if (joker != "?") {  // check and fix
-            //     is.seekg(0);
-            //     throw std::runtime_error("Invalid symbol in pattern: expected a joker (\"?\")");
-            // }
-            // pattern.emplace_back(0, true);
         }
     }
 
@@ -195,15 +194,27 @@ public:
         std::vector<std::vector<unsigned int>> res;
         res.resize(1);
         int i = 0;
-        for (const auto& symbol : pattern) {
+        for (const auto& symbol : symbols) {
             if (!symbol.isJoker) {
                 res[i].push_back(symbol.value);
             }
             else {
-                res.resize(++i);
+                res.resize(++i + 1);
             }
         }
         return res;
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, Pattern& pattern) {
+        for (auto& symbol : pattern.symbols) {
+            if (symbol.isJoker) {
+                std::cout << " ?";
+            }
+            else {
+                std::cout << " " << symbol.value;
+            }
+        }
+        return os;
     }
 };
 
@@ -216,19 +227,30 @@ int main(void) {
     std::getline(std::cin, line);
     iss.str(std::move(line));
     patterns.emplace_back(iss);
+    iss.clear();
 
     std::vector<std::string> buffer;
     while (std::getline(std::cin, line) && line != "") {
         buffer.push_back(std::move(line));
     }
 
+    // std::cout << "BUFFER:\n";
+    // for (auto& line : buffer) {
+    //     std::cout << line << "\n";
+    // }
+
     if (!std::cin.eof() && line == "") {
         for (auto& line : buffer) {
             iss.str(std::move(line));
             patterns.emplace_back(iss);
+            iss.clear();
         }
         buffer.clear();
     }
+
+    // for (int i = 0; i < patterns.size(); ++i) {
+    //     std::cout << "PATTERNS[" << i << "]: " << patterns[i] << "\n";
+    // }
 
     std::vector<std::vector<unsigned int>> patterns_without_jokers;
     for (const auto& pattern : patterns) {
@@ -240,38 +262,52 @@ int main(void) {
         );
     }
 
+    // std::cout << "patterns_without_jokers:\n";
+    // for (auto& word : patterns_without_jokers) {
+    //     for (auto& symbol: word) {
+    //         std::cout << " " << symbol;
+    //     }
+    //     std::cout << "\n";
+    // }
+
     Trie trie(patterns_without_jokers);
     Scanner scanner(trie);
 
-    // std::vector<std::vector<unsigned int>> text = {
-    //     {0001},
-    //     {1},
-    //     {02},
-    //     {2}
-    // };
+    // std::cout << "BUFFER IS EMPTY: " << buffer.empty() << "\n";
 
-    unsigned int num;
+    unsigned int num = 5;
     if (!buffer.empty()) {
         for (auto& line : buffer) {
+            // std::cout << "Line: " << line << "\n";
             iss.str(std::move(line));
+            // iss >> num;
             while (iss >> num) {
+            // std::cout << "num: " << num;
                 scanner.feedSymbol(num);
             }
+            iss.clear();
             scanner.feedNewline();
         }
         buffer.clear();
     }
+
+    // std::cout << "BUFFER IS EMPTY: " << buffer.empty() << "\n";
 
     while (std::getline(std::cin, line)) {
         iss.str(std::move(line));
         while (iss >> num) {
             scanner.feedSymbol(num);
         }
+        iss.clear();
         scanner.feedNewline();
     }
 
     const std::vector<std::vector<size_t>>& mathes = scanner.getResults();
+
+    // std::cout << "mathes IS EMPTY: " << mathes.empty() << "\n";
+
     for (int pattern_id = 1; pattern_id <= patterns_without_jokers.size(); ++pattern_id) {
+        // std::cout << "mathes[" << pattern_id - 1 << "] IS EMPTY: " << mathes[pattern_id - 1].empty() << "\n";
         for (auto& abs_pos : mathes[pattern_id - 1]) {
             // auto [line, pos] = scanner.getLineAndColumn(abs_pos);
             // std::cout << line << ", " << pos;
