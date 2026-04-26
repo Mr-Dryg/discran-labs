@@ -120,7 +120,6 @@ public:
     }
 
     void feedSymbol(const unsigned int symbol) {
-        // std::cout << "FEED: " << symbol << '\n';
         ++absolute_pos;
 
         while (!cur->next.contains(symbol) && cur != trie.getRoot()) {
@@ -234,11 +233,6 @@ int main(void) {
         buffer.push_back(std::move(line));
     }
 
-    // std::cout << "BUFFER:\n";
-    // for (auto& line : buffer) {
-    //     std::cout << line << "\n";
-    // }
-
     if (!std::cin.eof() && line == "") {
         for (auto& line : buffer) {
             iss.str(std::move(line));
@@ -247,10 +241,6 @@ int main(void) {
         }
         buffer.clear();
     }
-
-    // for (int i = 0; i < patterns.size(); ++i) {
-    //     std::cout << "PATTERNS[" << i << "]: " << patterns[i] << "\n";
-    // }
 
     std::vector<std::vector<unsigned int>> patterns_without_jokers;
     for (const auto& pattern : patterns) {
@@ -262,27 +252,14 @@ int main(void) {
         );
     }
 
-    // std::cout << "patterns_without_jokers:\n";
-    // for (auto& word : patterns_without_jokers) {
-    //     for (auto& symbol: word) {
-    //         std::cout << " " << symbol;
-    //     }
-    //     std::cout << "\n";
-    // }
-
     Trie trie(patterns_without_jokers);
     Scanner scanner(trie);
 
-    // std::cout << "BUFFER IS EMPTY: " << buffer.empty() << "\n";
-
-    unsigned int num = 5;
+    unsigned int num;
     if (!buffer.empty()) {
         for (auto& line : buffer) {
-            // std::cout << "Line: " << line << "\n";
             iss.str(std::move(line));
-            // iss >> num;
             while (iss >> num) {
-            // std::cout << "num: " << num;
                 scanner.feedSymbol(num);
             }
             iss.clear();
@@ -290,8 +267,6 @@ int main(void) {
         }
         buffer.clear();
     }
-
-    // std::cout << "BUFFER IS EMPTY: " << buffer.empty() << "\n";
 
     while (std::getline(std::cin, line)) {
         iss.str(std::move(line));
@@ -303,11 +278,7 @@ int main(void) {
     }
 
     const std::vector<std::vector<size_t>>& mathes = scanner.getResults();
-
-    // std::cout << "mathes IS EMPTY: " << mathes.empty() << "\n";
-
     for (int pattern_id = 1; pattern_id <= patterns_without_jokers.size(); ++pattern_id) {
-        // std::cout << "mathes[" << pattern_id - 1 << "] IS EMPTY: " << mathes[pattern_id - 1].empty() << "\n";
         for (auto& abs_pos : mathes[pattern_id - 1]) {
             // auto [line, pos] = scanner.getLineAndColumn(abs_pos);
             // std::cout << line << ", " << pos;
