@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cstddef>
 #include <iostream>
 #include <queue>
 #include <sstream>
@@ -6,11 +7,56 @@
 #include <unordered_map>
 #include <vector>
 
+struct Symbol {
+    unsigned int value;
+    bool isJoker = false;
+
+    Symbol(unsigned int value, bool isJoker) : value(value), isJoker(isJoker) {}
+};
+
+struct Pattern {
+    std::vector<Symbol> symbols;
+
+    Pattern(std::istream& is) {
+        unsigned int num;
+        std::string token;
+        
+        while (is >> token) {
+            if (token == "?") {
+                symbols.emplace_back(0, true);
+            } else {
+                try {
+                    num = std::stoul(token);
+                    symbols.emplace_back(num, false);
+                } catch (...) {
+                    throw std::runtime_error("Invalid token: \"" + token + "\"");
+                }
+            }
+        }
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, Pattern& pattern) {
+        for (auto& symbol : pattern.symbols) {
+            if (symbol.isJoker) {
+                std::cout << " ?";
+            }
+            else {
+                std::cout << " " << symbol.value;
+            }
+        }
+        return os;
+    }
+};
+
 struct Node {
     std::unordered_map<unsigned int, Node*> next;  // try map to dicrease time/memmory
-    size_t pattern_id = 0;
+    size_t fragment_id = 0;
     Node* fail = nullptr;
     Node* out = nullptr;
+
+    bool isEnd() const {
+        return fragment_id != 0;
+    }
 
     ~Node() {
         for (auto& [_, child] : next) {
@@ -19,9 +65,17 @@ struct Node {
     }
 };
 
+struct FragmentInfo {
+    size_t pattern_id;
+    size_t position;
+    size_t length;
+
+    FragmentInfo(size_t p_id, size_t pos, size_t len) : pattern_id(p_id), position(pos), length(len) {}
+};
+
 class Trie {
     Node* root;
-    std::vector<size_t> pattern_lengths;
+    std::vector<FragmentInfo> fragments_info;
 
     void buildLinks(void) {
         std::queue<Node*> nodes;
@@ -52,7 +106,7 @@ class Trie {
                     }
                 }
 
-                if (node->fail->pattern_id != 0) {
+                if (node->fail->isEnd()) {
                     node->out = node->fail;
                 }
                 else if (node->fail->out) {
@@ -62,21 +116,46 @@ class Trie {
         }
     }
 
-public:
-    Trie(const std::vector<std::vector<unsigned int>>& patterns) {
-        pattern_lengths.resize(patterns.size());
-
-        root = new Node;
-        for (size_t i = 0; i < patterns.size(); ++i) {
-            Node* cur_node = root;
-            for (const auto& symbol : patterns[i]) {
-                if (!cur_node->next.contains(symbol)) {
-                    cur_node->next[symbol] = new Node;
-                }
-                cur_node = cur_node->next[symbol];
+    void addFragment(const std::vector<unsigned int>& fragment, size_t f_id, size_t p_id, size_t pos) {
+        fragments_info.emplace_back(p_id, pos, fragment.size());
+        Node* cur_node = root;
+        for (const auto& symbol : fragment) {
+            if (!cur_node->next.contains(symbol)) {
+                cur_node->next[symbol] = new Node;
             }
-            cur_node->pattern_id = i + 1;
-            pattern_lengths[i] = patterns[i].size();
+            cur_node = cur_node->next[symbol];
+        }
+        if (cur_node->fragment_id == 0) {
+            cur_node->fragment_id = f_id;
+        }
+    }
+
+public:
+    Trie(const std::vector<Pattern>& patterns) {
+        fragments_info.reserve(patterns.size());
+        root = new Node;
+
+        size_t f_id = 0;
+
+        for (size_t p_id = 1; p_id <= patterns.size(); ++p_id) {
+            size_t position = 0;
+            std::vector<unsigned int> fragment;
+
+            for (const auto& symbol : patterns[p_id - 1].symbols) {
+                if (symbol.isJoker) {
+                    if (!fragment.empty()) {
+                        addFragment(fragment, ++f_id, p_id, position);
+                        fragment.clear();
+                    }
+                    ++position;
+                }
+                else {
+                    fragment.push_back(symbol.value);
+                }
+            }
+            if (!fragment.empty()) {
+                addFragment(fragment, ++f_id, p_id, position);
+            }
         }
         buildLinks();
     }
@@ -89,12 +168,12 @@ public:
         return root;
     }
 
-    size_t getPatternLength(size_t id) const {
-        return pattern_lengths[id - 1];
+    size_t getFragmentLength(size_t id) const {
+        return fragments_info[id - 1].length;
     }
 
-    size_t getPatternNumber() const {
-        return pattern_lengths.size();
+    size_t getFragmentsNumber() const {
+        return fragments_info.size();
     }
 };
 
@@ -106,15 +185,15 @@ class Scanner {
     size_t absolute_pos;
     std::vector<size_t> line_starts;
 
-    void saveMatch(size_t absolute_end, size_t pattern_id) {
-        size_t abs_pos = absolute_end - trie.getPatternLength(pattern_id) + 1;
-        mathes[pattern_id - 1].push_back(abs_pos);
+    void saveMatch(size_t absolute_end, const Node* node) {
+        size_t abs_pos = absolute_end - trie.getFragmentLength(node->fragment_id) + 1;
+        mathes[node->fragment_id - 1].push_back(abs_pos);
     }
 
 public:
     Scanner(const Trie& trie) : trie(trie) {
         cur = trie.getRoot();
-        mathes.resize(trie.getPatternNumber());
+        mathes.resize(trie.getFragmentsNumber());
         absolute_pos = 0;
         line_starts.push_back(1);
     }
@@ -132,13 +211,13 @@ public:
             cur = trie.getRoot();
         }
 
-        if (cur->pattern_id != 0) {
-            saveMatch(absolute_pos, cur->pattern_id);
+        if (cur->isEnd()) {
+            saveMatch(absolute_pos, cur);
         }
 
         Node* out = cur->out;
         while (out) {
-            saveMatch(absolute_pos, out->pattern_id);
+            saveMatch(absolute_pos, out);
             out = out->out;
         }
     }
@@ -157,63 +236,6 @@ public:
 
     const std::vector<std::vector<size_t>>& getResults(void) {
         return mathes;
-    }
-};
-
-class Pattern {
-    struct Symbol {
-        unsigned int value;
-        bool isJoker = false;
-
-        Symbol(unsigned int value, bool isJoker) : value(value), isJoker(isJoker) {}
-    };
-
-    std::vector<Symbol> symbols;
-
-public:
-    Pattern(std::istream& is) {
-        unsigned int num;
-        std::string token;
-        
-        while (is >> token) {
-            if (token == "?") {
-                symbols.emplace_back(0, true);
-            } else {
-                try {
-                    num = std::stoul(token);
-                    symbols.emplace_back(num, false);
-                } catch (...) {
-                    throw std::runtime_error("Invalid token: \"" + token + "\"");
-                }
-            }
-        }
-    }
-
-    std::vector<std::vector<unsigned int>> getPattern() const{
-        std::vector<std::vector<unsigned int>> res;
-        res.resize(1);
-        int i = 0;
-        for (const auto& symbol : symbols) {
-            if (!symbol.isJoker) {
-                res[i].push_back(symbol.value);
-            }
-            else {
-                res.resize(++i + 1);
-            }
-        }
-        return res;
-    }
-
-    friend std::ostream& operator<<(std::ostream& os, Pattern& pattern) {
-        for (auto& symbol : pattern.symbols) {
-            if (symbol.isJoker) {
-                std::cout << " ?";
-            }
-            else {
-                std::cout << " " << symbol.value;
-            }
-        }
-        return os;
     }
 };
 
@@ -242,17 +264,7 @@ int main(void) {
         buffer.clear();
     }
 
-    std::vector<std::vector<unsigned int>> patterns_without_jokers;
-    for (const auto& pattern : patterns) {
-        auto p = pattern.getPattern();
-        patterns_without_jokers.insert(
-            patterns_without_jokers.end(),
-            std::make_move_iterator(p.begin()),
-            std::make_move_iterator(p.end())
-        );
-    }
-
-    Trie trie(patterns_without_jokers);
+    Trie trie(patterns);
     Scanner scanner(trie);
 
     unsigned int num;
@@ -278,14 +290,14 @@ int main(void) {
     }
 
     const std::vector<std::vector<size_t>>& mathes = scanner.getResults();
-    for (int pattern_id = 1; pattern_id <= patterns_without_jokers.size(); ++pattern_id) {
-        for (auto& abs_pos : mathes[pattern_id - 1]) {
+    for (int f_id = 1; f_id <= mathes.size(); ++f_id) {
+        for (auto& abs_pos : mathes[f_id - 1]) {
             // auto [line, pos] = scanner.getLineAndColumn(abs_pos);
             // std::cout << line << ", " << pos;
             std::cout << abs_pos;
-            if (patterns_without_jokers.size() > 1) {
-                std::cout << ", " << pattern_id;
-            }
+            // if (.size() > 1) {
+            std::cout << ", " << f_id;
+            // }
             std::cout << '\n';
         }
     }
