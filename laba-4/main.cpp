@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <cstddef>
 #include <iostream>
 #include <queue>
 #include <sstream>
@@ -38,30 +37,13 @@ struct Pattern {
     friend std::ostream& operator<<(std::ostream& os, Pattern& pattern) {
         for (auto& symbol : pattern.symbols) {
             if (symbol.isJoker) {
-                std::cout << " ?";
+                os << " ?";
             }
             else {
-                std::cout << " " << symbol.value;
+                os << " " << symbol.value;
             }
         }
         return os;
-    }
-};
-
-struct Node {
-    std::unordered_map<unsigned int, Node*> next;  // try map to dicrease time/memmory
-    size_t fragment_id = 0;
-    Node* fail = nullptr;
-    Node* out = nullptr;
-
-    bool isEnd() const {
-        return fragment_id != 0;
-    }
-
-    ~Node() {
-        for (auto& [_, child] : next) {
-            delete child;
-        }
     }
 };
 
@@ -73,9 +55,26 @@ struct FragmentInfo {
     FragmentInfo(size_t p_id, size_t pos, size_t len) : pattern_id(p_id), position(pos), length(len) {}
 };
 
+struct Node {
+    std::unordered_map<unsigned int, Node*> next;  // try map to dicrease time/memmory
+    std::vector<FragmentInfo> fragments;
+    Node* fail = nullptr;
+    Node* out = nullptr;
+
+    bool isEnd() const {
+        return !fragments.empty();
+    }
+
+    ~Node() {
+        for (auto& [_, child] : next) {
+            delete child;
+        }
+    }
+};
+
 class Trie {
     Node* root;
-    std::vector<FragmentInfo> fragments_info;
+    std::vector<size_t> pattern_fragments;
 
     void buildLinks(void) {
         std::queue<Node*> nodes;
@@ -116,8 +115,8 @@ class Trie {
         }
     }
 
-    void addFragment(const std::vector<unsigned int>& fragment, size_t f_id, size_t p_id, size_t pos) {
-        fragments_info.emplace_back(p_id, pos, fragment.size());
+    void addFragment(const std::vector<unsigned int>& fragment, size_t p_id, size_t pos) {
+        ++pattern_fragments[p_id - 1];
         Node* cur_node = root;
         for (const auto& symbol : fragment) {
             if (!cur_node->next.contains(symbol)) {
@@ -125,17 +124,13 @@ class Trie {
             }
             cur_node = cur_node->next[symbol];
         }
-        if (cur_node->fragment_id == 0) {
-            cur_node->fragment_id = f_id;
-        }
+        cur_node->fragments.emplace_back(p_id, pos, fragment.size());
     }
 
 public:
     Trie(const std::vector<Pattern>& patterns) {
-        fragments_info.reserve(patterns.size());
+        pattern_fragments.resize(patterns.size());
         root = new Node;
-
-        size_t f_id = 0;
 
         for (size_t p_id = 1; p_id <= patterns.size(); ++p_id) {
             size_t position = 0;
@@ -144,17 +139,17 @@ public:
             for (const auto& symbol : patterns[p_id - 1].symbols) {
                 if (symbol.isJoker) {
                     if (!fragment.empty()) {
-                        addFragment(fragment, ++f_id, p_id, position);
+                        addFragment(fragment, p_id, position);
                         fragment.clear();
                     }
-                    ++position;
                 }
                 else {
                     fragment.push_back(symbol.value);
                 }
+                ++position;
             }
             if (!fragment.empty()) {
-                addFragment(fragment, ++f_id, p_id, position);
+                addFragment(fragment, p_id, position);
             }
         }
         buildLinks();
@@ -168,32 +163,60 @@ public:
         return root;
     }
 
-    size_t getFragmentLength(size_t id) const {
-        return fragments_info[id - 1].length;
+    size_t getPatternFragments(size_t p_id) const {
+        return pattern_fragments[p_id - 1];
     }
+};
 
-    size_t getFragmentsNumber() const {
-        return fragments_info.size();
-    }
+struct Match {
+    size_t abs_start;
+    size_t votes = 1;
+
+    Match(size_t abs_start) : abs_start(abs_start) {}
 };
 
 class Scanner {
     const Trie& trie;
     const Node* cur;
 
-    std::vector<std::vector<size_t>> mathes;
+    std::unordered_map<size_t, std::vector<Match>> matches;
     size_t absolute_pos;
     std::vector<size_t> line_starts;
 
     void saveMatch(size_t absolute_end, const Node* node) {
-        size_t abs_pos = absolute_end - trie.getFragmentLength(node->fragment_id) + 1;
-        mathes[node->fragment_id - 1].push_back(abs_pos);
+        // std::cout << "SAVING MATCH: " << absolute_end << '\n';
+        for (const auto& f : node->fragments) {
+            size_t abs_pos = absolute_end - f.length + 1;
+            // std::cout << "f.position: " << f.position << '\n';
+            if (f.position == 1) {
+                if (!matches.contains(f.pattern_id)) {
+                    matches[f.pattern_id].emplace_back(abs_pos);
+                }
+                else {
+                    if (matches[f.pattern_id].back().votes != trie.getPatternFragments(f.pattern_id)) {
+                        matches[f.pattern_id].back() = {abs_pos};
+                    }
+                    else {
+                        matches[f.pattern_id].emplace_back(abs_pos);
+                    }
+                }
+            }
+            else {
+                if (matches.contains(f.pattern_id) && !matches[f.pattern_id].empty()) {
+                    if (absolute_end - f.position + 1 == matches[f.pattern_id].back().abs_start) {
+                        ++matches[f.pattern_id].back().votes;
+                    }
+                    else {
+                        matches[f.pattern_id].pop_back();
+                    }
+                }
+            }
+        }
     }
 
 public:
     Scanner(const Trie& trie) : trie(trie) {
         cur = trie.getRoot();
-        mathes.resize(trie.getFragmentsNumber());
         absolute_pos = 0;
         line_starts.push_back(1);
     }
@@ -234,8 +257,14 @@ public:
         return {line, start_pos - line_start + 1};
     }
 
-    const std::vector<std::vector<size_t>>& getResults(void) {
-        return mathes;
+    const std::unordered_map<size_t, std::vector<Match>>& getResults(void) {
+        for (auto& [pattern_id, v_m] : matches) {
+            if (!v_m.empty() && v_m.back().votes != trie.getPatternFragments(pattern_id)) {
+                v_m.pop_back();
+            }
+        }
+
+        return matches;
     }
 };
 
@@ -289,14 +318,16 @@ int main(void) {
         scanner.feedNewline();
     }
 
-    const std::vector<std::vector<size_t>>& mathes = scanner.getResults();
-    for (int f_id = 1; f_id <= mathes.size(); ++f_id) {
-        for (auto& abs_pos : mathes[f_id - 1]) {
+    auto result = scanner.getResults();
+    // std::cout << "result is empty: " << result.empty() << "\n";
+    for (const auto& [pattern_id, matches] : result) {
+        // std::cout << "pattern " << pattern_id << " was found: " << !matches.empty() << "\n";
+        for (const auto& match : matches) {
             // auto [line, pos] = scanner.getLineAndColumn(abs_pos);
             // std::cout << line << ", " << pos;
-            std::cout << abs_pos;
+            std::cout << match.abs_start;
             // if (.size() > 1) {
-            std::cout << ", " << f_id;
+            std::cout << ", " << pattern_id;
             // }
             std::cout << '\n';
         }
