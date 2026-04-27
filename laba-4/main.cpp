@@ -212,7 +212,7 @@ class Scanner {
                     }
                     // if (dist > 0 || it->votes == trie.getPatternFragments(f.pattern_id)) {
                     if (dist > 0) {
-                        matches[f.pattern_id].emplace_back(absolute_end - f.length + 1);
+                        matches[f.pattern_id].emplace_back(abs_start);
                         break;
                     }
                 }
