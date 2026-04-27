@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 struct Symbol {
@@ -350,13 +351,15 @@ int main(void) {
         buffer.push_back(std::move(line));
     }
 
-    if (!std::cin.eof() && line == "") {
+    if (!buffer.empty() && !std::cin.eof() && line == "") {
         for (auto& line : buffer) {
             iss.str(std::move(line));
             patterns.emplace_back(iss);
             iss.clear();
         }
         buffer.clear();
+    } else {
+        buffer.push_back(std::move(line));
     }
 
     PatternMatcher matcher(patterns);
@@ -382,6 +385,4 @@ int main(void) {
             std::cout << '\n';
         }
     }
-
-    
 }
