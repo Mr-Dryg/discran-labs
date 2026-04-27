@@ -49,10 +49,10 @@ struct Pattern {
 
 struct FragmentInfo {
     size_t pattern_id;
-    size_t position;
+    size_t end_position;
     size_t length;
 
-    FragmentInfo(size_t p_id, size_t pos, size_t len) : pattern_id(p_id), position(pos), length(len) {}
+    FragmentInfo(size_t p_id, size_t end_pos, size_t len) : pattern_id(p_id), end_position(end_pos), length(len) {}
 };
 
 struct Node {
@@ -75,6 +75,7 @@ struct Node {
 class Trie {
     Node* root;
     std::vector<size_t> pattern_fragments;
+    std::vector<size_t> pattern_lengths;
 
     void buildLinks(void) {
         std::queue<Node*> nodes;
@@ -115,7 +116,7 @@ class Trie {
         }
     }
 
-    void addFragment(const std::vector<unsigned int>& fragment, size_t p_id, size_t pos) {
+    void addFragment(const std::vector<unsigned int>& fragment, size_t p_id, size_t end_pos) {
         ++pattern_fragments[p_id - 1];
         Node* cur_node = root;
         for (const auto& symbol : fragment) {
@@ -124,32 +125,32 @@ class Trie {
             }
             cur_node = cur_node->next[symbol];
         }
-        cur_node->fragments.emplace_back(p_id, pos, fragment.size());
+        cur_node->fragments.emplace_back(p_id, end_pos, fragment.size());
     }
 
 public:
     Trie(const std::vector<Pattern>& patterns) {
         pattern_fragments.resize(patterns.size());
         root = new Node;
-
         for (size_t p_id = 1; p_id <= patterns.size(); ++p_id) {
-            size_t position = 0;
+            pattern_lengths.push_back(patterns[p_id - 1].symbols.size());
+            size_t end_position = 0;
             std::vector<unsigned int> fragment;
 
             for (const auto& symbol : patterns[p_id - 1].symbols) {
                 if (symbol.isJoker) {
                     if (!fragment.empty()) {
-                        addFragment(fragment, p_id, position);
+                        addFragment(fragment, p_id, end_position);
                         fragment.clear();
                     }
                 }
                 else {
                     fragment.push_back(symbol.value);
                 }
-                ++position;
+                ++end_position;
             }
             if (!fragment.empty()) {
-                addFragment(fragment, p_id, position);
+                addFragment(fragment, p_id, end_position);
             }
         }
         buildLinks();
@@ -165,6 +166,14 @@ public:
 
     size_t getPatternFragments(size_t p_id) const {
         return pattern_fragments[p_id - 1];
+    }
+
+    size_t getPatternLength(size_t p_id) const {
+        return pattern_lengths[p_id - 1];;
+    }
+
+    size_t getPatternsNumber() const {
+        return pattern_lengths.size();
     }
 };
 
@@ -184,32 +193,30 @@ class Scanner {
     std::vector<size_t> line_starts;
 
     void saveMatch(size_t absolute_end, const Node* node) {
-        // std::cout << "SAVING MATCH: " << absolute_end << '\n';
         for (const auto& f : node->fragments) {
-            size_t abs_pos = absolute_end - f.length + 1;
-            // std::cout << "f.position: " << f.position << '\n';
-            if (f.position == 1) {
-                if (!matches.contains(f.pattern_id)) {
-                    matches[f.pattern_id].emplace_back(abs_pos);
-                }
-                else {
-                    if (matches[f.pattern_id].back().votes != trie.getPatternFragments(f.pattern_id)) {
-                        matches[f.pattern_id].back() = {abs_pos};
-                    }
-                    else {
-                        matches[f.pattern_id].emplace_back(abs_pos);
-                    }
-                }
+            long long abs_start = absolute_end - f.end_position + 1;
+
+            if (abs_start <= 0) {
+                continue;
+            }
+            if (!matches.contains(f.pattern_id)) {
+                matches[f.pattern_id].emplace_back(abs_start);
             }
             else {
-                if (matches.contains(f.pattern_id) && !matches[f.pattern_id].empty()) {
-                    if (absolute_end - f.position + 1 == matches[f.pattern_id].back().abs_start) {
-                        ++matches[f.pattern_id].back().votes;
+                for (auto it = matches[f.pattern_id].end(); it != matches[f.pattern_id].begin();) {
+                    --it;
+                    int dist = (abs_start) - it->abs_start;
+                    if (dist == 0) {
+                        ++it->votes;
+                        break;
                     }
-                    else {
-                        matches[f.pattern_id].pop_back();
+                    // if (dist > 0 || it->votes == trie.getPatternFragments(f.pattern_id)) {
+                    if (dist > 0) {
+                        matches[f.pattern_id].emplace_back(absolute_end - f.length + 1);
+                        break;
                     }
                 }
+                
             }
         }
     }
@@ -257,14 +264,73 @@ public:
         return {line, start_pos - line_start + 1};
     }
 
-    const std::unordered_map<size_t, std::vector<Match>>& getResults(void) {
+    std::vector<std::vector<std::pair<size_t, size_t>>> getResults(void) {
+        std::vector<std::vector<std::pair<size_t, size_t>>> result;
+        result.resize(trie.getPatternsNumber());
         for (auto& [pattern_id, v_m] : matches) {
-            if (!v_m.empty() && v_m.back().votes != trie.getPatternFragments(pattern_id)) {
-                v_m.pop_back();
+            for (size_t i = 0; i < v_m.size(); ++i) {
+                if (v_m[i].votes != trie.getPatternFragments(pattern_id)) {
+                    std::swap(v_m[i], v_m.back());
+                    v_m.pop_back();
+                    --i;
+                }
+                else if (v_m[i].abs_start + trie.getPatternLength(pattern_id) - 1 <= absolute_pos) {
+                    result[pattern_id - 1].push_back(std::move(getLineAndColumn(v_m[i].abs_start)));
+                }
             }
         }
+        return result;
+    }
 
-        return matches;
+    size_t getAbsEndPos() const {
+        return absolute_pos;
+    }
+};
+
+class PatternMatcher {
+    Trie trie;
+    Scanner scanner;
+    std::vector<size_t> jokers_id;
+
+    void separatePatterns(const std::vector<Pattern>& patterns) {
+        for (int i = 0; i < patterns.size(); ++i) {
+            bool all_jokers = true;
+            for (const auto& s : patterns[i].symbols) {
+                if (!s.isJoker) {
+                    all_jokers = false;
+                    break;
+                }
+            }
+            if (all_jokers) {
+                jokers_id.push_back(i + 1);
+            }
+        }
+    }
+
+public:
+    PatternMatcher(const std::vector<Pattern>& patterns) : trie(patterns), scanner(trie) {
+        separatePatterns(patterns);
+    }
+
+    void feedLine(const std::string& line) {
+        std::istringstream iss(std::move(line));
+        unsigned num;
+        while (iss >> num) {
+            scanner.feedSymbol(num);
+        }
+        scanner.feedNewline();
+    }
+
+    std::vector<std::vector<std::pair<size_t, size_t>>> getResults() {
+        std::vector<std::vector<std::pair<size_t, size_t>>> result(std::move(scanner.getResults()));
+        for (const auto& j_id : jokers_id) {
+            size_t len = trie.getPatternLength(j_id);
+            size_t max_pos = scanner.getAbsEndPos() - len + 1;
+            for (size_t start_pos = 1; start_pos <= max_pos; ++start_pos) {
+                result[j_id - 1].push_back(std::move(scanner.getLineAndColumn(start_pos)));
+            }
+        }
+        return result;
     }
 };
 
@@ -293,43 +359,29 @@ int main(void) {
         buffer.clear();
     }
 
-    Trie trie(patterns);
-    Scanner scanner(trie);
+    PatternMatcher matcher(patterns);
 
-    unsigned int num;
     if (!buffer.empty()) {
         for (auto& line : buffer) {
-            iss.str(std::move(line));
-            while (iss >> num) {
-                scanner.feedSymbol(num);
-            }
-            iss.clear();
-            scanner.feedNewline();
+            matcher.feedLine(line);
         }
         buffer.clear();
     }
 
     while (std::getline(std::cin, line)) {
-        iss.str(std::move(line));
-        while (iss >> num) {
-            scanner.feedSymbol(num);
-        }
-        iss.clear();
-        scanner.feedNewline();
+        matcher.feedLine(line);
     }
 
-    auto result = scanner.getResults();
-    // std::cout << "result is empty: " << result.empty() << "\n";
-    for (const auto& [pattern_id, matches] : result) {
-        // std::cout << "pattern " << pattern_id << " was found: " << !matches.empty() << "\n";
-        for (const auto& match : matches) {
-            // auto [line, pos] = scanner.getLineAndColumn(abs_pos);
-            // std::cout << line << ", " << pos;
-            std::cout << match.abs_start;
-            // if (.size() > 1) {
-            std::cout << ", " << pattern_id;
-            // }
+    auto result = matcher.getResults();
+    for (size_t i = 0; i < result.size(); ++i) {
+        for (const auto& match : result[i]) {
+            std::cout << match.first << ", " << match.second;
+            if (patterns.size() > 1) {
+                std::cout << ", " << i + 1;
+            }
             std::cout << '\n';
         }
     }
+
+    
 }
