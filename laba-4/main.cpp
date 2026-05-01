@@ -195,29 +195,30 @@ class Scanner {
 
     void saveMatch(size_t absolute_end, const Node* node) {
         for (const auto& f : node->fragments) {
-            long long abs_start = absolute_end - f.end_position + 1;
-
-            if (abs_start <= 0) {
+            if (absolute_end <= f.end_position - 1) {
                 continue;
             }
+
+            long long abs_start = absolute_end - f.end_position + 1;
             if (!matches.contains(f.pattern_id)) {
                 matches[f.pattern_id].emplace_back(abs_start);
             }
             else {
                 for (auto it = matches[f.pattern_id].end(); it != matches[f.pattern_id].begin();) {
                     --it;
-                    int dist = (abs_start) - it->abs_start;
+                    int dist = abs_start - it->abs_start;
                     if (dist == 0) {
                         ++it->votes;
                         break;
                     }
-                    // if (dist > 0 || it->votes == trie.getPatternFragments(f.pattern_id)) {
+                    // var 1:
                     if (dist > 0) {
-                        matches[f.pattern_id].emplace_back(abs_start);
+                        matches[f.pattern_id].emplace(it + 1, abs_start);
                         break;
                     }
                 }
-                
+                // var 2:
+                // matches[f.pattern_id].emplace_back(abs_start);
             }
         }
     }
@@ -358,7 +359,8 @@ int main(void) {
             iss.clear();
         }
         buffer.clear();
-    } else {
+    }
+    else {
         buffer.push_back(std::move(line));
     }
 
