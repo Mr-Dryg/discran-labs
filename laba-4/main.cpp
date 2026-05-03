@@ -347,31 +347,31 @@ int main(void) {
     patterns.emplace_back(iss);
     iss.clear();
 
-    std::vector<std::string> buffer;
-    while (std::getline(std::cin, line) && line != "") {
-        buffer.push_back(std::move(line));
-    }
+    // std::vector<std::string> buffer;
+    // while (std::getline(std::cin, line) && line != "") {
+    //     buffer.push_back(std::move(line));
+    // }
 
-    if (!buffer.empty() && !std::cin.eof() && line == "") {
-        for (auto& line : buffer) {
-            iss.str(std::move(line));
-            patterns.emplace_back(iss);
-            iss.clear();
-        }
-        buffer.clear();
-    }
-    else {
-        buffer.push_back(std::move(line));
-    }
+    // if (!buffer.empty() && !std::cin.eof() && line == "") {
+    //     for (auto& line : buffer) {
+    //         iss.str(std::move(line));
+    //         patterns.emplace_back(iss);
+    //         iss.clear();
+    //     }
+    //     buffer.clear();
+    // }
+    // else {
+    //     buffer.push_back(std::move(line));
+    // }
 
     PatternMatcher matcher(patterns);
 
-    if (!buffer.empty()) {
-        for (auto& line : buffer) {
-            matcher.feedLine(line);
-        }
-        buffer.clear();
-    }
+    // if (!buffer.empty()) {
+    //     for (auto& line : buffer) {
+    //         matcher.feedLine(line);
+    //     }
+    //     buffer.clear();
+    // }
 
     while (std::getline(std::cin, line)) {
         matcher.feedLine(line);
