@@ -1,13 +1,16 @@
 #include <algorithm>
+#include <chrono>
 #include <iostream>
-#include <queue>
+#include <random>
 #include <sstream>
+#include <vector>
+#include <utility>
+#include <iomanip>
+#include <queue>
 #include <string>
 #include <unordered_map>
-#include <utility>
-#include <vector>
-#include <chrono>
 
+// ========== Оригинальные классы ==========
 struct Symbol {
     unsigned int value;
     bool isJoker = false;
@@ -324,6 +327,10 @@ public:
         scanner.feedNewline();
     }
 
+    void feedSymbol(unsigned int sym) {
+        scanner.feedSymbol(sym);
+    }
+
     std::vector<std::vector<std::pair<size_t, size_t>>> getResults() {
         std::vector<std::vector<std::pair<size_t, size_t>>> result(std::move(scanner.getResults()));
         for (const auto& j_id : jokers_id) {
@@ -337,70 +344,142 @@ public:
     }
 };
 
-int main(void) {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
+// ========== Генератор тестовых данных ==========
+std::pair<std::vector<unsigned int>, std::vector<Symbol>> generate_test(
+    size_t text_length,
+    size_t pattern_length,
+    double joker_prob,
+    unsigned int max_value = std::numeric_limits<unsigned int>::max())
+{
+    std::mt19937 rng(42); // фиксированный seed для воспроизводимости
+    std::uniform_int_distribution<unsigned int> val_dist(0, max_value);
+    std::uniform_real_distribution<double> prob_dist(0.0, 1.0);
 
-    auto start_build = std::chrono::high_resolution_clock::now();
-    std::vector<Pattern> patterns;
+    std::vector<unsigned int> text;
+    text.reserve(text_length);
+    for (size_t i = 0; i < text_length; ++i)
+        text.push_back(val_dist(rng));
 
-    std::string line;
-    std::istringstream iss;
-
-    std::getline(std::cin, line);
-    iss.str(std::move(line));
-    patterns.emplace_back(iss);
-    iss.clear();
-
-    // std::vector<std::string> buffer;
-    // while (std::getline(std::cin, line) && line != "") {
-    //     buffer.push_back(std::move(line));
-    // }
-
-    // if (!buffer.empty() && !std::cin.eof() && line == "") {
-    //     for (auto& line : buffer) {
-    //         iss.str(std::move(line));
-    //         patterns.emplace_back(iss);
-    //         iss.clear();
-    //     }
-    //     buffer.clear();
-    // }
-    // else {
-    //     buffer.push_back(std::move(line));
-    // }
-
-    PatternMatcher matcher(patterns);
-
-    auto end_build = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> build_time = end_build - start_build;
-
-    // if (!buffer.empty()) {
-    //     for (auto& line : buffer) {
-    //         matcher.feedLine(line);
-    //     }
-    //     buffer.clear();
-    // }
-
-    auto start_search = std::chrono::high_resolution_clock::now();
-
-    while (std::getline(std::cin, line)) {
-        matcher.feedLine(line);
+    std::vector<Symbol> pattern;
+    pattern.reserve(pattern_length);
+    for (size_t i = 0; i < pattern_length; ++i) {
+        if (prob_dist(rng) < joker_prob)
+            pattern.emplace_back(0, true);
+        else
+            pattern.emplace_back(val_dist(rng), false);
     }
+    return {std::move(text), std::move(pattern)};
+}
 
-    auto result = matcher.getResults();
-    for (size_t i = 0; i < result.size(); ++i) {
-        for (const auto& match : result[i]) {
-            std::cout << match.first << ", " << match.second;
-            if (patterns.size() > 1) {
-                std::cout << ", " << i + 1;
+// ========== Наивный поиск образца с джокерами ==========
+std::vector<size_t> naive_search(const std::vector<unsigned int>& text,
+                                 const std::vector<Symbol>& pattern)
+{
+    std::vector<size_t> occ;
+    if (pattern.empty() || text.size() < pattern.size())
+        return occ;
+
+    const size_t n = text.size();
+    const size_t m = pattern.size();
+    for (size_t i = 0; i <= n - m; ++i) {
+        bool match = true;
+        for (size_t j = 0; j < m; ++j) {
+            if (!pattern[j].isJoker && text[i + j] != pattern[j].value) {
+                match = false;
+                break;
             }
-            std::cout << '\n';
         }
+        if (match)
+            occ.push_back(i);
+    }
+    return occ;
+}
+
+// ========== Вспомогательная функция: образец в строку (для конструктора Pattern) ==========
+std::string pattern_to_string(const std::vector<Symbol>& pattern) {
+    std::ostringstream oss;
+    for (size_t i = 0; i < pattern.size(); ++i) {
+        if (i != 0) oss << ' ';
+        if (pattern[i].isJoker) oss << '?';
+        else oss << pattern[i].value;
+    }
+    return oss.str();
+}
+
+// ========== Главная функция бенчмарка ==========
+int main() {
+    // Параметры тестов
+    const std::vector<size_t> text_lengths = {10'000'000, 15'000'000, 20'000'000};
+    const size_t pattern_length = 20;
+    const double joker_prob = 0.5;
+    const unsigned int max_value = 1'000'000; // ограниченный алфавит для более плотных переходов
+
+    std::cout << std::setw(12) << "Text length"
+              << std::setw(12) << "Joker %"
+              << std::setw(18) << "Build time (s)"
+              << std::setw(18) << "AK search (s)"
+              << std::setw(18) << "Naive search (s)"
+              << std::setw(10) << "Matches"
+              << std::endl;
+    std::cout << std::string(70, '-') << std::endl;
+
+    for (auto text_len : text_lengths) {
+        // Генерация данных
+        auto [text, pattern_syms] = generate_test(text_len, pattern_length, joker_prob, max_value);
+
+        // Строим образец в виде строки (для вашего класса Pattern)
+        std::string pat_str = pattern_to_string(pattern_syms);
+        std::istringstream pat_stream(pat_str);
+        Pattern pattern(pat_stream);
+        std::vector<Pattern> patterns = { pattern };
+
+        // Замер времени построения автомата
+        auto build_start = std::chrono::high_resolution_clock::now();
+        PatternMatcher matcher(patterns);
+        auto build_end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> build_time = build_end - build_start;
+
+        // Поиск вашим алгоритмом (передача чисел напрямую, если метод feedSymbol доступен)
+        // Если добавили метод feedSymbol в PatternMatcher, используйте его.
+        // Здесь предполагается, что такой метод есть.
+        auto ak_start = std::chrono::high_resolution_clock::now();
+        for (auto num : text)
+            matcher.feedSymbol(num);
+        auto ak_end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> ak_search_time = ak_end - ak_start;
+
+        // Получение результатов (1-based позиции) и перевод в 0-based
+        auto ak_results = matcher.getResults(); // для первого образца
+        std::vector<size_t> ak_occ; // 0-based
+        if (!ak_results.empty()) {
+            for (auto& match : ak_results[0]) {
+                // match = pair<строка, столбец>; столбец = abs_start (1-based)
+                ak_occ.push_back(match.second - 1);
+            }
+            std::sort(ak_occ.begin(), ak_occ.end());
+        }
+
+        // Наивный поиск
+        auto naive_start = std::chrono::high_resolution_clock::now();
+        auto naive_occ = naive_search(text, pattern_syms);
+        auto naive_end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> naive_time = naive_end - naive_start;
+
+        // Проверка совпадения
+        if (ak_occ != naive_occ) {
+            std::cerr << "Ошибка: результаты не совпадают для text_len=" << text_len << std::endl;
+            return 1;
+        }
+
+        // Вывод строки таблицы
+        std::cout << std::setw(12) << text_len
+                  << std::setw(11) << std::fixed << std::setprecision(0) << (joker_prob * 100) << "%"
+                  << std::setw(18) << std::fixed << std::setprecision(6) << build_time.count()
+                  << std::setw(18) << ak_search_time.count()
+                  << std::setw(18) << naive_time.count()
+                  << std::setw(10) << ak_occ.size()
+                  << std::endl;
     }
 
-    auto end_search = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> search_time = end_search - start_search;
-
-    std::cout << "BUILD TIME: " << build_time << '\n';
-    std::cout << "SEARCH TIME: " << search_time << '\n';
+    return 0;
 }
