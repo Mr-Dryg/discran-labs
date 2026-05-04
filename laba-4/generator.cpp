@@ -1,4 +1,4 @@
-// gen_multi.cpp — генератор тестов для поиска нескольких образцов с джокерами
+#include <cstddef>
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -6,7 +6,6 @@
 #include <string>
 #include <algorithm>
 #include <set>
-#include <getopt.h>   // для разбора аргументов, если нужно, но здесь простой позиционный разбор
 
 struct Symbol {
     unsigned int value;
@@ -17,120 +16,91 @@ int main(int argc, char* argv[]) {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
 
-    // Использование: ./gen_multi <text_length> <occurrences_per_pattern> [max_val] [seed]
-    // Образцы читаются со stdin (каждая строка – один образец)
     if (argc < 3) {
-        std::cerr << "Usage: " << argv[0] << " <text_length> <occurrences_per_pattern> [max_val] [seed]\n";
-        std::cerr << "Patterns are read from stdin, one per line.\n";
+        std::cerr << "Usage: " << argv[0] << " <text_length> <\"pattern\"> [occurrences] [max_val] [seed]\n";
+        std::cerr << "Example: " << argv[0] << " 100000 \"1 ? 3\" 5 1000000 42\n";
         return 1;
     }
 
     size_t text_length = std::stoull(argv[1]);
-    size_t occurrences_per_pattern = std::stoull(argv[2]);
-    unsigned int max_val = (argc > 3) ? static_cast<unsigned int>(std::stoul(argv[3])) : 100;
-    unsigned int seed = (argc > 4) ? static_cast<unsigned int>(std::stoul(argv[4])) : 42;
+    std::string pattern_str = argv[2];
+    size_t occurrences = (argc > 3) ? std::stoull(argv[3]) : std::max(
+        static_cast<size_t>(1),
+        text_length / pattern_str.size() / 10
+    );
+    unsigned int max_val = (argc > 4) ? static_cast<unsigned int>(std::stoul(argv[4])) : 100;
+    unsigned int seed = (argc > 5) ? static_cast<unsigned int>(std::stoul(argv[5])) : std::random_device{}();
 
-    // Чтение образцов со stdin
-    std::vector<std::vector<Symbol>> patterns;
-    std::string line;
-    while (std::getline(std::cin, line)) {
-        if (line.empty()) continue; // игнорируем пустые строки в режиме чтения образцов
-        std::istringstream pat_stream(line);
-        std::vector<Symbol> pattern;
-        std::string token;
-        while (pat_stream >> token) {
-            if (token == "?") {
-                pattern.push_back({0, true});
-            } else {
-                try {
-                    unsigned int num = std::stoul(token);
-                    pattern.push_back({num, false});
-                } catch (...) {
-                    std::cerr << "Invalid number in pattern: " << token << std::endl;
-                    return 1;
-                }
+    std::istringstream pat_stream(pattern_str);
+    std::string token;
+    std::vector<Symbol> pattern;
+    while (pat_stream >> token) {
+        if (token == "?") {
+            pattern.push_back({0, true});
+        } else {
+            try {
+                unsigned int num = std::stoul(token);
+                pattern.push_back({num, false});
+            } catch (...) {
+                std::cerr << "Invalid number in pattern: " << token << std::endl;
+                return 1;
             }
         }
-        if (!pattern.empty())
-            patterns.push_back(std::move(pattern));
     }
 
-    if (patterns.empty()) {
-        std::cerr << "No patterns provided.\n";
+    if (pattern.empty()) {
+        std::cerr << "Pattern must contain at least one symbol\n";
         return 1;
     }
 
-    // Проверка, что суммарная длина всех вставок не превышает text_length
-    size_t total_insert_len = 0;
-    for (const auto& pat : patterns)
-        total_insert_len += pat.size() * occurrences_per_pattern;
-    if (total_insert_len > text_length) {
-        std::cerr << "Warning: total length of all pattern insertions (" 
-                  << total_insert_len << ") exceeds text length (" << text_length 
-                  << "). Some insertions will be skipped.\n";
+    size_t pat_len = pattern.size();
+    if (pat_len > text_length) {
+        std::cerr << "Pattern length (" << pat_len << ") exceeds text length (" << text_length << ")\n";
+        return 1;
     }
 
-    // Генерация случайного текста
     std::mt19937 rng(seed);
     std::uniform_int_distribution<unsigned int> val_dist(0, max_val);
     std::vector<unsigned int> text(text_length);
     for (auto& x : text) x = val_dist(rng);
 
-    // Набор уже занятых интервалов для предотвращения пересечений
-    std::set<std::pair<size_t, size_t>> occupied; // [start, end) интервалы
-    auto is_free = [&](size_t start, size_t length) -> bool {
-        if (start + length > text_length) return false;
-        auto it = occupied.lower_bound({start, 0});
-        if (it != occupied.end() && it->first < start + length)
-            return false;
-        if (it != occupied.begin()) {
-            --it;
-            if (it->second > start)
-                return false;
-        }
-        return true;
-    };
-
-    // Вставка каждого образца occurrences_per_pattern раз
-    std::uniform_int_distribution<size_t> start_dist(0, text_length - 1);
-    size_t inserted = 0;
-    for (const auto& pattern : patterns) {
-        for (size_t rep = 0; rep < occurrences_per_pattern; ++rep) {
-            // Попытки найти свободный участок (не слишком агрессивно)
-            bool placed = false;
-            for (int attempts = 0; attempts < 1000; ++attempts) {
-                size_t start = start_dist(rng);
-                if (start > text_length - pattern.size()) continue;
-                if (is_free(start, pattern.size())) {
-                    for (size_t j = 0; j < pattern.size(); ++j) {
-                        if (!pattern[j].isJoker) {
-                            text[start + j] = pattern[j].value;
-                        }
-                    }
-                    occupied.insert({start, start + pattern.size()});
-                    placed = true;
-                    ++inserted;
-                    break;
+    if (occurrences > 0) {
+        size_t max_start = text_length - pat_len;
+        if (max_start == 0) {
+            occurrences = 1;
+        } else {
+            std::vector<size_t> positions(max_start + 1);
+            std::iota(positions.begin(), positions.end(), 0);
+            std::shuffle(positions.begin(), positions.end(), rng);
+            std::vector<size_t> selected;
+            std::set<size_t> used;
+            for (size_t pos : positions) {
+                bool ok = true;
+                auto it = used.lower_bound(pos);
+                if (it != used.end() && *it < pos + pat_len) ok = false;
+                if (it != used.begin()) {
+                    --it;
+                    if (*it + pat_len > pos) ok = false;
+                }
+                if (ok) {
+                    selected.push_back(pos);
+                    used.insert(pos);
+                    if (selected.size() == occurrences) break;
                 }
             }
-            if (!placed) {
-                std::cerr << "Could not place pattern after 1000 attempts.\n";
+            occurrences = selected.size();
+            for (size_t start : selected) {
+                for (size_t j = 0; j < pat_len; ++j) {
+                    if (!pattern[j].isJoker) {
+                        text[start + j] = pattern[j].value;
+                    }
+                }
             }
         }
     }
 
-    // Вывод образцов (по одному на строку), затем пустая строка, затем текст
-    for (const auto& pat : patterns) {
-        for (size_t i = 0; i < pat.size(); ++i) {
-            if (i > 0) std::cout << ' ';
-            if (pat[i].isJoker) std::cout << '?';
-            else std::cout << pat[i].value;
-        }
-        std::cout << '\n';
-    }
-    std::cout << '\n'; // пустая строка-разделитель
+    std::cout << pattern_str << '\n';
 
-    // Вывод текста (по 20 чисел в строке)
     const size_t per_line = 20;
     for (size_t i = 0; i < text.size(); ++i) {
         std::cout << text[i];
@@ -140,6 +110,5 @@ int main(int argc, char* argv[]) {
             std::cout << ' ';
     }
 
-    std::cerr << "Inserted " << inserted << " occurrences of patterns.\n";
     return 0;
 }

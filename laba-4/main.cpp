@@ -1,12 +1,13 @@
 #include <algorithm>
+#include <cstddef>
+#include <cstdio>
 #include <iostream>
-#include <queue>
 #include <sstream>
+#include <queue>
+#include <stdexcept>
 #include <string>
 #include <unordered_map>
-#include <utility>
 #include <vector>
-#include <chrono>
 
 struct Symbol {
     unsigned int value;
@@ -18,22 +19,27 @@ struct Symbol {
 struct Pattern {
     std::vector<Symbol> symbols;
 
-    Pattern(std::istream& is) {
+    friend std::istream& operator>>(std::istream& is, Pattern& pattern) {
         unsigned int num;
         std::string token;
+
+        std::string line;
+        std::getline(is, line);
+        std::istringstream iss(line);
         
-        while (is >> token) {
+        while (iss >> token) {
             if (token == "?") {
-                symbols.emplace_back(0, true);
+                pattern.symbols.emplace_back(0, true);
             } else {
                 try {
                     num = std::stoul(token);
-                    symbols.emplace_back(num, false);
+                    pattern.symbols.emplace_back(num, false);
                 } catch (...) {
                     throw std::runtime_error("Invalid token: \"" + token + "\"");
                 }
             }
         }
+        return is;
     }
 
     friend std::ostream& operator<<(std::ostream& os, Pattern& pattern) {
@@ -49,35 +55,38 @@ struct Pattern {
     }
 };
 
-struct FragmentInfo {
-    size_t pattern_id;
-    size_t end_position;
-    size_t length;
+struct Match {
+    size_t line;
+    size_t pos;
 
-    FragmentInfo(size_t p_id, size_t end_pos, size_t len) : pattern_id(p_id), end_position(end_pos), length(len) {}
+    Match(size_t line, size_t pos) : line(line), pos(pos) {}
 };
 
-struct Node {
-    std::unordered_map<unsigned int, Node*> next;  // try map to dicrease time/memmory
-    std::vector<FragmentInfo> fragments;
-    Node* fail = nullptr;
-    Node* out = nullptr;
+class AhoCorasick {
+    struct Node {
+        std::unordered_map<unsigned int, Node*> next;
+        std::vector<size_t> fragment_offsets;
+        Node* fail = nullptr;
+        Node* out = nullptr;
 
-    bool isEnd() const {
-        return !fragments.empty();
-    }
-
-    ~Node() {
-        for (auto& [_, child] : next) {
-            delete child;
+        bool isEnd() const {
+            return !fragment_offsets.empty();
         }
-    }
-};
 
-class Trie {
+        ~Node() {
+            for (auto& [_, child] : next) {
+                delete child;
+            }
+        }
+    };
+
     Node* root;
-    std::vector<size_t> pattern_fragments;
-    std::vector<size_t> pattern_lengths;
+    const Node* cur;
+    std::vector<size_t> row_match_starts;
+    size_t cur_pos = 0;
+    std::vector<size_t> line_starts;
+    size_t fragment_number = 0;
+    size_t pattern_length = 0;
 
     void buildLinks(void) {
         std::queue<Node*> nodes;
@@ -118,8 +127,7 @@ class Trie {
         }
     }
 
-    void addFragment(const std::vector<unsigned int>& fragment, size_t p_id, size_t end_pos) {
-        ++pattern_fragments[p_id - 1];
+    void addFragment(const std::vector<unsigned int>& fragment, size_t i_end) {
         Node* cur_node = root;
         for (const auto& symbol : fragment) {
             if (!cur_node->next.contains(symbol)) {
@@ -127,280 +135,141 @@ class Trie {
             }
             cur_node = cur_node->next[symbol];
         }
-        cur_node->fragments.emplace_back(p_id, end_pos, fragment.size());
+        cur_node->fragment_offsets.emplace_back(i_end);
+        ++fragment_number;
     }
 
-public:
-    Trie(const std::vector<Pattern>& patterns) {
-        pattern_fragments.resize(patterns.size());
-        root = new Node;
-        for (size_t p_id = 1; p_id <= patterns.size(); ++p_id) {
-            pattern_lengths.push_back(patterns[p_id - 1].symbols.size());
-            size_t end_position = 0;
-            std::vector<unsigned int> fragment;
-
-            for (const auto& symbol : patterns[p_id - 1].symbols) {
-                if (symbol.isJoker) {
-                    if (!fragment.empty()) {
-                        addFragment(fragment, p_id, end_position);
-                        fragment.clear();
-                    }
-                }
-                else {
-                    fragment.push_back(symbol.value);
-                }
-                ++end_position;
-            }
-            if (!fragment.empty()) {
-                addFragment(fragment, p_id, end_position);
-            }
-        }
-        buildLinks();
-    }
-
-    ~Trie() {
-        delete root;
-    }
-
-    Node* getRoot() const {
-        return root;
-    }
-
-    size_t getPatternFragments(size_t p_id) const {
-        return pattern_fragments[p_id - 1];
-    }
-
-    size_t getPatternLength(size_t p_id) const {
-        return pattern_lengths[p_id - 1];;
-    }
-
-    size_t getPatternsNumber() const {
-        return pattern_lengths.size();
-    }
-};
-
-struct Match {
-    size_t abs_start;
-    size_t votes = 1;
-
-    Match(size_t abs_start) : abs_start(abs_start) {}
-};
-
-class Scanner {
-    const Trie& trie;
-    const Node* cur;
-
-    std::unordered_map<size_t, std::vector<Match>> matches;
-    size_t absolute_pos;
-    std::vector<size_t> line_starts;
-
-    void saveMatch(size_t absolute_end, const Node* node) {
-        for (const auto& f : node->fragments) {
-            if (absolute_end <= f.end_position - 1) {
+    void saveMatch(size_t abs_end, const Node* node) {
+        for (const auto& offset : node->fragment_offsets) {
+            if (abs_end < offset) {
                 continue;
             }
-
-            long long abs_start = absolute_end - f.end_position + 1;
-            if (!matches.contains(f.pattern_id)) {
-                matches[f.pattern_id].emplace_back(abs_start);
-            }
-            else {
-                for (auto it = matches[f.pattern_id].end(); it != matches[f.pattern_id].begin();) {
-                    --it;
-                    int dist = abs_start - it->abs_start;
-                    if (dist == 0) {
-                        ++it->votes;
-                        break;
-                    }
-                    // var 1:
-                    if (dist > 0) {
-                        matches[f.pattern_id].emplace(it + 1, abs_start);
-                        break;
-                    }
-                }
-                // var 2:
-                // matches[f.pattern_id].emplace_back(abs_start);
-            }
+            row_match_starts.emplace_back(abs_end - offset);
         }
     }
 
-public:
-    Scanner(const Trie& trie) : trie(trie) {
-        cur = trie.getRoot();
-        absolute_pos = 0;
-        line_starts.push_back(1);
-    }
-
-    void feedSymbol(const unsigned int symbol) {
-        ++absolute_pos;
-
-        while (!cur->next.contains(symbol) && cur != trie.getRoot()) {
-            cur = cur->fail;
-        }
-        if (cur->next.contains(symbol)) {
-            cur = cur->next.find(symbol)->second;
-        }
-        else {
-            cur = trie.getRoot();
-        }
-
-        if (cur->isEnd()) {
-            saveMatch(absolute_pos, cur);
-        }
-
-        Node* out = cur->out;
-        while (out) {
-            saveMatch(absolute_pos, out);
-            out = out->out;
-        }
-    }
-
-    void feedNewline() {
-        line_starts.push_back(absolute_pos + 1);
-        return;
-    }
-
-    std::pair<size_t, size_t> getLineAndColumn(size_t start_pos) {
+    Match getLineAndColumn(size_t start_pos) {
         auto it = std::upper_bound(line_starts.begin(), line_starts.end(), start_pos);
         size_t line = std::distance(line_starts.begin(), it);
         size_t line_start = *(--it);
         return {line, start_pos - line_start + 1};
     }
 
-    std::vector<std::vector<std::pair<size_t, size_t>>> getResults(void) {
-        std::vector<std::vector<std::pair<size_t, size_t>>> result;
-        result.resize(trie.getPatternsNumber());
-        for (auto& [pattern_id, v_m] : matches) {
-            for (size_t i = 0; i < v_m.size(); ++i) {
-                if (v_m[i].votes != trie.getPatternFragments(pattern_id)) {
-                    std::swap(v_m[i], v_m.back());
-                    v_m.pop_back();
-                    --i;
-                }
-                else if (v_m[i].abs_start + trie.getPatternLength(pattern_id) - 1 <= absolute_pos) {
-                    result[pattern_id - 1].push_back(std::move(getLineAndColumn(v_m[i].abs_start)));
-                }
-            }
-        }
-        return result;
-    }
-
-    size_t getAbsEndPos() const {
-        return absolute_pos;
-    }
-};
-
-class PatternMatcher {
-    Trie trie;
-    Scanner scanner;
-    std::vector<size_t> jokers_id;
-
-    void separatePatterns(const std::vector<Pattern>& patterns) {
-        for (int i = 0; i < patterns.size(); ++i) {
-            bool all_jokers = true;
-            for (const auto& s : patterns[i].symbols) {
-                if (!s.isJoker) {
-                    all_jokers = false;
-                    break;
-                }
-            }
-            if (all_jokers) {
-                jokers_id.push_back(i + 1);
-            }
-        }
-    }
-
 public:
-    PatternMatcher(const std::vector<Pattern>& patterns) : trie(patterns), scanner(trie) {
-        separatePatterns(patterns);
-    }
+    AhoCorasick(const Pattern& pattern) {
+        cur = root = new Node;
+        pattern_length = pattern.symbols.size();
+        size_t end_position = -1;
+        std::vector<unsigned int> fragment;
 
-    void feedLine(const std::string& line) {
-        std::istringstream iss(std::move(line));
-        unsigned num;
-        while (iss >> num) {
-            scanner.feedSymbol(num);
+        for (const auto& symbol : pattern.symbols) {
+            if (symbol.isJoker) {
+                if (!fragment.empty()) {
+                    addFragment(fragment, end_position);
+                    fragment.clear();
+                }
+            }
+            else {
+                fragment.push_back(symbol.value);
+            }
+            ++end_position;
         }
-        scanner.feedNewline();
+        if (!fragment.empty()) {
+            addFragment(fragment, end_position);
+        }
+        buildLinks();
+        line_starts.push_back(0);
     }
 
-    std::vector<std::vector<std::pair<size_t, size_t>>> getResults() {
-        std::vector<std::vector<std::pair<size_t, size_t>>> result(std::move(scanner.getResults()));
-        for (const auto& j_id : jokers_id) {
-            size_t len = trie.getPatternLength(j_id);
-            size_t max_pos = scanner.getAbsEndPos() - len + 1;
-            for (size_t start_pos = 1; start_pos <= max_pos; ++start_pos) {
-                result[j_id - 1].push_back(std::move(scanner.getLineAndColumn(start_pos)));
+    ~AhoCorasick() {
+        delete root;
+    }
+
+    void feedSymbol(unsigned int symbol) {
+        while (!cur->next.contains(symbol) && cur != root) {
+            cur = cur->fail;
+        }
+        if (cur->next.contains(symbol)) {
+            cur = cur->next.find(symbol)->second;
+        }
+        
+        if (cur->isEnd()) {
+            saveMatch(cur_pos, cur);
+        }
+
+        Node* out = cur->out;
+        while (out) {
+            saveMatch(cur_pos, out);
+            out = out->out;
+        }
+        ++cur_pos;
+    }
+
+    void feedNewline() {
+        line_starts.push_back(cur_pos);
+    }
+
+    std::vector<Match> getResults() {
+        std::vector<int> votes(cur_pos, 0);
+        for (auto& abs_start : row_match_starts) {
+            if (abs_start + pattern_length <= cur_pos) {
+                ++votes[abs_start];
             }
         }
-        return result;
+
+        std::vector<Match> matches;
+        for (size_t i = 0; i < votes.size(); ++i) {
+            if (votes[i] == fragment_number && i + pattern_length <= cur_pos) {
+                matches.push_back(getLineAndColumn(i));
+            }
+        }
+        return matches;
     }
 };
 
-int main(void) {
+int main() {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
 
-    auto start_build = std::chrono::high_resolution_clock::now();
-    std::vector<Pattern> patterns;
+    Pattern pattern;
 
-    std::string line;
-    std::istringstream iss;
+    std::cin >> pattern;
 
-    std::getline(std::cin, line);
-    iss.str(std::move(line));
-    patterns.emplace_back(iss);
-    iss.clear();
+    AhoCorasick ac(pattern);
 
-    std::vector<std::string> buffer;
-    while (std::getline(std::cin, line) && line != "") {
-        buffer.push_back(std::move(line));
-    }
+    char c;
+    unsigned int value = 0;
+    enum Status {
+        waiting,
+        reading_number
+    };
+    Status status = waiting;
 
-    if (!buffer.empty() && !std::cin.eof() && line == "") {
-        for (auto& line : buffer) {
-            iss.str(std::move(line));
-            patterns.emplace_back(iss);
-            iss.clear();
-        }
-        buffer.clear();
-    }
-    else {
-        buffer.push_back(std::move(line));
-    }
-
-    PatternMatcher matcher(patterns);
-
-    auto end_build = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> build_time = end_build - start_build;
-
-    if (!buffer.empty()) {
-        for (auto& line : buffer) {
-            matcher.feedLine(line);
-        }
-        buffer.clear();
-    }
-
-    auto start_search = std::chrono::high_resolution_clock::now();
-
-    while (std::getline(std::cin, line)) {
-        matcher.feedLine(line);
-    }
-
-    auto result = matcher.getResults();
-    for (size_t i = 0; i < result.size(); ++i) {
-        for (const auto& match : result[i]) {
-            std::cout << match.first << ", " << match.second;
-            if (patterns.size() > 1) {
-                std::cout << ", " << i + 1;
+    while ((c = getchar()) && c != EOF) {
+        switch (status) {
+        case waiting:
+            if (std::isdigit(c)) {
+                value = c - '0';
+                status = reading_number;
             }
-            std::cout << '\n';
+            break;
+        case reading_number:
+            if (std::isdigit(c)) {
+                value = 10 * value + c - '0';
+            }
+            else {
+                ac.feedSymbol(value);
+                status = waiting;
+            }
+            break;
+        }
+        if (c == '\n') {
+            ac.feedNewline();
         }
     }
 
-    auto end_search = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> search_time = end_search - start_search;
-
-    std::cout << "BUILD TIME: " << build_time << '\n';
-    std::cout << "SEARCH TIME: " << search_time << '\n';
+    auto res = ac.getResults();
+    for (auto& match : res) {
+        std::cout << match.line << ", " << match.pos << '\n';
+    }
 }

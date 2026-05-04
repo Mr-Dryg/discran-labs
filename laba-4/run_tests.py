@@ -38,14 +38,14 @@ def main():
         sys.exit(1)
 
     my_prog = sys.argv[1]
-    # ref_prog = sys.argv[2]
+    ref_prog = sys.argv[2]
     test_files = sys.argv[2:]
 
     # Отфильтровываем: только существующие обычные файлы, исключаем .out файлы
     tests = []
     for f in test_files:
         p = Path(f)
-        if p.is_file() and p.suffix == '.in':
+        if p.is_file() and p.suffix != '.out':
             tests.append(p)
 
     if not tests:
@@ -66,23 +66,23 @@ def main():
         print(f"Test '{test_name}': ", end='', flush=True)
 
         # Шаг 1: Генерируем эталонный ответ (если .out файла нет)
-        # if True:
-        if not out_file.exists():
-            print(f"{Fore.RED}ANSWER FILE NOT FOUND: \"{out_file.name}\"")
-            # print(f"{Fore.YELLOW}GENERATING{Style.RESET_ALL} ", end='', flush=True)
-            # ref_lines, ref_err = run_program(ref_prog, test_path)
-            # if ref_lines is None:
-            #     print(f"{Fore.RED}FAIL (reference program error: {ref_err}){Style.RESET_ALL}")
-            #     failed += 1
-            #     continue
+        if True:
+        # if not out_file.exists():
+            # print(f"{Fore.RED}ANSWER FILE NOT FOUND: \"{out_file.name}\"")
+            print(f"{Fore.YELLOW}GENERATING{Style.RESET_ALL} ", end='', flush=True)
+            ref_lines, ref_err = run_program(ref_prog, test_path)
+            if ref_lines is None:
+                print(f"{Fore.RED}FAIL (reference program error: {ref_err}){Style.RESET_ALL}")
+                failed += 1
+                continue
             
-            # # Сохраняем эталонный вывод
-            # ref_sorted = sort_output(ref_lines)
-            # with open(out_file, 'w') as f:
-            #     for line in ref_sorted:
-            #         f.write(line + '\n')
-            # generated += 1
-            # print(f"{Fore.GREEN}→ {out_file.name}{Style.RESET_ALL} ", end='', flush=True)
+            # Сохраняем эталонный вывод
+            ref_sorted = sort_output(ref_lines)
+            with open(out_file, 'w') as f:
+                for line in ref_sorted:
+                    f.write(line + '\n')
+            generated += 1
+            print(f"{Fore.GREEN}→ {out_file.name}{Style.RESET_ALL} ", end='', flush=True)
 
         # Шаг 2: Запускаем мою программу
         my_lines, my_err = run_program(my_prog, test_path)
