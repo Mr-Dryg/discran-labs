@@ -352,34 +352,34 @@ int main(void) {
     patterns.emplace_back(iss);
     iss.clear();
 
-    // std::vector<std::string> buffer;
-    // while (std::getline(std::cin, line) && line != "") {
-    //     buffer.push_back(std::move(line));
-    // }
+    std::vector<std::string> buffer;
+    while (std::getline(std::cin, line) && line != "") {
+        buffer.push_back(std::move(line));
+    }
 
-    // if (!buffer.empty() && !std::cin.eof() && line == "") {
-    //     for (auto& line : buffer) {
-    //         iss.str(std::move(line));
-    //         patterns.emplace_back(iss);
-    //         iss.clear();
-    //     }
-    //     buffer.clear();
-    // }
-    // else {
-    //     buffer.push_back(std::move(line));
-    // }
+    if (!buffer.empty() && !std::cin.eof() && line == "") {
+        for (auto& line : buffer) {
+            iss.str(std::move(line));
+            patterns.emplace_back(iss);
+            iss.clear();
+        }
+        buffer.clear();
+    }
+    else {
+        buffer.push_back(std::move(line));
+    }
 
     PatternMatcher matcher(patterns);
 
     auto end_build = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> build_time = end_build - start_build;
 
-    // if (!buffer.empty()) {
-    //     for (auto& line : buffer) {
-    //         matcher.feedLine(line);
-    //     }
-    //     buffer.clear();
-    // }
+    if (!buffer.empty()) {
+        for (auto& line : buffer) {
+            matcher.feedLine(line);
+        }
+        buffer.clear();
+    }
 
     auto start_search = std::chrono::high_resolution_clock::now();
 
