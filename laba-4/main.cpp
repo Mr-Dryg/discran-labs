@@ -19,6 +19,9 @@ struct Symbol {
 struct Pattern {
     std::vector<Symbol> symbols;
 
+    Pattern() : symbols() {}
+    Pattern(const std::vector<Symbol>& p) : symbols(p) {}
+
     friend std::istream& operator>>(std::istream& is, Pattern& pattern) {
         unsigned int num;
         std::string token;
@@ -156,6 +159,8 @@ class AhoCorasick {
     }
 
 public:
+    AhoCorasick(const std::vector<Symbol>& pattern) : AhoCorasick(Pattern(pattern)) {}
+
     AhoCorasick(const Pattern& pattern) {
         cur = root = new Node;
         pattern_length = pattern.symbols.size();
@@ -227,49 +232,49 @@ public:
     }
 };
 
-int main() {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
+// int main() {
+//     std::ios::sync_with_stdio(false);
+//     std::cin.tie(nullptr);
 
-    Pattern pattern;
+//     Pattern pattern;
 
-    std::cin >> pattern;
+//     std::cin >> pattern;
 
-    AhoCorasick ac(pattern);
+//     AhoCorasick ac(pattern);
 
-    char c;
-    unsigned int value = 0;
-    enum Status {
-        waiting,
-        reading_number
-    };
-    Status status = waiting;
+//     char c;
+//     unsigned int value = 0;
+//     enum Status {
+//         waiting,
+//         reading_number
+//     };
+//     Status status = waiting;
 
-    while ((c = getchar()) && c != EOF) {
-        switch (status) {
-        case waiting:
-            if (std::isdigit(c)) {
-                value = c - '0';
-                status = reading_number;
-            }
-            break;
-        case reading_number:
-            if (std::isdigit(c)) {
-                value = 10 * value + c - '0';
-            }
-            else {
-                ac.feedSymbol(value);
-                status = waiting;
-            }
-            break;
-        }
-        if (c == '\n') {
-            ac.feedNewline();
-        }
-    }
+//     while ((c = getchar()) && c != EOF) {
+//         switch (status) {
+//         case waiting:
+//             if (std::isdigit(c)) {
+//                 value = c - '0';
+//                 status = reading_number;
+//             }
+//             break;
+//         case reading_number:
+//             if (std::isdigit(c)) {
+//                 value = 10 * value + c - '0';
+//             }
+//             else {
+//                 ac.feedSymbol(value);
+//                 status = waiting;
+//             }
+//             break;
+//         }
+//         if (c == '\n') {
+//             ac.feedNewline();
+//         }
+//     }
 
-    auto res = ac.getResults();
-    for (auto& match : res) {
-        std::cout << match.line << ", " << match.pos << '\n';
-    }
-}
+//     auto res = ac.getResults();
+//     for (auto& match : res) {
+//         std::cout << match.line << ", " << match.pos << '\n';
+//     }
+// }

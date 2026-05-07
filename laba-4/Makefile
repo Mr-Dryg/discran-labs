@@ -5,6 +5,4 @@ old:
 	g++ -std=c++20 old.cpp -o old.out
 
 banch:
-	g++ -std=c++20 -O2 main.cpp -o main.out
-	g++ -O2 naive.cpp -o naive.out
-	g++ -O2 generator.cpp -o generator.out
+	g++ -O2 -std=c++20 banch.cpp -o banch.out
