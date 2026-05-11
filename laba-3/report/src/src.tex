@@ -1,23 +1,65 @@
-\section{Дневник выполнения работы}
+\section{Анализ исходного решения}
+\subsection{Методика и условия измерений}
+Для анализа исходной версии использовались:
+\begin{itemize}
+    \item \texttt{gprof} --- распределение времени по функциям;
+    \item \texttt{Valgrind memcheck} --- проверка ошибок и утечек памяти;
+    \item \texttt{Valgrind massif} --- оценка пикового потребления памяти.
+\end{itemize}
 
-На первом этапе была собрана базовая версия программы и выполнен её запуск под утилитой \texttt{gprof}. По отчёту профилирования выяснилось, что значительная доля времени уходит на операции со строками и на обход дерева: в отчёте базовой версии заметны частые вызовы \texttt{std::string::operator==}, \texttt{std::string::operator<} и рекурсивного \texttt{RBTree::\_find}, причём функция \texttt{RBTree::\_find} занимала около половины времени профиля. 
+Тестовый набор формировался скриптом \texttt{bench\_gen.py}:
+\begin{itemize}
+    \item 200\,000 вставок;
+    \item 400\,000 поисков;
+    \item 100\,000 удалений.
+\end{itemize}
 
-На втором этапе были заменены сравнения строк вида \texttt{==} и \texttt{<} на вызов \texttt{std::string::compare}. После этого число сравнений сократилось, а в профиле исчезла основная нагрузка на комбинацию операторов сравнения, при этом суммарное время выполнения заметно уменьшилось. В оптимизированной версии в профиле уже явно виден прямой вызов \texttt{compare}, а общее время flat profile снизилось с \texttt{0.32} до \texttt{0.17} секунды. 
+\section{Консоль}
+\begin{alltt}
+root$ python3 bench_gen.py --seed 1 --n_insert 200000 --n_find 400000 --n_remove 100000 > bench_input.txt
 
-На третьем этапе методы поиска и вставки были переписаны в итеративном виде. В текущей версии \texttt{RBTree::insert} выполняет обход дерева циклом, используя \texttt{key.compare(current->key)}, а \texttt{RBTree::\_find} также реализован через \texttt{while}. Это позволило убрать накладные расходы рекурсии и дополнительно снизить время работы основных операций. 
+root$ g++ -O2 -std=c++20 -Wall -Wextra -pedantic main.cpp -o app_before
+root$ time ./app_before < bench_input.txt > /dev/null
 
-После завершения оптимизации программа была проверена на утечки памяти с помощью \texttt{Valgrind}. Отчёт показал, что при завершении работы в памяти не осталось ни одного неосвобождённого блока, а ошибок использования динамической памяти обнаружено не было.
+real    0m6.057s
+user    0m3.114s
+sys     0m0.491s
+root$ g++ -O2 -pg -std=c++20 -Wall -Wextra -pedantic main.cpp -o app_before_pg
+root$ ./app_before_pg < bench_input.txt > /dev/null
+root$ gprof ./app_before_pg gmon.out > gprof_before.txt
 
-\pagebreak
+root$ valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all ./app_before < bench_input.txt > /dev/null
+==11944== Memcheck, a memory error detector
+==11944== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==11944== Using Valgrind-3.24.0 and LibVEX; rerun with -h for copyright info
+==11944== Command: ./app_before
+==11944== 
+==11944== 
+==11944== HEAP SUMMARY:
+==11944==     in use at exit: 0 bytes in 0 blocks
+==11944==   total heap usage: 1,500,004 allocs, 1,500,004 frees, 42,181,951 bytes allocated
+==11944== 
+==11944== All heap blocks were freed -- no leaks are possible
+==11944== 
+==11944== For lists of detected and suppressed errors, rerun with: -s
+==11944== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+\end{alltt}
 
-\section{Выводы о найденных недочётах}
+\subsection{Фрагмент gprof (исходная версия)}
+\begin{alltt}
+Flat profile:
+  %   cumulative   self              self     total
+ time   seconds   seconds    calls  ms/call  ms/call  name
+ 95.74      1.56     1.56                             main
+  1.23      1.58     0.02   700001     0.00     0.00  operator>>(std::istream&, Command&)
+  1.23      1.60     0.02    44533     0.00     0.00  RBTree::removeBalance(RBTree::Node*, Side)
+  0.61      1.61     0.01   128024     0.00     0.00  RBTree::insertBalance(RBTree::Node*)
+\end{alltt}
 
-В ходе исследования были выявлены два основных недостатка исходной версии программы.
-
-Во-первых, слишком дорогими оказались множественные сравнения строк. В исходной реализации для одного логического шага часто выполнялось несколько строковых операций, что хорошо видно по профилю: в базовой версии заметны высокие затраты на \texttt{operator==}, \texttt{operator<} и связанные с ними внутренние функции \texttt{std::string}. 
-
-Во-вторых, рекурсивная реализация поиска и вставки добавляла лишние накладные расходы. Профилирование показало, что значительная часть времени уходила не только на балансировку, но и на сам обход дерева. Перевод этих методов в итеративный вид позволил уменьшить число вызовов функций и лучше использовать время процессора. 
-
-При проверке памяти ошибок и утечек выявлено не было, поэтому исправления были сосредоточены именно на производительности, а не на корректности управления памятью.
+\subsection{Результаты исходной версии}
+\begin{itemize}
+    \item Время: \textbf{real 6.057 s}, \textbf{user 3.144 s}, \textbf{sys 0.491 s}.
+    \item Утечек памяти нет (\texttt{memcheck}).
+\end{itemize}
 
 \pagebreak

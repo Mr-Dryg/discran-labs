@@ -17,16 +17,16 @@ struct ReturnData {
 
     unsigned long long value;
 
-    friend std::ostream& operator<<(std::ostream& os, Status& status) {
+    friend std::ostream& operator<<(std::ostream& os, const Status& status) {
         switch (status) {
             case ok:
-                std::cout << "OK";
+                os << "OK";
                 break;
             case exist:
-                std::cout << "Exist";
+                os << "Exist";
                 break;
             case noSuchWord:
-                std::cout << "NoSuchWord";
+                os << "NoSuchWord";
                 break;
         }
         return os;
@@ -207,6 +207,26 @@ class RBTree {
         if (root) root->color = Node::black;
     }
 
+    ReturnData::Status _insert(Node* node, const std::string& key, unsigned long long value) {
+        while (true) {
+            if (key == node->key) {
+                return ReturnData::exist;
+            }
+
+            Node*& new_node = (key < node->key) ? node->left : node->right;
+            if (new_node) {
+                node = new_node;
+                continue;
+            }
+
+            new_node = new Node(key, value, node, Node::red);
+            if (node->color == Node::red) {
+                insertBalance(new_node);
+            }
+            return ReturnData::ok;
+        }
+    }
+
     Node* rotation(Node* base_node, Side side, bool replace_colors, Node* other) {
         if (replace_colors && other) {
             Node::Color base_node_color = base_node->color;
@@ -315,7 +335,7 @@ class RBTree {
 
         Node* parent = nullptr;
         Node* child = nullptr;
-        Node::Color rm_color;
+        Node::Color rm_color = node->color;
         bool node_is_left_son = node->isLeftSon();
 
         if (!node->left && !node->right) {
@@ -348,16 +368,18 @@ class RBTree {
     }
 
     Node* _find(Node* node, const std::string& key) {
-        while (node) {
-            int cmp = key.compare(node->key);
-            if (cmp == 0) return node;
-            node = (cmp < 0) ? node->left : node->right;
+        while (node && key != node->key) {
+            node = (key < node->key) ? node->left : node->right;
         }
-        return nullptr;
+        return node;
     }
 
     static void toUpper(std::string& str) {
-        for (char& c : str) c = toupper(c);
+        for (char& c : str) {
+            if ('a' <= c && c <= 'z') {
+                c += 'A' - 'a';
+            }
+        }
     }
 
     void _save(Node* node, std::ofstream& file) {
@@ -422,29 +444,11 @@ public:
 
     ReturnData::Status insert(std::string key, unsigned long long value) {
         toUpper(key);
-        Node* current = root;
-        Node* parent = nullptr;
-        int cmp;
-        while (current) {
-            cmp = key.compare(current->key);
-            if (cmp == 0) return ReturnData::exist;
-            parent = current;
-            current = cmp < 0 ? current->left : current->right;
-        }
-        Node* new_node = new Node(key, value, parent, Node::red);
-
         if (!root) {
-            root = new_node;
-            root->color = Node::black;
+            root = new Node(key, value, nullptr, Node::black);
+            return ReturnData::ok;
         }
-        else {
-            (cmp < 0 ? parent->left : parent->right) = new_node;
-
-            if (parent->color == Node::red) {
-                insertBalance(new_node);
-            }
-        }
-        return ReturnData::ok;
+        return _insert(root, key, value);
     }
 
     ReturnData::Status remove(std::string key) {
@@ -461,7 +465,7 @@ public:
         toUpper(key);
         Node* node = _find(root, key);
         if (!node) {
-            return ReturnData{.status = ReturnData::noSuchWord};
+            return ReturnData{.status = ReturnData::noSuchWord, .value = 0};
         }
         return ReturnData{.status = ReturnData::ok, .value = node->value};
     }
