@@ -1,3 +1,6 @@
-abcdabc
-bcd
+abcabc
+abc
 bc
+c
+a
+ab

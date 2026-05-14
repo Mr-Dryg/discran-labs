@@ -86,11 +86,8 @@ class Scaner {
             }
             ++i;
         }
-        if (i == pattern.length() && suffix_pos + i == text.length()) {
-            return 0;
-        }
         if (i == pattern.length()) {
-            return -1;
+            return 0;
         }
         return 1;
     }
@@ -146,7 +143,7 @@ class Scaner {
             cmp_with_middle(pattern, L, R, lcp_l, lcp_r, M, lcp_m, lcp_l);
         }
         else if (lcp_l > lcp_r) {
-            long long cmp = static_cast<long long>(lcp[{suffix_array[L], suffix_array[M]}]) - static_cast<long long>(lcp_l);
+            long long cmp = static_cast<long long>(lcp[{L, M}]) - static_cast<long long>(lcp_l);
 
             if (cmp == 0) {
                 cmp_with_middle(pattern, L, R, lcp_l, lcp_r, M, lcp_m, lcp_l);
@@ -160,7 +157,7 @@ class Scaner {
             }
         }
         else if (lcp_l < lcp_r) {
-            long long cmp = static_cast<long long>(lcp[{suffix_array[M], suffix_array[R]}]) - static_cast<long long>(lcp_r);
+            long long cmp = static_cast<long long>(lcp[{M, R}]) - static_cast<long long>(lcp_r);
             
             if (cmp == 0) {
                 cmp_with_middle(pattern, L, R, lcp_l, lcp_r, M, lcp_m, lcp_r);
@@ -210,34 +207,15 @@ int main() {
 
     Scaner sc(str);
 
-    // auto sa = sc.getSuffixArray();
-    // std::cout << "SUFFIX ARRAY: [";
-    // for (const auto& elem : sa) {
-    //     std::cout << elem << ", ";
-    // }
-    // std::cout << "]\n";
-
-    // auto lcp = sc.getLCP();
-    // std::cout << "LCP: {\n";
-    // for (const auto& [key, val] : lcp) {
-    //     const auto& [i, j] = key;
-    //     std::cout << "\t(" << i << "," << j << ") : " << val << ";\n";
-    // }
-    // std::cout << "}\n";
-
     size_t pattern_id = 0;
     while (std::cin >> str) {
         std::set<size_t> matches = sc.find(str);
-        // std::cout << "METKA 1\n";
         std::cout << ++pattern_id << ": ";
-        // std::cout << "METKA 2\n";
         for (auto it = matches.begin(); it != matches.end(); ++it) {
-            // std::cout << "METKA 3\n";
             std::cout << *it + 1;
             if (std::next(it) != matches.end()) {
                 std::cout << ", ";
             }
-            // std::cout << "METKA 4\n";
         }
         std::cout << "\n";
     }
