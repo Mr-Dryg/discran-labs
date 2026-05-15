@@ -37,6 +37,7 @@ class Scaner {
     }
 
     size_t calcLCP_Pattern(size_t text_i, std::string& pattern) {
+        if (text_i >= text.length()) return 0;
         return _calcLCP(
             text.begin() + text_i,
             text.end(),
@@ -67,15 +68,15 @@ class Scaner {
     };
 
     void buildLCP() {
-        size_t max_j = text.length() - 1;
+        size_t max_j = suffix_array.size() - 1;
         for (size_t i = 0; i < max_j; ++i) {
-            lcp[{i, i}] = text.length() - i;
+            lcp[{i, i}] = text.length() - suffix_array[i];
             lcp[{i, i + 1}] = calcLCP_Text(
                 suffix_array[i],
                 suffix_array[i + 1]
             );
         }
-        lcp[{max_j, max_j}] = text.length() - max_j;
+        lcp[{max_j, max_j}] = 1;
         buildLCP_Rec(0, max_j);
     }
 
@@ -89,7 +90,7 @@ class Scaner {
         if (i == pattern.length()) {
             return 0;
         }
-        return 1;
+        return -1;
     }
 
     void cmp_with_middle(
@@ -101,6 +102,8 @@ class Scaner {
 
         int cmp = cmp_pattern_with_suffix(pattern, suffix_array[M], i);
         if (cmp == 0) {
+            // std::cout << L << " " << M << " " << R << " " << suffix_array[M] << " ";
+            // std::cout << text[suffix_array[M]] << "\n";
             matches.insert(suffix_array[M]);
 
             find(pattern, L, M, lcp_l, lcp_m);
@@ -125,10 +128,12 @@ class Scaner {
         switch (R - L) {
         case 1:
             if (cmp_pattern_with_suffix(pattern, suffix_array[R]) == 0) {
+                // std::cout << L << " " << R << " " << suffix_array[R] << "\n";
                 matches.insert(suffix_array[R]);
             }
         case 0:
             if (cmp_pattern_with_suffix(pattern, suffix_array[L]) == 0) {
+                // std::cout << L << " " << R << " " << suffix_array[L] << "\n";
                 matches.insert(suffix_array[L]);
             }
             return;
@@ -140,12 +145,17 @@ class Scaner {
         size_t lcp_m = calcLCP_Pattern(suffix_array[M], pattern);
         
         if (lcp_l == lcp_r) {
+            // std::cout << "M1" << lcp_l << "\n";
             cmp_with_middle(pattern, L, R, lcp_l, lcp_r, M, lcp_m, lcp_l);
         }
         else if (lcp_l > lcp_r) {
             long long cmp = static_cast<long long>(lcp[{L, M}]) - static_cast<long long>(lcp_l);
 
+            std::cout << "L=" << L << " M=" << M << " ";
+            std::cout << "lcp[{L, M}]=" << lcp[{L, M}] << " l=" << lcp_l << '\n';
+
             if (cmp == 0) {
+                // std::cout << "M2 " << lcp_l << lcp_m << "\n";
                 cmp_with_middle(pattern, L, R, lcp_l, lcp_r, M, lcp_m, lcp_l);
             }
             else if (cmp > 0) {
@@ -160,6 +170,7 @@ class Scaner {
             long long cmp = static_cast<long long>(lcp[{M, R}]) - static_cast<long long>(lcp_r);
             
             if (cmp == 0) {
+                // std::cout << "M3" << lcp_r << "\n";
                 cmp_with_middle(pattern, L, R, lcp_l, lcp_r, M, lcp_m, lcp_r);
             }
             else if (cmp > 0) {
@@ -206,6 +217,21 @@ int main() {
     std::cin >> str;
 
     Scaner sc(str);
+
+    auto sa = sc.getSuffixArray();
+    std::cout << "SUFFIX ARRAY: [";
+    for (const auto& elem : sa) {
+        std::cout << elem << ", ";
+    }
+    std::cout << "]\n";
+
+    auto lcp = sc.getLCP();
+    std::cout << "LCP: {\n";
+    for (const auto& [key, val] : lcp) {
+        const auto& [i, j] = key;
+        std::cout << "\t(" << i << "," << j << ") : " << val << ";\n";
+    }
+    std::cout << "}\n";
 
     size_t pattern_id = 0;
     while (std::cin >> str) {
