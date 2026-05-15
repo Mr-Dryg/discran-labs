@@ -1,23 +1,64 @@
 #include <algorithm>
 #include <cstddef>
 #include <chrono>
-#include <ios>
 #include <iostream>
 #include <iterator>
 #include <string>
+#include <utility>
 #include <vector>
 
 class Scaner {
+    char max_key;
+    std::vector<int> cnt;
     std::string text;
     std::vector<size_t> suffix_array;
 
-    void sortSuffixArray() {
-        std::sort(suffix_array.begin(), suffix_array.end(),
-            [this](size_t a, size_t b) {
-                return text.compare(a, std::string::npos,
-                                  text, b, std::string::npos) < 0;
+    void countingSort(size_t shift) {
+        std::fill(cnt.begin(), cnt.end(), 0);
+        char c;
+        
+        for (auto& suf_start : suffix_array) {
+            if (suf_start + shift < text.length()) {
+                c = text[suf_start + shift];
+            } else {
+                c = 0;
             }
-        );
+            ++cnt[c];
+        }
+        
+        for (size_t i = 1; i < cnt.size(); ++i) {
+            cnt[i] += cnt[i - 1];
+        }
+        
+        std::vector<size_t> new_sa(suffix_array.size());
+        
+        for (long i = static_cast<long>(suffix_array.size()) - 1; i >= 0; --i) {
+            if (suffix_array[i] + shift < text.length()) {
+                c = text[suffix_array[i] + shift];
+            } else {
+                c = 0;
+            }
+            new_sa[--cnt[c]] = suffix_array[i];
+        }
+        
+        suffix_array = std::move(new_sa);
+    }
+
+    void radixSortSuffixArray() {
+        for (long i = static_cast<long>(text.length()) - 1; i >= 0; --i) {
+            countingSort(i);
+        }
+    }
+
+    void sortSuffixArray() {
+        // std::sort(suffix_array.begin(), suffix_array.end(),
+        //     [this](size_t a, size_t b) {
+        //         return text.compare(a, std::string::npos,
+        //                           text, b, std::string::npos) < 0;
+        //     }
+        // );
+
+        radixSortSuffixArray();
     }
 
     int comparePatternWithSuffix(const std::string& pattern, size_t suffix_pos) {
@@ -69,10 +110,13 @@ class Scaner {
 
 public:
     Scaner(const std::string& str) : text(str) {
+        max_key = text[0];
         suffix_array.reserve(text.size());
         for (size_t i = 0; i < text.size(); ++i) {
             suffix_array.push_back(i);
+            max_key = std::max(max_key, text[i]);
         }
+        cnt.resize(max_key + 1, 0);
         sortSuffixArray();
     }
 
