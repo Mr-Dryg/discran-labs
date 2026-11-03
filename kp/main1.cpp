@@ -4,54 +4,63 @@
 #include <vector>
 
 struct Node {
-    Node* left = nullptr;
-    Node* right = nullptr;
+    int left = -1;
+    int right = -1;
     int count = 0;
 };
 
-Node* createNode(int l, int r) {
-    Node* root = new Node();
+std::vector<Node> pool;
+
+int createNode(int l, int r) {
+    int id = pool.size();
+    pool.push_back(Node());
     if (l == r) {
-        return root;
+        return id;
     }
     int mid = (l + r) / 2;
-    root->left = createNode(l, mid);
-    root->right = createNode(mid + 1, r);
-    return root;
+    int left = createNode(l, mid);
+    int right = createNode(mid + 1, r);
+    pool[id].left = left;
+    pool[id].right = right;
+    return id;
 }
 
-Node* add(Node* old_node, int l, int r, int pos, int delta) {
-    Node* new_node = new Node();
-    new_node->count = old_node->count + delta;
+int add(int old_node_id, int l, int r, int pos, int delta) {
+    int new_node_id = pool.size();
+    pool.push_back(Node());
+    pool[new_node_id].count = pool[old_node_id].count + delta;
     if (l == r) {
-        return new_node;
+        return new_node_id;
     }
     int mid = (l + r) / 2;
+    int left, right;
     if (pos <= mid) {
-        new_node->left = add(old_node->left, l, mid, pos, delta);
-        new_node->right = old_node->right;
+        left = add(pool[old_node_id].left, l, mid, pos, delta);
+        right = pool[old_node_id].right;
     } else {
-        new_node->left = old_node->left;
-        new_node->right = add(old_node->right, mid + 1, r, pos, delta);
+        left = pool[old_node_id].left;
+        right = add(pool[old_node_id].right, mid + 1, r, pos, delta);
     }
-    return new_node;
+    pool[new_node_id].left = left;
+    pool[new_node_id].right = right;
+    return new_node_id;
 }
 
-int count_height(Node* node, int l, int r, int pos) {
+int count_height(int node_id, int l, int r, int pos) {
     int c = 0;
     int mid = (l + r) / 2;
     while (l < pos) {
         if (pos <= mid) {
             r = mid;
-            c += node->right->count;
-            node = node->left;
+            c += pool[pool[node_id].right].count;
+            node_id = pool[node_id].left;
         } else {
             l = mid + 1;
-            node = node->right;
+            node_id = pool[node_id].right;
         }
         mid = (l + r) / 2;
     }
-    return c + node->count;
+    return c + pool[node_id].count;
 }
 
 struct Event {
@@ -86,7 +95,7 @@ int main(void) {
         heights.end()
     );
 
-    std::vector<Node*> roots;
+    std::vector<int> roots;
     roots.reserve(2 * n + 1);
     roots.push_back(createNode(0, n-1));
     for (auto& event : events) {
