@@ -20,16 +20,6 @@ Node* createNode(int l, int r) {
     return root;
 }
 
-void destroyNode(Node* node) {
-    if (!node->left) {
-        destroyNode(node->left);
-    }
-    if (!node->right) {
-        destroyNode(node->right);
-    }
-    delete node;
-}
-
 Node* add(Node* old_node, int l, int r, int pos, int delta) {
     Node* new_node = new Node();
     new_node->count = old_node->count + delta;
@@ -64,11 +54,8 @@ int count_height(Node* node, int l, int r, int pos) {
     return c + node->count;
 }
 
-enum Event_type {start, end};
-
 struct Event {
-    int x, h;
-    Event_type type;
+    int x, h, delta;
 };
 
 int main(void) {
@@ -78,12 +65,12 @@ int main(void) {
 
     std::vector<Event> events;
     std::vector<int> heights;
-    events.reserve(n);
+    events.reserve(2 * n);
     for (int i = 0; i < n; ++i) {
         int l, r, h;
         std::cin >> l >> r >> h;
-        events.push_back({l, h, start});
-        events.push_back({r, h, end});
+        events.push_back({l, h, 1});
+        events.push_back({r+1, h, -1});
         heights.push_back(h);
     }
 
@@ -100,7 +87,7 @@ int main(void) {
     );
 
     std::vector<Node*> roots;
-    roots.reserve(2 * n);
+    roots.reserve(2 * n + 1);
     roots.push_back(createNode(0, n-1));
     for (auto& event : events) {
         auto it = std::lower_bound(heights.begin(), heights.end(), event.h);
@@ -109,7 +96,7 @@ int main(void) {
             0,
             n-1,
             std::distance(heights.begin(), it),
-            (event.type == start) ? 1 : -1
+            event.delta
         ));
     }
 
@@ -123,17 +110,7 @@ int main(void) {
             x,
             [](const auto& val, const auto& b){return val < b.x;}
         );
-        if (it_event == events.begin() || it_event == events.end()) {
-            std::cout << 0 << '\n';
-            continue;
-        }
-        --it_event;
         auto v = std::distance(events.begin(), it_event);
-        if (it_event->type == start) {
-            ++v;
-        } else if (it_event->type == end && it_event->x < x) {
-            ++v;
-        }
 
         auto it_height = std::upper_bound(heights.begin(), heights.end(), y);
         if (it_height == heights.end()) {
